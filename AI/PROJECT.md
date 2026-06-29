@@ -28,7 +28,7 @@
 <!-- To Remove: End -->
 
 - TODO — one paragraph: `You are a {seniority} {domain} developer/engineer` working on {the mandate},
-  plus the key mental model to hold (what to match exactly, what to overwrite, what NOT to preserve).
+  plus the key mental model to hold (what to match exactly, what to overwrite, what NOT to preserve).  <!-- fill:user -->
 
 ## Response economy
 
@@ -36,12 +36,12 @@
 > defined in [AGENT-INSTRUCTIONS.md](AGENT-INSTRUCTIONS.md) §9. Set during bootstrap; override any time
 > in chat ("be terse" / "go standard").
 
-- **Mode:** `concise`  <!-- standard | concise | terse -->
+- **Mode:** `concise`  <!-- standard | concise | terse -->  <!-- fill:user -->
 
 ## Overview
 
-- **What this project is:** TODO — one paragraph: the product, who uses it, the shape of the codebase.
-- **Stack & versions:** TODO — language(s), framework(s), runtime/tooling versions.
+- **What this project is:** TODO — one paragraph: the product, who uses it, the shape of the codebase.  <!-- fill:auto · harvested instruction sources (README / CONTRIBUTING / agent docs) -->
+- **Stack & versions:** TODO — language(s), framework(s), runtime/tooling versions.  <!-- fill:auto · dependency manifest + pinned-runtime files -->
 
 ## Commands
 
@@ -50,20 +50,20 @@ runs them itself or asks you to.
 
 | Action | Command | Who runs it |
 | --- | --- | --- |
-| Install deps | `TODO` | |
-| Dev / run | `TODO` | |
-| Build | `TODO` | |
-| Test | `TODO` | |
-| Lint | `TODO` | |
-| Format | `TODO` | |
+| Install deps | `TODO` | <!-- fill:auto · package scripts / Makefile / CI --> |
+| Dev / run | `TODO` | <!-- fill:auto · package scripts / Makefile / CI --> |
+| Build | `TODO` | <!-- fill:auto · package scripts / Makefile / CI --> |
+| Test | `TODO` | <!-- fill:auto · package scripts / Makefile / CI --> |
+| Lint | `TODO` | <!-- fill:auto · package scripts / Makefile / CI --> |
+| Format | `TODO` | <!-- fill:auto · package scripts / Makefile / CI --> |
 
 ## Integrations & tools (MCP, CLIs, services)
 
 > External capabilities the agent should prefer over improvising — plus any **mandated** channel and
 > what to do if a required tool is missing.
 
-- **Available:** TODO — MCP servers / tools (see `.mcp.json`), CLIs, service integrations.
-- **Mandated channels:** TODO — e.g. "all DB/content writes go through {tool}; never raw SQL / manual edits."
+- **Available:** TODO — MCP servers / tools (see `.mcp.json`), CLIs, service integrations.  <!-- fill:auto · tool config (.mcp.json / editor MCP) -->
+- **Mandated channels:** TODO — e.g. "all DB/content writes go through {tool}; never raw SQL / manual edits."  <!-- fill:user -->
 - **If a mandated tool is missing:** STOP and ask — don't improvise a raw fallback (AGENT-INSTRUCTIONS.md §5.2).
 
 ## Version control
@@ -71,28 +71,28 @@ runs them itself or asks you to.
 > The agent's git behavior for code changes. Push / PR / deploy are always stop-and-ask
 > (AGENT-INSTRUCTIONS.md §5.2).
 
-- **Branch:** TODO — e.g. never commit to `{main}`; branch as `{prefix}/{ticket}-{slug}`.
-- **Commit:** TODO — e.g. one commit per completed phase, after verify.
-- **PR:** TODO — who opens it, target branch.
+- **Branch:** TODO — e.g. never commit to `{main}`; branch as `{prefix}/{ticket}-{slug}`.  <!-- fill:user -->
+- **Commit:** TODO — e.g. one commit per completed phase, after verify.  <!-- fill:user -->
+- **PR:** TODO — who opens it, target branch.  <!-- fill:user -->
 
 ## Conventions
 
 Details in [reference/coding-conventions.md](reference/coding-conventions.md). Headlines:
 
-- TODO — the few rules that matter most.
+- TODO — the few rules that matter most.  <!-- fill:auto · linter & formatter configs -->
 
 ## Layout
 
 Details in [reference/file-locations.md](reference/file-locations.md). Headlines:
 
-- **Edit here:** TODO — where project code lives.
-- **Never edit:** TODO — vendor / generated / core layers and what regenerates them.
+- **Edit here:** TODO — where project code lives.  <!-- fill:auto · file tree -->
+- **Never edit:** TODO — vendor / generated / core layers and what regenerates them.  <!-- fill:auto · file tree + .gitignore -->
 
 ## Locked decisions
 
 Settled architectural choices the agent should treat as given (don't relitigate):
 
-- TODO.
+- TODO.  <!-- fill:user -->
 
 ## Glossary (optional)
 

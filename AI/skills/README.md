@@ -24,3 +24,4 @@ verification checklist and the anti-patterns to avoid.
 | Skill | When to use |
 | --- | --- |
 | [bootstrap-project-profile](bootstrap-project-profile/SKILL.md) | First adoption / refresh — analyze the codebase and fill the `TODO`s in `PROJECT.md` + `reference/*.md` with evidence-backed values. |
+| [sync-project-profile](sync-project-profile/SKILL.md) | Health-check the installed kit (pointer wired · no stray `TODO`/`<!-- To Remove -->` · valid mode · references resolve · index↔folder parity) **and** correct drift — re-validate each `fill:auto` value against its cited evidence source and propose updates; re-ask `fill:user` values. Run periodically; complements `bootstrap-project-profile` (the first fill). |

@@ -30,4 +30,4 @@ agent surfaces it instead of silently choosing it.
 ## Project ladders
 
 - TODO — add your project's real decisions here (e.g. "new endpoint vs extend", "new component vs
-  variant", "new config key vs reuse").
+  variant", "new config key vs reuse").  <!-- fill:auto · repo's existing patterns -->

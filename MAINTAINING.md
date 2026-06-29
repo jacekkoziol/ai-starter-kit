@@ -58,11 +58,54 @@ MAINTAINING.md            # this file — stays OUTSIDE AI/, never vendored down
 ai-progress/              # runtime work-tracking, created per project at the root — not part of the kit
 ```
 
+## The `fill:` marker convention
+
+Every **managed slot** in `AI/PROJECT.md` and `AI/reference/*.md` — a value the project owner or the
+agent must supply — carries a persistent HTML-comment marker naming **who fills it** and, for
+evidence-backed ones, **the source to re-check it against**:
+
+- `<!-- fill:user -->` — a judgment/preference only the user can set: response-economy mode, mandated
+  tool channels, the Role mandate/tension, version-control policy, locked decisions. Bootstrap **asks**;
+  `sync-project-profile` **re-asks / confirms presence**, and **never** auto-changes it.
+- `<!-- fill:auto · «evidence source» -->` — evidence-backed and derivable from the repo. The evidence
+  clause is a short, **stack-agnostic** category that mirrors `bootstrap-project-profile`'s detection
+  tables — e.g. `dependency manifest`, `package scripts / Makefile / CI`, `tool config (.mcp.json /
+  editor MCP)`, `linter & formatter configs`, `file tree`, `file tree + .gitignore`, `harvested
+  instruction sources (README / CONTRIBUTING / agent docs)`, `repo's existing patterns`. **Never name a
+  stack, framework, or vendor** (no `WordPress` / `Rails` / `React` — the coupling consistency-check #1
+  forbids); the cross-stack manifest/config categories bootstrap's own tables use are fine. Bootstrap
+  fills it from that source; sync re-validates against it and may **propose** an evidence-backed update
+  at the gate.
+
+**Two variants only — no third.** `fill:auto` *always* carries an evidence clause after the middot
+separator ` · `; `fill:user` *never* does (the user is the source).
+
+**Placement (deterministic, so the health-check grep and sync can locate the owning slot):** one marker
+per managed slot, at the **end of the line** that holds the slot, after its content/placeholder,
+separated by two spaces. For a table slot, the marker goes at the end of that row, inside the last cell,
+after the cell's content; tag only managed rows, never the header or separator row. The marker sits
+*after* the slot it owns (never before, never on its own line), so a filled value still ends with its
+marker intact. Where an inline hint comment already exists (e.g. `<!-- standard | concise | terse -->` on
+the Mode line), put the `fill:` marker **last**.
+
+**The marker persists after the slot is filled** — unlike `TODO` (the slot's *content*, overwritten so
+it vanishes), `{placeholder}` (sub-slot prose, also overwritten), and `<!-- To Remove -->` (disposable
+example blocks deleted at bootstrap). That persistence is the point: the marker is simultaneously (a) the
+**field inventory** `sync-project-profile`'s health check walks, (b) the **sync gate** — `auto` = may
+propose an evidence-backed change, `user` = must ask — and (c) a hint that drives bootstrap's
+detect-vs-ask. `TODO` answers *"is it filled yet?"*; `fill:` answers *"who owns it / how is it
+re-validated?"*
+
+**Tag only managed slots** (directive #1, stay lean) — never prose, blockquotes, headings, pre-filled
+fixed facts, the fixed *"If a mandated tool is missing: STOP and ask"* line, or `<!-- To Remove -->`
+examples. A thing is either a managed slot (gets `fill:`, persists) or a disposable example (gets
+`<!-- To Remove -->`, deleted at bootstrap) — never both.
+
 ## When you change X, also touch Y (keep in sync)
 
 | Change | Also update |
 | --- | --- |
-| **New per-project knob / fillable field** (PROJECT.md or reference) | `bootstrap-project-profile` (detect-or-ask step **+** a Verify item **+** the frontmatter `description`), and the relevant README surface (folder map / "What's in here" / "How to extend"). |
+| **New per-project knob / fillable field** (PROJECT.md or reference) | `bootstrap-project-profile` (detect-or-ask step **+** a Verify item **+** the frontmatter `description`); **tag the new slot with a `fill:` marker** — `fill:user` if it's judgment/preference, `fill:auto · «source»` if it's evidence-backed (so `sync-project-profile` can re-validate it); and the relevant README surface (folder map / "What's in here" / "How to extend"). |
 | **New behavioral rule** | The right `AGENT-INSTRUCTIONS.md` section; mark **HARD RULE** if it's a guardrail; add an §8 anti-pattern if it's a common mistake. |
 | **New recurring procedure** | `skills/{name}/SKILL.md` (folder-per-skill) **+** `skills/README.md` index. |
 | **New project-fact category** | `reference/{doc}.md` **+** `reference/README.md` index; route to its skill at the bottom. |
@@ -70,7 +113,7 @@ ai-progress/              # runtime work-tracking, created per project at the ro
 | **New manual section** | Append as the next `§N` — **never renumber** existing sections. |
 | **Renamed / added / removed file** | The README **folder map** and the **"What's in here"** table. |
 
-The most-missed one: **adding a fillable field without wiring `bootstrap-project-profile`** — then adoption leaves it blank. A new field is only "done" when bootstrap fills-or-asks it and a Verify item guards it.
+The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `bootstrap-project-profile`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `sync-project-profile` can re-validate it, and a Verify item guards it.
 
 ## Invariants (don't break)
 
@@ -89,6 +132,12 @@ The most-missed one: **adding a fillable field without wiring `bootstrap-project
 - **`<!-- To Remove -->` blocks are disposable examples** (Role samples in `PROJECT.md`, the sample
   ladder in `reference/`) — and the only sanctioned home for concrete stack terms. `bootstrap-project-profile`
   deletes them on adoption; consistency-check #1 strips them before grepping.
+- **Every managed slot in `PROJECT.md` / `reference/*.md` carries exactly one well-formed `fill:`
+  marker** — `<!-- fill:user -->` or `<!-- fill:auto · «source» -->` (no third variant; `auto` always
+  has an evidence clause, `user` never does). Filling a slot **never** removes its marker; markers live
+  only on managed slots, never on prose, headings, pre-filled fixed facts, or `<!-- To Remove -->`
+  examples. This is what makes the slot inventory (health-checked and synced) trustworthy — see §"The
+  `fill:` marker convention".
 
 ## Consistency checks (run after any change)
 
@@ -109,11 +158,18 @@ grep -rn "§[0-9]" AI/
 # 4. Mode names consistent
 grep -rnoE "\`(standard|concise|terse)\`" AI/                                     # expect: only these three
 
-# 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding)
-grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|bootstrap-project-profile" # expect: PROJECT.md + reference/*
+# 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding).
+#    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them.)
+grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|bootstrap-project-profile|sync-project-profile" # expect: PROJECT.md + reference/*
 
 # 6. Folder map matches reality
 find AI -maxdepth 2 -type f | sort                                                # compare to README's folder map
+
+# 7. fill: markers in the managed files are well-formed (see §"The `fill:` marker convention")
+grep -rnE "<!-- fill:" AI/PROJECT.md AI/reference/*.md | grep -vE "<!-- fill:user -->|<!-- fill:auto · "  # expect: none
+#    (every marker is exactly one of the two forms — `auto` always carries the ` · ` evidence clause,
+#    `user` never. Completeness — no managed slot left untagged — is guarded by bootstrap's
+#    marker-preservation Verify item, not by grep: a missing marker matches nothing.)
 ```
 
 ## Anti-patterns (kit maintenance)

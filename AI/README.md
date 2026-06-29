@@ -39,6 +39,8 @@ AI/
     _SKILL-TEMPLATE.md    #   copy → skills/{name}/SKILL.md
     bootstrap-project-profile/
       SKILL.md            #   first-adoption skill: fill PROJECT.md + reference/*.md from the repo
+    sync-project-profile/
+      SKILL.md            #   health + drift check: keep PROJECT.md + reference/*.md healthy & in sync
   templates/              # literal code/scaffold to copy
     README.md             #   layer guide + index
 
@@ -54,6 +56,11 @@ The `reference / skills / templates` split is a proven layering: **reference = w
 template = copy-me.** The agent reads reference before building, runs a skill to do the work, and
 copies a template for boilerplate. Start with just the manual + `PROJECT.md`; grow the other folders
 from real friction (see "How to extend").
+
+> **Kit lifecycle:** [`bootstrap-project-profile`](skills/bootstrap-project-profile/SKILL.md) does the
+> **first fill** of the profile from the repo; [`sync-project-profile`](skills/sync-project-profile/SKILL.md)
+> later **keeps it healthy and in sync** — re-validating evidence-backed (`fill:auto`) values against the
+> codebase and re-asking judgment (`fill:user`) ones.
 
 ## The core idea in one breath
 

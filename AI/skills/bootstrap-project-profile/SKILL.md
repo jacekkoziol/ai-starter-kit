@@ -16,6 +16,9 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 - **Refresh** — after a major stack, tooling, or layout change, to bring the docs back in sync.
 - Trigger phrases: "fill the TODOs", "bootstrap the project profile", "analyze the codebase and
   populate the AI docs".
+- **Not for ongoing upkeep** — after adoption, use [`sync-project-profile`](../sync-project-profile/SKILL.md)
+  to keep filled values healthy and in sync; this skill is for the **first** fill or a full
+  post-stack-change refresh.
 
 ## Read first
 
@@ -35,11 +38,17 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
    it `TODO — not found; confirm with owner`. A wrong-but-confident value is worse than a blank.
 3. **Commands are sacred.** Never fabricate a build/test/lint command. Copy it **verbatim** from
    `package.json` / `Makefile` / CI. If none exists, leave blank + confirm.
-4. **Preserve the scaffolding.** Keep every guidance blockquote, the "generic lives in
-   AGENT-INSTRUCTIONS" framing, and the HARD RULE markers. Fill the slots only — don't restructure.
-   (Exception: blocks fenced by `<!-- To Remove -->` are disposable examples — **delete** them.)
+4. **Preserve the scaffolding — including the `fill:` markers.** Keep every guidance blockquote, the
+   "generic lives in AGENT-INSTRUCTIONS" framing, the HARD RULE markers, **and the `<!-- fill:user -->` /
+   `<!-- fill:auto · «source» -->` markers on managed slots** — they persist after you fill the slot (they
+   are the field inventory [`sync-project-profile`](../sync-project-profile/SKILL.md) re-validates
+   against). Fill the slots only — don't restructure or strip the markers. (Exception: blocks fenced by
+   `<!-- To Remove -->` are disposable examples — **delete** them.)
 5. **Don't overwrite human edits.** Replace only literal `TODO` / `{placeholder}` markers. If a slot
-   already has real content, leave it.
+   already has real content, leave it. Because bootstrap fills blanks once and never re-touches a filled
+   value, **re-validating filled values against the evolving codebase is `sync-project-profile`'s job,
+   not this skill's** — run that periodically to catch drift (`fill:auto` proposes evidence-backed
+   updates; `fill:user` is re-asked).
 
 ## Procedure
 
@@ -165,6 +174,8 @@ methodology is never used.
 - [ ] `PROJECT.md`'s `## Role` is filled (or annotated for confirmation) — not left blank.
 - [ ] No `<!-- To Remove -->` block remains in any `AI/` file (the Role examples + the sample ladder were deleted).
 - [ ] Root agent-entry file points at `AI/AGENT-INSTRUCTIONS.md` (or the user has been told to add it).
+- [ ] Every managed slot still carries its `<!-- fill:user -->` / `<!-- fill:auto · «source» -->` marker
+      (filling a slot does **not** remove it) — the inventory `sync-project-profile` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
 
