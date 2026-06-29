@@ -11,6 +11,18 @@
 > **Before changing anything,** read [`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md) and
 > [`AI/README.md`](AI/README.md) so you know the current shape.
 
+## Session-start handshake
+
+Open your **first reply** in any session working in this repo with one line confirming this guide
+loaded — emitted *only because you actually read it*, which is what makes its presence meaningful, so
+never fabricate it:
+
+`✅ MAINTAINING.md loaded — maintaining the AI kit; honoring its prime directives & invariants.`
+
+Emit it once per session, in every response mode. (Mirrors the kit's own session-start handshake in
+[`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md), which confirms the *vendored* kit loaded — this one
+confirms the *maintenance* guide loaded.)
+
 ## Prime directives
 
 1. **Stay lean — every addition must earn its place.** The kit's value is that it's short enough to
