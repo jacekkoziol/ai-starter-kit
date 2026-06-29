@@ -16,6 +16,7 @@
 Mark the rung that crosses into "STOP and ask" (new dependency, migration, irreversible change) so the
 agent surfaces it instead of silently choosing it.
 
+<!-- To Remove: START — sample ladder for reference. Delete this whole block once you've written your real ladders below (bootstrap-project-profile removes it). -->
 ## Example (replace with your own)
 
 > **Add data access** — for reading/writing persisted data. Stop at the first match.
@@ -24,6 +25,7 @@ agent surfaces it instead of silently choosing it.
 > 2. Add a method to the existing repository — if the entity already has one.
 > 3. New repository for a new entity — model it on the closest existing one.
 > 4. New table / schema change / migration — **STOP and ask** (touches persisted data; §5.2).
+<!-- To Remove: End -->
 
 ## Project ladders
 

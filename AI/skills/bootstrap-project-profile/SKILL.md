@@ -132,6 +132,8 @@ user**; never assume. Keep the stop-if-missing rule.
 - Write each as stop-at-first-match rungs; flag the rung that crosses into **STOP and ask** (new
   dependency, migration, irreversible change).
 - These are **inferred, not observed-as-rules** — present them as drafts for the user to confirm.
+- Then **delete the `<!-- To Remove -->` sample-ladder block** — like the Role examples, it's a
+  reference sample, not project content.
 
 ### 8. Fill the files
 
@@ -161,7 +163,7 @@ methodology is never used.
 - [ ] Guidance blockquotes + the generic-vs-project framing + HARD RULE markers are intact in each file.
 - [ ] Ask the user to confirm the command table runs — don't assume (AGENT-INSTRUCTIONS §7).
 - [ ] `PROJECT.md`'s `## Role` is filled (or annotated for confirmation) — not left blank.
-- [ ] No `<!-- To Remove -->` example block remains in `PROJECT.md` (the Role examples were deleted).
+- [ ] No `<!-- To Remove -->` block remains in any `AI/` file (the Role examples + the sample ladder were deleted).
 - [ ] Root agent-entry file points at `AI/AGENT-INSTRUCTIONS.md` (or the user has been told to add it).
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
