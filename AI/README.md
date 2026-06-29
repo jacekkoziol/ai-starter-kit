@@ -135,6 +135,11 @@ the file your tool auto-loads), put the pointer line in *that* file and make the
 kit — e.g. `follow ../../AI/AGENT-INSTRUCTIONS.md` (match the `../` depth to your layout). A path that
 doesn't resolve from the working directory fails **silently**.
 
+**If more than one agent tool is used on the same repo** (e.g. Claude Code, Cursor, and Copilot each
+auto-load a *different* file), point each tool's entry file at the kit. Either add the pointer line to
+each, or symlink them to one canonical file so there's a single source to maintain — e.g.
+`ln -s AGENTS.md CLAUDE.md`. The kit stays one `AI/` folder; only the thin pointer is shared.
+
 Without this line, **no agent ever loads the kit and the whole methodology is silently inert** — this
 is the single most common setup failure.
 
