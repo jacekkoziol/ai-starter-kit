@@ -37,6 +37,7 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
    `package.json` / `Makefile` / CI. If none exists, leave blank + confirm.
 4. **Preserve the scaffolding.** Keep every guidance blockquote, the "generic lives in
    AGENT-INSTRUCTIONS" framing, and the HARD RULE markers. Fill the slots only — don't restructure.
+   (Exception: blocks fenced by `<!-- To Remove -->` are disposable examples — **delete** them.)
 5. **Don't overwrite human edits.** Replace only literal `TODO` / `{placeholder}` markers. If a slot
    already has real content, leave it.
 
@@ -87,6 +88,9 @@ sources (step 2 — `CLAUDE.md` / `README` / `CONTRIBUTING`). If a starter or so
 has a `## Role`, copy it near-verbatim. The mission/tension is usually inferential, not stated as a
 rule — write it as a **DRAFT**, surface it at the gate (step 9), and never fabricate. If no evidence
 supports a mandate, leave the `TODO` annotated `confirm with owner`.
+
+**Then delete the `<!-- To Remove: START -->…<!-- To Remove: End -->` example block** in the Role
+section — those are reference examples, not project content.
 
 ### 4. Extract commands → `PROJECT.md` Commands table
 
@@ -157,6 +161,7 @@ methodology is never used.
 - [ ] Guidance blockquotes + the generic-vs-project framing + HARD RULE markers are intact in each file.
 - [ ] Ask the user to confirm the command table runs — don't assume (AGENT-INSTRUCTIONS §7).
 - [ ] `PROJECT.md`'s `## Role` is filled (or annotated for confirmation) — not left blank.
+- [ ] No `<!-- To Remove -->` example block remains in `PROJECT.md` (the Role examples were deleted).
 - [ ] Root agent-entry file points at `AI/AGENT-INSTRUCTIONS.md` (or the user has been told to add it).
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.

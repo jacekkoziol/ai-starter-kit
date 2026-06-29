@@ -86,12 +86,17 @@ The most-missed one: **adding a fillable field without wiring `bootstrap-project
 - **All relative links resolve**, and the README folder map matches the real tree.
 - **No project / stack / tool terms** in the portable files (`AGENT-INSTRUCTIONS.md`, the README's
   generic parts, the reference/skills/templates guides).
+- **`<!-- To Remove -->` blocks are disposable examples** — the only place concrete stack examples may
+  appear (in `PROJECT.md`). `bootstrap-project-profile` deletes them on adoption; consistency-check #1
+  strips them before grepping.
 
 ## Consistency checks (run after any change)
 
 ```bash
-# 1. Portability — no project/stack/tool coupling leaked into the kit
-grep -rniE "wordpress|wp-content|chisel|gutenberg|timber|theme\.json" AI/        # expect: none
+# 1. Portability — no stack/tool coupling leaked into the kit
+#    (concrete examples allowed only inside <!-- To Remove --> blocks; stripped here before grep)
+find AI -name '*.md' -exec sed '/To Remove: START/,/To Remove: End/d' {} + \
+  | grep -niE "wordpress|wp-content|chisel|gutenberg|timber|theme\.json"          # expect: none
 
 # 2. Manual sections sequential, none renumbered
 grep -nE "^## [0-9]" AI/AGENT-INSTRUCTIONS.md                                     # expect: 0..9 in order

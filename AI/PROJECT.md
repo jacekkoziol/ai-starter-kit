@@ -12,9 +12,20 @@
 > the project's defining tension (what to match exactly, what to overwrite, what to preserve). One
 > short paragraph. Delete this section if the generic stance is enough.
 >
-> Example: "You are a senior WordPress developer adapting the Chisel starter theme to a target spec.
+> Example: "You are a senior frontend developer adapting a starter theme to a target design spec.
 > The starter is scaffolding, not the deliverable — match the spec exactly and overwrite base styles
 > that diverge; don't preserve starter defaults for their own sake."
+
+<!-- To Remove: START — concrete Role examples for reference. Delete this whole block once you've written your Role above (bootstrap-project-profile removes it automatically). -->
+> **Example (WordPress + Chisel):** "You are a senior WordPress developer adapting the Chisel starter
+> theme to a target spec. The starter is scaffolding, not the deliverable — match the spec exactly and
+> overwrite base styles that diverge; don't preserve starter defaults for their own sake."
+>
+> **Example (Angular):** "You are a senior Angular developer building features in an existing app.
+> Match the project's module/component conventions, reuse shared services and components before
+> creating new ones, and keep state and data-access in the established services — don't bypass them
+> with ad-hoc calls in components."
+<!-- To Remove: End -->
 
 - TODO — one paragraph: `You are a {seniority} {domain} developer/engineer` working on {the mandate},
   plus the key mental model to hold (what to match exactly, what to overwrite, what NOT to preserve).
