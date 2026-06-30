@@ -1,5 +1,5 @@
 ---
-name: aikit-bootstrap-project-profile
+name: aikit-project-profile-bootstrap
 description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders). Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
 ---
 
@@ -16,7 +16,7 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 - **Refresh** — after a major stack, tooling, or layout change, to bring the docs back in sync.
 - Trigger phrases: "fill the TODOs", "bootstrap the project profile", "analyze the codebase and
   populate the AI docs".
-- **Not for ongoing upkeep** — after adoption, use [`aikit-sync-project-profile`](../aikit-sync-project-profile/SKILL.md)
+- **Not for ongoing upkeep** — after adoption, use [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md)
   to keep filled values healthy and in sync; this skill is for the **first** fill or a full
   post-stack-change refresh.
 
@@ -41,12 +41,12 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 4. **Preserve the scaffolding — including the `fill:` markers.** Keep every guidance blockquote, the
    "generic lives in AGENT-INSTRUCTIONS" framing, the HARD RULE markers, **and the `<!-- fill:user -->` /
    `<!-- fill:auto · «source» -->` markers on managed slots** — they persist after you fill the slot (they
-   are the field inventory [`aikit-sync-project-profile`](../aikit-sync-project-profile/SKILL.md) re-validates
+   are the field inventory [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md) re-validates
    against). Fill the slots only — don't restructure or strip the markers. (Exception: blocks fenced by
    `<!-- To Remove -->` are disposable examples — **delete** them.)
 5. **Don't overwrite human edits.** Replace only literal `TODO` / `{placeholder}` markers. If a slot
    already has real content, leave it. Because bootstrap fills blanks once and never re-touches a filled
-   value, **re-validating filled values against the evolving codebase is `aikit-sync-project-profile`'s job,
+   value, **re-validating filled values against the evolving codebase is `aikit-project-profile-sync`'s job,
    not this skill's** — run that periodically to catch drift (`fill:auto` proposes evidence-backed
    updates; `fill:user` is re-asked).
 
@@ -175,7 +175,7 @@ methodology is never used.
 - [ ] No `<!-- To Remove -->` block remains in any `AI/` file (the Role examples + the sample ladder were deleted).
 - [ ] Root agent-entry file points at `AI/AGENT-INSTRUCTIONS.md` (or the user has been told to add it).
 - [ ] Every managed slot still carries its `<!-- fill:user -->` / `<!-- fill:auto · «source» -->` marker
-      (filling a slot does **not** remove it) — the inventory `aikit-sync-project-profile` and the health check rely on.
+      (filling a slot does **not** remove it) — the inventory `aikit-project-profile-sync` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
 

@@ -35,7 +35,7 @@ unsure which side you're on, treat it as non-trivial.
 
 **When `PROJECT.md` is unfilled.** If `PROJECT.md` (or `reference/*.md`) still holds `TODO`
 placeholders — a blank Commands table or Role — the kit isn't bootstrapped. Before substantive work,
-say so and offer to run the `aikit-bootstrap-project-profile` skill to fill it from the repo. Proceed
+say so and offer to run the `aikit-project-profile-bootstrap` skill to fill it from the repo. Proceed
 un-bootstrapped only on the user's explicit say-so; then fall back to the generic stance, **don't
 invent** build/test/lint commands (discover and confirm them first), and state plainly which facts
 (commands, edit boundaries, mandated tools) you're missing.
@@ -45,7 +45,7 @@ loaded — it doubles as proof both halves (manual + `PROJECT.md`) are live:
 
 `✅ AI kit loaded — Role: {one phrase} · mode: {standard|concise|terse} · build: {command, or "none defined"}`
 
-If `PROJECT.md` isn't bootstrapped, say so instead: `⚠️ AI kit loaded — PROJECT.md not bootstrapped; offer to run aikit-bootstrap-project-profile`. Emit it once per session, in **every** response mode, and only because you actually read this instruction — that is what makes its presence meaningful, so never fabricate it. (A deterministic, model-independent banner can also be wired via a harness session-start hook, outside this kit.)
+If `PROJECT.md` isn't bootstrapped, say so instead: `⚠️ AI kit loaded — PROJECT.md not bootstrapped; offer to run aikit-project-profile-bootstrap`. Emit it once per session, in **every** response mode, and only because you actually read this instruction — that is what makes its presence meaningful, so never fabricate it. (A deterministic, model-independent banner can also be wired via a harness session-start hook, outside this kit.)
 
 **Before scoping new work,** check `ai-progress/INDEX.md` (§4): if an effort is already in flight,
 resume it per §4.4 (open its roadmap, pick up the next phase) instead of scoping from scratch.

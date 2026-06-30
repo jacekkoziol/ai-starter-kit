@@ -66,9 +66,9 @@ evidence-backed ones, **the source to re-check it against**:
 
 - `<!-- fill:user -->` — a judgment/preference only the user can set: response-economy mode, mandated
   tool channels, the Role mandate/tension, version-control policy, locked decisions. Bootstrap **asks**;
-  `aikit-sync-project-profile` **re-asks / confirms presence**, and **never** auto-changes it.
+  `aikit-project-profile-sync` **re-asks / confirms presence**, and **never** auto-changes it.
 - `<!-- fill:auto · «evidence source» -->` — evidence-backed and derivable from the repo. The evidence
-  clause is a short, **stack-agnostic** category that mirrors `aikit-bootstrap-project-profile`'s detection
+  clause is a short, **stack-agnostic** category that mirrors `aikit-project-profile-bootstrap`'s detection
   tables — e.g. `dependency manifest`, `package scripts / Makefile / CI`, `tool config (.mcp.json /
   editor MCP)`, `linter & formatter configs`, `file tree`, `file tree + .gitignore`, `harvested
   instruction sources (README / CONTRIBUTING / agent docs)`, `repo's existing patterns`. **Never name a
@@ -91,7 +91,7 @@ the Mode line), put the `fill:` marker **last**.
 **The marker persists after the slot is filled** — unlike `TODO` (the slot's *content*, overwritten so
 it vanishes), `{placeholder}` (sub-slot prose, also overwritten), and `<!-- To Remove -->` (disposable
 example blocks deleted at bootstrap). That persistence is the point: the marker is simultaneously (a) the
-**field inventory** `aikit-sync-project-profile`'s health check walks, (b) the **sync gate** — `auto` = may
+**field inventory** `aikit-project-profile-sync`'s health check walks, (b) the **sync gate** — `auto` = may
 propose an evidence-backed change, `user` = must ask — and (c) a hint that drives bootstrap's
 detect-vs-ask. `TODO` answers *"is it filled yet?"*; `fill:` answers *"who owns it / how is it
 re-validated?"*
@@ -105,7 +105,7 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 
 | Change | Also update |
 | --- | --- |
-| **New per-project knob / fillable field** (PROJECT.md or reference) | `aikit-bootstrap-project-profile` (detect-or-ask step **+** a Verify item **+** the frontmatter `description`); **tag the new slot with a `fill:` marker** — `fill:user` if it's judgment/preference, `fill:auto · «source»` if it's evidence-backed (so `aikit-sync-project-profile` can re-validate it); and the relevant README surface (folder map / "What's in here" / "How to extend"). |
+| **New per-project knob / fillable field** (PROJECT.md or reference) | `aikit-project-profile-bootstrap` (detect-or-ask step **+** a Verify item **+** the frontmatter `description`); **tag the new slot with a `fill:` marker** — `fill:user` if it's judgment/preference, `fill:auto · «source»` if it's evidence-backed (so `aikit-project-profile-sync` can re-validate it); and the relevant README surface (folder map / "What's in here" / "How to extend"). |
 | **New behavioral rule** | The right `AGENT-INSTRUCTIONS.md` section; mark **HARD RULE** if it's a guardrail; add an §8 anti-pattern if it's a common mistake. |
 | **New recurring procedure** (kit-shipped) | `skills/aikit-{name}/SKILL.md` (folder-per-skill; frontmatter `name:` matches the folder) **+** `skills/README.md` index. Kit-shipped skills carry the **`aikit-` prefix** so they can't collide with a host project's own skills once vendored; the generic `{name}` in `_SKILL-TEMPLATE.md` / `skills/README.md` is for *project-authored* skills downstream, which stay unprefixed. |
 | **New project-fact category** | `reference/{doc}.md` **+** `reference/README.md` index; route to its skill at the bottom. |
@@ -113,7 +113,7 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 | **New manual section** | Append as the next `§N` — **never renumber** existing sections. |
 | **Renamed / added / removed file** | The README **folder map** and the **"What's in here"** table. |
 
-The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `aikit-bootstrap-project-profile`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `aikit-sync-project-profile` can re-validate it, and a Verify item guards it.
+The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `aikit-project-profile-bootstrap`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `aikit-project-profile-sync` can re-validate it, and a Verify item guards it.
 
 ## Invariants (don't break)
 
@@ -133,7 +133,7 @@ The most-missed one: **adding a fillable field without tagging it `fill:` AND wi
   reference would dangle in every downstream repo (consistency-check #8 guards this). Downstream "how to
   extend" lives in the vendored `AI/README.md`; `MAINTAINING.md` is the home-only "how to evolve" guide.
 - **`<!-- To Remove -->` blocks are disposable examples** (Role samples in `PROJECT.md`, the sample
-  ladder in `reference/`) — and the only sanctioned home for concrete stack terms. `aikit-bootstrap-project-profile`
+  ladder in `reference/`) — and the only sanctioned home for concrete stack terms. `aikit-project-profile-bootstrap`
   deletes them on adoption; consistency-check #1 strips them before grepping.
 - **Every managed slot in `PROJECT.md` / `reference/*.md` carries exactly one well-formed `fill:`
   marker** — `<!-- fill:user -->` or `<!-- fill:auto · «source» -->` (no third variant; `auto` always
@@ -163,7 +163,7 @@ grep -rnoE "\`(standard|concise|terse)\`" AI/                                   
 
 # 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding).
 #    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them.)
-grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|aikit-bootstrap-project-profile|aikit-sync-project-profile" # expect: PROJECT.md + reference/*
+grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|aikit-project-profile-bootstrap|aikit-project-profile-sync" # expect: PROJECT.md + reference/*
 
 # 6. Folder map matches reality
 find AI -maxdepth 2 -type f | sort                                                # compare to README's folder map
@@ -183,7 +183,7 @@ grep -rn "MAINTAINING" AI/                                                      
 - ❌ Adding words that don't fix a demonstrated failure (bloat).
 - ❌ Coupling `AGENT-INSTRUCTIONS.md` to a stack, tool, or this repo.
 - ❌ Restating one rule in multiple files instead of referencing it.
-- ❌ Adding a fillable field without wiring `aikit-bootstrap-project-profile` + a Verify item.
+- ❌ Adding a fillable field without wiring `aikit-project-profile-bootstrap` + a Verify item.
 - ❌ Renumbering manual sections after inserting one (insert at the end instead).
 - ❌ Letting the README folder map drift from the real files.
 - ❌ Weakening a HARD RULE for the sake of brevity.

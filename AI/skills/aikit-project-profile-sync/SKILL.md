@@ -1,12 +1,12 @@
 ---
-name: aikit-sync-project-profile
+name: aikit-project-profile-sync
 description: Re-validate the installed AI/ kit against the codebase — health-check that the kit is wired and consistent (root pointer, no leftover TODO/`<!-- To Remove -->`, valid mode, references resolve, index↔folder parity) AND correct drift: re-validate each `fill:auto` value against its cited evidence source and propose evidence-backed updates; re-ask `fill:user` values. Run periodically after the kit has been bootstrapped.
 ---
 
 # Sync Project Profile
 
 Keeps an already-bootstrapped `AI/` kit **healthy** and **in sync**. Bootstrap fills the blanks once
-and (by [`aikit-bootstrap-project-profile`](../aikit-bootstrap-project-profile/SKILL.md) contract rule 5) never
+and (by [`aikit-project-profile-bootstrap`](../aikit-project-profile-bootstrap/SKILL.md) contract rule 5) never
 re-touches a filled value — so nothing re-validates the profile as the codebase evolves. This skill
 closes that gap. It assumes the kit was already bootstrapped: the persistent `fill:` markers on every
 managed slot are its **field inventory**: `<!-- fill:user -->` (a judgment/preference slot — re-ask,
@@ -25,7 +25,7 @@ This skill adds **no new behavioral rules**; it applies the manual's existing on
 - Trigger phrases: "sync the project profile", "is the AI kit still accurate / still wired", "check the
   kit for drift".
 - **Not** for first adoption or a full post-stack-change refresh — that's
-  [`aikit-bootstrap-project-profile`](../aikit-bootstrap-project-profile/SKILL.md) (the *first* fill). This skill is
+  [`aikit-project-profile-bootstrap`](../aikit-project-profile-bootstrap/SKILL.md) (the *first* fill). This skill is
   the *keep-it-healthy + in-sync* counterpart.
 
 ## Read first
@@ -35,7 +35,7 @@ This skill adds **no new behavioral rules**; it applies the manual's existing on
   memory), **§5.2** (stop and ask on costly/irreversible — the basis for ask-don't-auto-change), **§7**
   (every reference resolves; verify honestly; never claim "verified" when nothing ran — the basis for the
   references-resolve checks and the no-suppression rule).
-- [`../aikit-bootstrap-project-profile/SKILL.md`](../aikit-bootstrap-project-profile/SKILL.md) — its detection
+- [`../aikit-project-profile-bootstrap/SKILL.md`](../aikit-project-profile-bootstrap/SKILL.md) — its detection
   **steps** (3 stack, 4 commands, 4.5 integrations, 5 conventions, 6 file locations, 10 root-pointer) and
   its **contract** (esp. rule 3 commands-are-sacred, rule 5 don't-overwrite-human-edits). This skill
   **cites** those steps for the per-field mechanics rather than duplicating them.
