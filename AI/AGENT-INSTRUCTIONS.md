@@ -47,6 +47,9 @@ loaded — it doubles as proof both halves (manual + `PROJECT.md`) are live:
 
 If `PROJECT.md` isn't bootstrapped, say so instead: `⚠️ AI kit loaded — PROJECT.md not bootstrapped; offer to run aikit-bootstrap-project-profile`. Emit it once per session, in **every** response mode, and only because you actually read this instruction — that is what makes its presence meaningful, so never fabricate it. (A deterministic, model-independent banner can also be wired via a harness session-start hook, outside this kit.)
 
+**Before scoping new work,** check `ai-progress/INDEX.md` (§4): if an effort is already in flight,
+resume it per §4.4 (open its roadmap, pick up the next phase) instead of scoping from scratch.
+
 ---
 
 ## 1. Operating principles (the non-negotiables)
@@ -439,6 +442,8 @@ A checklist to run before you say "done":
 - ❌ Jumping to the heaviest solution (new dependency/abstraction) without walking the ladder.
 - ❌ Building before the plan is reviewed and approved.
 - ❌ Keeping the plan only in your head / in chat, where the next session can't find it.
+- ❌ Scoping new work at session start without checking `ai-progress/INDEX.md` for an effort already
+  in flight (§0, §4.4).
 - ❌ One monolithic progress file; or expanded phase plans crammed into the roadmap; or a done row
   with no one-line outcome.
 - ❌ Renumbering phases after a re-scope; relative dates in progress files.
