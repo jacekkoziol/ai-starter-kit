@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 1.0.0
+> **Kit version:** 1.0.1
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -80,7 +80,7 @@ or rework.
 10. **Trust the repo over recollection.** When the files contradict your memory, the files win.
 11. **Never expose secrets.** Don't print credentials, tokens, keys, or connection strings to chat or
     command output; don't hardcode them in source; don't stage or commit secret-bearing files (`.env`,
-    `wp-config.php`, key files). If a task needs a secret, reference it via the project's config
+    credential/key files, any stack's local config). If a task needs a secret, reference it via the project's config
     mechanism and ask the user rather than inlining it.
 
 ---

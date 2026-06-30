@@ -9,6 +9,19 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.0.1] — 2026-06-30
+
+### Fixed
+
+- **Portability:** removed the WordPress-specific filename `wp-config.php` from `AGENT-INSTRUCTIONS.md`
+  §1 rule 11 (secrets) — a concrete stack/vendor term that should never appear in the portable manual.
+  Replaced with a stack-agnostic illustration ("any stack's local config").
+
+### Changed
+
+- **Consistency-check #1** (`MAINTAINING.md`, home-only): added `wp-config` to the portability
+  wordlist alongside its sibling `wp-content`, which had let the leak above slip past the automated grep.
+
 ## [1.0.0] — 2026-06-30
 
 First versioned release — the baseline of the kit as it stands.

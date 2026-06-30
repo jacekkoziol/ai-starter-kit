@@ -178,7 +178,7 @@ The manual's Kit version and the latest `CHANGELOG.md` entry must always match â
 #     ^-anchored so prose that mentions the markers can't start a strip; per-file (\;) so a range
 #     can never bleed across files.)
 find AI -name '*.md' -exec sed '/^<!-- To Remove: START/,/^<!-- To Remove: End/d' {} \; \
-  | grep -niE "wordpress|wp-content|chisel|gutenberg|timber|theme\.json"          # expect: none
+  | grep -niE "wordpress|wp-content|wp-config|chisel|gutenberg|timber|theme\.json"  # expect: none
 
 # 2. Manual sections sequential, none renumbered
 grep -nE "^## [0-9]" AI/AGENT-INSTRUCTIONS.md                                     # expect: 0..9 in order
