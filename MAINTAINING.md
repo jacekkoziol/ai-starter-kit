@@ -42,6 +42,12 @@ confirms the *maintenance* guide loaded.)
 6. **Adversarially check new behavioral rules.** Before shipping any rule that constrains the agent,
    try to rules-lawyer it: can it be read to skip the gate, hide a risk/failure, alter code, be
    dishonest, or weaken another HARD RULE? Close the loophole in the fewest words.
+7. **Commit only on an explicit go-ahead — ask first.** Once a change is implemented and verified,
+   don't commit or push on your own initiative: report that it's ready and **ask whether to commit it
+   now or review first**, then act only on the answer — silence isn't approval. Direct commits to
+   `main` are fine in *this* home repo (kit maintenance lives on `main`); the vendored *"never commit
+   to the default branch directly"* rule (`AGENT-INSTRUCTIONS.md` §2) is about *downstream* use, not
+   the work here — but the ask still applies every time.
 
 ## Layout
 
@@ -223,3 +229,4 @@ log_v=$(grep -oE "^## \[[0-9]+\.[0-9]+\.[0-9]+\]" CHANGELOG.md | head -1 | grep 
 - ❌ Putting maintenance/meta content inside `AI/` (it would ship into every downstream project).
 - ❌ Changing vendored `AI/` content without bumping the Kit version + adding a `CHANGELOG.md` entry.
 - ❌ Referencing `CHANGELOG.md` (or `MAINTAINING.md`) from inside `AI/` — home-only, dangles downstream.
+- ❌ Committing or pushing a change without first asking whether to commit now or review (directive #7) — silence isn't approval.
