@@ -9,6 +9,18 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.2.1] — 2026-06-30
+
+### Changed
+
+- **Hardened skill-authoring at point-of-use** (`skills/_SKILL-TEMPLATE.md` + `skills/README.md`),
+  rather than adding a meta-skill for creating skills (the template + README already carry the
+  procedure — a skill would duplicate it and add weight). Closed the two gaps that made the template
+  passive: the header note now tells the author to **scan the index first and extend an existing skill
+  rather than add a near-duplicate**, and to **set the frontmatter `name:` to the folder name** (the
+  folder name *is* the invocable command). The reuse-before-building rule is owned by README "When to
+  add one"; the template references it. Pure clarification of existing surfaces — no new artifact.
+
 ## [1.2.0] — 2026-06-30
 
 ### Added

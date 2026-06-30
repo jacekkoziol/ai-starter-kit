@@ -5,7 +5,10 @@ description: One line — what this does and the trigger that should invoke it.
 
 # {Skill name}
 
-> Copy this file to `skills/{name}/SKILL.md` and fill it in. Then add a row to
+> **Before copying,** confirm no existing skill already covers this task (see
+> [When to add one](../README.md)) and extend that one if it does. Then copy this file to
+> `skills/{name}/SKILL.md`, set the frontmatter `name:` to that same `{name}` — the folder name *is*
+> the invocable command, so the two must match — and fill it in. Finally, add a row to
 > [the skills index](../README.md). (The relative links below are written for that copied location —
 > `skills/{name}/SKILL.md` — so they resolve once copied.)
 

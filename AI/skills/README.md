@@ -8,7 +8,8 @@ description.
 ## When to add one
 
 When the same multi-step task recurs and the agent keeps doing it slightly differently. Capture the
-correct sequence once, then point future work at it.
+correct sequence once, then point future work at it. First scan the [index](#index) below: if a skill
+already covers the task, extend it rather than add a near-duplicate (reuse before building).
 
 ## Format & discovery
 
