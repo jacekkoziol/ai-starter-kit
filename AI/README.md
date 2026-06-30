@@ -185,7 +185,7 @@ Overview, Commands, Integrations, Version control, Conventions, Layout, Locked d
 In a **fresh** session, verify both halves are live before doing real work:
 
 - **The kit announces itself.** A correctly-loaded kit opens its first reply with a one-line
-  confirmation — `✅ AI kit loaded — Role: … · mode: … · build: …`. **That line is your check:** seeing
+  confirmation — `✅ AI kit v{version} loaded — Role: … · mode: … · build: …`. **That line is your check:** seeing
   it (with a real Role + command) means the pointer (step 2) and profile (step 3) are both live; its
   **absence means the kit didn't load** — the pointer line is missing or sits in a file your tool
   doesn't auto-load. (To double-check, ask: *"Restate your Role and the build command."*)

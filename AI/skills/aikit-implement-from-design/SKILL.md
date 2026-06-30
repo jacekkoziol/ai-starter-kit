@@ -31,9 +31,8 @@ description: Translate a visual design source (mockup, screenshot, exported spec
    spacing, colors, typography, component instances, **states** (hover/active/focus/empty/error/
    loading), and responsive behavior. Missing a state now means rework later.
 2. **Map to what already exists first (§3).** For each value the design needs, find the project's
-   existing **token** (don't hardcode a hex/px that already has one) and existing **component** (reuse
-   or extend a variant before creating new). Only a genuinely-new shape gets built — modeled on its
-   closest sibling. Record gaps where the design needs a token/component that doesn't exist yet.
+   existing **token** (don't hardcode a hex/px that already has one) and existing **component**, then
+   apply the §3 reuse ladder. Record gaps where the design needs a token/component that doesn't exist yet.
 3. **Build in anti-rework order (§4.5):** foundations/tokens → structure/markup → presentation/styling
    → behavior/interactivity. **Don't style before the structure stabilizes.**
 4. **Work section by section.** Flip each `aikit-plan` phase as you go; keep changes scoped to the

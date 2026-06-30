@@ -9,6 +9,21 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.1.1] — 2026-06-30
+
+### Fixed
+
+- **Stale handshake example in `README.md`:** the human-facing "your check" banner still read
+  `✅ AI kit loaded — …`; updated to `✅ AI kit v{version} loaded — …` to match the canonical §0 form
+  (the versioning added in 1.0.0 changed the banner but this copy wasn't updated). Kept `v{version}`
+  generic so the manual header stays the single source for the actual number.
+- **Single-source drift in `aikit-implement-from-design`:** procedure step 2 restated the §3
+  reuse/extend/build-new ladder instead of pointing at it — contradicting the skill's own promise to
+  reference, not restate. Replaced with a pointer to "the §3 reuse ladder," keeping the design-specific
+  guidance (tokens, no hardcoded hex/px, gap-recording).
+
+_Both found via a deep adversarial prose/skill-internal audit of the 1.1.0 tree._
+
 ## [1.1.0] — 2026-06-30
 
 ### Added
