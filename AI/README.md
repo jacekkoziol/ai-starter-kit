@@ -37,6 +37,8 @@ AI/
   skills/                 # the "how": step-by-step procedures
     README.md             #   layer guide + index
     _SKILL-TEMPLATE.md    #   copy → skills/{name}/SKILL.md
+    aikit-plan/
+      SKILL.md            #   create/maintain ai-progress/ (procedure for §4)
     aikit-bootstrap-project-profile/
       SKILL.md            #   first-adoption skill: fill PROJECT.md + reference/*.md from the repo
     aikit-sync-project-profile/

@@ -205,6 +205,10 @@ person knows it's shared and not safe to change blindly).
 The plan is the **source of truth** — it outlives `/compact`, new sessions, and handoffs. Your
 recollection does not. Write it down, commit it.
 
+> The [`aikit-plan`](skills/aikit-plan/SKILL.md) skill walks this section's procedure — creating,
+> updating, and resuming the progress files; this section stays canonical for the layout, rules, and
+> templates.
+
 > **When to create:** always, for any **non-trivial** work (see "Scale ceremony" in §0) — unless the
 > user explicitly says to skip it, or the task is trivial / pure read-only (answer a question, explain
 > a file). When in doubt, create it: deleting an unneeded file is cheaper than reconstructing lost
