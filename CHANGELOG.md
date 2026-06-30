@@ -9,6 +9,32 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.2.0] — 2026-06-30
+
+### Added
+
+- **Skill-discovery setup.** New `README.md` adoption step 3, "Wire skill discovery" — makes the kit's
+  skills invocable in the host runtime (which auto-discovers skills only from its own dir, not
+  `AI/skills/`). Recommends a single whole-folder Claude Code symlink (`.claude/skills` → `AI/skills`),
+  so every skill under `AI/skills/` — shipped `aikit-*` and project-authored alike — and any added
+  later resolves with no re-linking; includes a guard against clobbering an existing `.claude/skills/`
+  and a per-skill fallback for that case. Generic guidance for other runtimes (link the dir, or invoke
+  a skill by `SKILL.md` path where there's no skill mechanism).
+- **`aikit-project-profile-bootstrap`** now wires skill discovery on first adoption (step 11 + a Verify
+  item), deferring the concrete command to README step 3 (single source).
+- **Documented the `aikit-` prefix rationale in the vendored kit** (`skills/README.md` → "Naming") — why
+  kit skills are prefixed (collision-avoidance) and why they must not be renamed (the command name is the
+  folder name; updates reconcile by the prefix). Previously this lived only in the home-only
+  `MAINTAINING.md`, invisible downstream where renaming is most tempting. `aikit-update-kit` gains a
+  matching anti-pattern, since a kit update is where the rename risk is highest.
+
+### Changed
+
+- `README.md` Setup renumbered to **six** steps (skill discovery inserted as step 3; profile-fill →
+  step 4, confirm → step 5 with a "skills resolve" check, commit → step 6 incl. committing the symlinks).
+  Corrected step 4's note: the `/aikit-*` command exists once skills are wired (step 3), not merely once
+  the pointer is wired.
+
 ## [1.1.1] — 2026-06-30
 
 ### Fixed

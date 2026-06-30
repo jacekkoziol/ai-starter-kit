@@ -64,4 +64,6 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
   silently deletes the project's answers.
 - ❌ Updating without then running `aikit-project-profile-sync` (drift goes unnoticed).
 - ❌ Updating over a dirty tree, so the change isn't a clean reviewable diff.
+- ❌ Renaming or stripping the `aikit-` prefix on kit skills — the command name *is* the folder name, so
+  it breaks discovery and the kit-vs-project distinction this reconcile relies on (see `skills/README.md`).
 - ❌ Bumping the Kit version or tagging downstream — versioning is the kit home repo's job.

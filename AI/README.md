@@ -118,7 +118,7 @@ the trail never breaks. **Commit this folder** — it's how work hands off betwe
 
 ## Setup
 
-Do this once per repo to make the kit active. The five steps are the same whether this is the kit's
+Do this once per repo to make the kit active. The six steps are the same whether this is the kit's
 first adoption or you're porting it into another project; each **Porting note** flags the only
 differences.
 
@@ -157,11 +157,46 @@ each, or symlink them to one canonical file so there's a single source to mainta
 Without this line, **no agent ever loads the kit and the whole methodology is silently inert** — this
 is the single most common setup failure.
 
-### 3. Fill the project profile
+### 3. Wire skill discovery (so the kit's skills are invocable)
+
+The kit holds **all** its skills under `AI/skills/` — the shipped `aikit-*` ones **and** any you author
+later (`_SKILL-TEMPLATE.md` → `skills/{name}/SKILL.md`). Most agent runtimes auto-discover skills only
+from **their own** directory — not from `AI/skills/` — so without this step the agent has the skill
+*files* but can't invoke them (e.g. `/aikit-plan` won't exist, and neither will
+`/aikit-project-profile-bootstrap` for the next step).
+
+Point your runtime's skill-discovery at the kit. **Claude Code** reads `.claude/skills/` and follows
+symlinks, so link the whole folder once — every current and future skill under `AI/skills/` then
+resolves with no re-linking:
+
+```bash
+# from the repo root; won't clobber an existing .claude/skills (see fallback below)
+[ -e .claude/skills ] && echo ".claude/skills exists — see fallback" || { mkdir -p .claude && ln -s ../AI/skills .claude/skills; }
+```
+
+That makes `/aikit-plan`, `/aikit-project-profile-bootstrap`, your own `skills/{name}/` — all of them —
+available, and any skill added to `AI/skills/` later appears automatically. Commit the `.claude/skills`
+symlink so teammates get it (Claude Code shows a one-time trust prompt on first load). Working from a
+subdirectory whose own `.claude/` your tool loads? Create the link there and match the `../` depth
+(e.g. `ln -s ../../AI/skills .claude/skills`).
+
+> **Fallback — you already have a real `.claude/skills/`** with non-kit skills: don't replace it. Either
+> move those skill folders into `AI/skills/` (the kit's model — one home for all skills), or symlink the
+> kit's skills in individually:
+> ```bash
+> mkdir -p .claude/skills
+> for d in AI/skills/aikit-*/; do n=$(basename "$d"); [ -e ".claude/skills/$n" ] || ln -s "../../${d%/}" ".claude/skills/$n"; done
+> ```
+> (Per-skill links need re-running whenever a new skill is added; the whole-folder symlink doesn't.)
+
+> **Other runtimes:** if your tool auto-discovers skills from a directory, link or point it at
+> `AI/skills/` the same way; if it has **no** skill mechanism, skip this step — invoke a skill by
+> telling the agent to *follow `AI/skills/<name>/SKILL.md`* by path.
+
+### 4. Fill the project profile
 
 The generic manual needs project specifics to bind to. The recommended path is the bundled skill — run
-it **after** step 2 (in tools that discover skills only when the kit is loaded, the command won't exist
-until the pointer is wired):
+it **after** step 3 (the `/aikit-project-profile-bootstrap` command exists only once skills are wired):
 
 1. Start your agent from the repo root.
 2. Invoke the skill — in Claude Code: `/aikit-project-profile-bootstrap`. In tools without slash-commands,
@@ -180,28 +215,33 @@ Overview, Commands, Integrations, Version control, Conventions, Layout, Locked d
 > **Porting note:** run the skill again on the new repo so every value reflects the new stack, and
 > clear any old-project values it didn't overwrite.
 
-### 4. Confirm the kit is active
+### 5. Confirm the kit is active
 
-In a **fresh** session, verify both halves are live before doing real work:
+In a **fresh** session, verify the halves are live before doing real work:
 
 - **The kit announces itself.** A correctly-loaded kit opens its first reply with a one-line
   confirmation — `✅ AI kit v{version} loaded — Role: … · mode: … · build: …`. **That line is your check:** seeing
-  it (with a real Role + command) means the pointer (step 2) and profile (step 3) are both live; its
+  it (with a real Role + command) means the pointer (step 2) and profile (step 4) are both live; its
   **absence means the kit didn't load** — the pointer line is missing or sits in a file your tool
   doesn't auto-load. (To double-check, ask: *"Restate your Role and the build command."*)
+- **The skills resolve.** In Claude Code, `/aikit-plan` (and the other `aikit-*` skills) should be
+  listed/invocable — confirming step 3 wired discovery. If not, the symlinks are missing or sit under a
+  `.claude/` your tool doesn't load.
 - Run `grep -rn "TODO" AI/` and confirm it returns only intentionally-deferred placeholders (each
   annotated `confirm with owner`), not raw scaffolding `TODO`s.
 
-### 5. Commit
+### 6. Commit
 
-Commit `AI/` (the kit + the filled profile) and the root-pointer line together. The kit and profile are
-committed once and rarely change; `ai-progress/` is created later — at the root, on your first real
-task — and is committed continuously as live work (see **How the progress files work**).
+Commit `AI/` (the kit + the filled profile), the root-pointer line, and the `.claude/skills` symlink
+from step 3 together. The kit and profile are committed once and rarely change; `ai-progress/` is
+created later — at the root, on your first real task — and is committed continuously as live work (see
+**How the progress files work**).
 
-**Setup is done when:** the pointer line exists in the auto-loaded entry file · `PROJECT.md` has no
-un-annotated `TODO`s and a chosen response-economy mode · the command table is confirmed to actually
-run · a fresh agent session restates the Role and a real build command · all of it is committed. From
-here, start work with the prompt in **Start an AI session**.
+**Setup is done when:** the pointer line exists in the auto-loaded entry file · the kit's skills resolve
+in your runtime (e.g. `/aikit-plan`) · `PROJECT.md` has no un-annotated `TODO`s and a chosen
+response-economy mode · the command table is confirmed to actually run · a fresh agent session restates
+the Role and a real build command · all of it is committed. From here, start work with the prompt in
+**Start an AI session**.
 
 ### Quick reference — what's portable vs per-project
 
@@ -209,7 +249,8 @@ here, start work with the prompt in **Start an AI session**.
 | --- | --- |
 | `AGENT-INSTRUCTIONS.md`, `README.md` | `PROJECT.md` — re-fill for the new stack |
 | `reference/`, `skills/`, `templates/` guide + index files | `reference/*.md` values — re-fill |
-| `skills/aikit-project-profile-bootstrap/`, `skills/_SKILL-TEMPLATE.md` | `ai-progress/` — don't copy; regrows at the new root |
+| `skills/aikit-*/` (all kit skills), `skills/_SKILL-TEMPLATE.md` | `.claude/skills` symlink — recreate per repo (Setup step 3) |
+| | `ai-progress/` — don't copy; regrows at the new root |
 | | Project-specific skills/templates you added — leave behind unless they apply |
 
 ## Start an AI session

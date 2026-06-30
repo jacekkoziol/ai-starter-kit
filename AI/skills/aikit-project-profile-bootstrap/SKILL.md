@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders). Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
+description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders). On first adoption it also wires skill discovery (links AI/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable. Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
@@ -164,6 +164,17 @@ pointer is missing, tell the user to add the line — *"For how to approach any 
 `AI/AGENT-INSTRUCTIONS.md`."* (README adoption step 2). Without it, no agent auto-loads the kit and the
 methodology is never used.
 
+### 11. Wire skill discovery (so the kit's skills are invocable)
+
+Make `AI/skills/` discoverable by the agent runtime. Most runtimes auto-discover skills only from
+**their own** directory (e.g. Claude Code from `.claude/skills/`), not from `AI/skills/`, so the
+`/aikit-*` commands don't exist until it's wired in. Run (or offer to run) the symlink command in
+**README adoption step 3** — for Claude Code, one whole-folder link (`.claude/skills` → `AI/skills`)
+makes every current and future skill resolve — then have the user commit it. Mind the guard: if a real
+`.claude/skills/` already exists, use the per-skill fallback instead of clobbering it. For a runtime
+with **no** skill mechanism there's nothing to wire: a skill is invoked by pointing the agent at its
+`AI/skills/<name>/SKILL.md`.
+
 ## Verify
 
 - [ ] `grep -rn "TODO" AI/` shows only intentionally-unresolved placeholders (each annotated "confirm").
@@ -174,6 +185,8 @@ methodology is never used.
 - [ ] `PROJECT.md`'s `## Role` is filled (or annotated for confirmation) — not left blank.
 - [ ] No `<!-- To Remove -->` block remains in any `AI/` file (the Role examples + the sample ladder were deleted).
 - [ ] Root agent-entry file points at `AI/AGENT-INSTRUCTIONS.md` (or the user has been told to add it).
+- [ ] The kit's skills resolve in the runtime (e.g. `/aikit-plan` in Claude Code), or the runtime has no
+      skill mechanism and skills are invoked by `AI/skills/<name>/SKILL.md` path.
 - [ ] Every managed slot still carries its `<!-- fill:user -->` / `<!-- fill:auto · «source» -->` marker
       (filling a slot does **not** remove it) — the inventory `aikit-project-profile-sync` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.

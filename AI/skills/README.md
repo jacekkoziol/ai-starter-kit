@@ -19,6 +19,22 @@ One folder per skill: `skills/{name}/SKILL.md`. This matches the convention agen
 A good skill: names its triggers, lists the reference it assumes, gives numbered steps, ends with a
 verification checklist and the anti-patterns to avoid.
 
+## Naming — the `aikit-` prefix (don't rename)
+
+Kit-shipped skills are prefixed **`aikit-`** (`aikit-plan`, `aikit-project-profile-bootstrap`, …); skills
+**you** author stay unprefixed (`{name}`). The prefix is load-bearing — **don't rename or strip it:**
+
+- It **namespaces** the kit's skills so they can't collide with a host project's own skills — both share
+  `AI/skills/` and the runtime's discovery directory.
+- A skill's invocable name **is** its folder name (`aikit-plan` → `/aikit-plan`), and the frontmatter
+  `name:` must match the folder. Renaming the folder silently changes the command and breaks every
+  reference to it.
+- On a **kit update** ([`aikit-update-kit`](aikit-update-kit/SKILL.md)), the prefix is how the updater
+  tells kit skills from your own — renamed kit skills look like new files and won't reconcile cleanly.
+
+So treat `aikit-*` names as stable identifiers, not cosmetic. (A "shorter" name is not worth a broken
+command and a botched update.)
+
 ## Index
 
 | Skill | When to use |
