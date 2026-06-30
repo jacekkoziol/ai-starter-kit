@@ -191,7 +191,7 @@ grep -rnoE "\`(standard|concise|terse)\`" AI/                                   
 
 # 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding).
 #    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them.)
-grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|aikit-project-profile-bootstrap|aikit-project-profile-sync" # expect: PROJECT.md + reference/*
+grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|templates/|aikit-project-profile-bootstrap|aikit-project-profile-sync" # expect: PROJECT.md + reference/*
 
 # 6. Folder map matches reality
 find AI -maxdepth 2 -type f | sort                                                # compare to README's folder map

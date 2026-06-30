@@ -39,12 +39,17 @@ AI/
     _SKILL-TEMPLATE.md    #   copy → skills/{name}/SKILL.md
     aikit-plan/
       SKILL.md            #   create/maintain ai-progress/ (procedure for §4)
+    aikit-implement-from-design/
+      SKILL.md            #   tool-agnostic design → code (procedure for §3/§4.5/§7)
+    aikit-update-kit/
+      SKILL.md            #   upgrade the vendored kit, preserving filled PROJECT.md + reference/*.md
     aikit-project-profile-bootstrap/
       SKILL.md            #   first-adoption skill: fill PROJECT.md + reference/*.md from the repo
     aikit-project-profile-sync/
       SKILL.md            #   health + drift check: keep PROJECT.md + reference/*.md healthy & in sync
   templates/              # literal code/scaffold to copy
     README.md             #   layer guide + index
+    design-tool-skill.md  #   scaffold a downstream design-tool → code skill (e.g. Figma)
 
 ai-progress/              # ← lives at the PROJECT ROOT, not here. Agent-maintained live work
                           #   tracking (INDEX + roadmaps + phase files). See AGENT-INSTRUCTIONS.md §4.

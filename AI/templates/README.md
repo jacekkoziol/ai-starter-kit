@@ -20,4 +20,4 @@ block). Capture the canonical starting point once.
 
 | Template | For |
 | --- | --- |
-| _(none yet — add files here as patterns stabilize)_ | |
+| [design-tool-skill.md](design-tool-skill.md) | Scaffolding a downstream, **project-authored** skill that wires one specific design tool (e.g. a Figma MCP) to the kit's `aikit-implement-from-design`. Copy to `skills/{tool}-to-code/SKILL.md` and fill in. |

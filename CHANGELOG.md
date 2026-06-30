@@ -9,6 +9,26 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.1.0] — 2026-06-30
+
+### Added
+
+- **Skill `aikit-implement-from-design`** — tool-agnostic procedure for translating a visual design
+  source (mockup, screenshot, exported spec, design-tool reference) into code: extract decisions →
+  reuse existing tokens/components (§3) → structure-before-style (§4.5) → verify parity (§7). Names no
+  vendor; references the manual rather than restating it.
+- **Skill `aikit-update-kit`** — downstream procedure to upgrade a vendored `AI/` kit to a newer
+  version, replacing methodology files while preserving the filled `PROJECT.md` + `reference/*.md`,
+  then running `aikit-project-profile-sync`. Completes the versioning story (the consumer side).
+- **Template `templates/design-tool-skill.md`** — generic scaffold for a downstream, project-authored
+  skill that wires one specific design tool (Figma as a `<!-- To Remove -->` worked example) to
+  `aikit-implement-from-design`. Tool-specific terms stay downstream; the kit stays vendor-neutral.
+
+### Changed
+
+- **Consistency-check #5** (`MAINTAINING.md`, home-only): widened the exclusion to cover `templates/`,
+  since templates legitimately carry `TODO`/`{placeholder}` scaffolding.
+
 ## [1.0.1] — 2026-06-30
 
 ### Fixed
