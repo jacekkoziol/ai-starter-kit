@@ -1,5 +1,7 @@
 # AI Agent — Coding Instructions
 
+> **Kit version:** 1.0.0
+>
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
 >
@@ -43,9 +45,9 @@ invent** build/test/lint commands (discover and confirm them first), and state p
 **Session-start handshake.** Open your **first reply** in a session with one line confirming the kit
 loaded — it doubles as proof both halves (manual + `PROJECT.md`) are live:
 
-`✅ AI kit loaded — Role: {one phrase} · mode: {standard|concise|terse} · build: {command, or "none defined"}`
+`✅ AI kit v{version} loaded — Role: {one phrase} · mode: {standard|concise|terse} · build: {command, or "none defined"}`
 
-If `PROJECT.md` isn't bootstrapped, say so instead: `⚠️ AI kit loaded — PROJECT.md not bootstrapped; offer to run aikit-project-profile-bootstrap`. Emit it once per session, in **every** response mode, and only because you actually read this instruction — that is what makes its presence meaningful, so never fabricate it. (A deterministic, model-independent banner can also be wired via a harness session-start hook, outside this kit.)
+If `PROJECT.md` isn't bootstrapped, say so instead: `⚠️ AI kit v{version} loaded — PROJECT.md not bootstrapped; offer to run aikit-project-profile-bootstrap`. The `{version}` is the **Kit version** from this manual's header. Emit it once per session, in **every** response mode, and only because you actually read this instruction — that is what makes its presence meaningful, so never fabricate it. (A deterministic, model-independent banner can also be wired via a harness session-start hook, outside this kit.)
 
 **Before scoping new work,** check `ai-progress/INDEX.md` (§4): if an effort is already in flight,
 resume it per §4.4 (open its roadmap, pick up the next phase) instead of scoping from scratch.

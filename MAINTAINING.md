@@ -112,8 +112,32 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 | **New scaffold** | `templates/{file}` **+** `templates/README.md` index. |
 | **New manual section** | Append as the next `§N` — **never renumber** existing sections. |
 | **Renamed / added / removed file** | The README **folder map** and the **"What's in here"** table. |
+| **Any change to vendored `AI/` content** | Bump the **Kit version** in `AGENT-INSTRUCTIONS.md`'s header per semver **+** add a dated `CHANGELOG.md` entry (see §"Versioning & releases"). Changes touching only home-only files (this guide, `CHANGELOG.md`) don't bump. |
 
 The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `aikit-project-profile-bootstrap`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `aikit-project-profile-sync` can re-validate it, and a Verify item guards it.
+
+## Versioning & releases
+
+The kit follows **Semantic Versioning** (`MAJOR.MINOR.PATCH`). The version is **single-sourced** in the
+**Kit version** line at the top of [`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md) — so it rides
+*inside* the vendored `AI/` folder and a downstream copy always records which snapshot it has. The §0
+session-start handshake echoes it (`✅ AI kit v1.0.0 loaded — …`), surfacing the live version every
+session.
+
+**Bump on every change that alters vendored `AI/` content,** sized by impact:
+
+- **MAJOR** — breaking: renumbered manual sections, a removed/renamed knob or fillable field, or
+  anything that forces a downstream re-bootstrap or breaks a `§N` reference.
+- **MINOR** — additive and backward-compatible: a new behavioral rule, skill, reference doc, template,
+  or fillable field.
+- **PATCH** — wording, clarifications, loophole/typo fixes that change no structure.
+
+Changes that touch **only home-only files** (this `MAINTAINING.md`, `CHANGELOG.md`) **don't bump** —
+they never vendor, so a downstream copy is unaffected.
+
+Each bump (a) updates the Kit version line, (b) adds a dated entry under the new version to
+[`CHANGELOG.md`](CHANGELOG.md) (home root, never vendored), and (c) is git-tagged `vMAJOR.MINOR.PATCH`.
+The manual's Kit version and the latest `CHANGELOG.md` entry must always match — consistency-check #9.
 
 ## Invariants (don't break)
 
@@ -129,9 +153,13 @@ The most-missed one: **adding a fillable field without tagging it `fill:` AND wi
 - **All relative links resolve**, and the README folder map matches the real tree.
 - **No project / stack / tool terms** in the portable files (`AGENT-INSTRUCTIONS.md`, the README's
   generic parts, the reference/skills/templates guides).
-- **Nothing under `AI/` may reference `MAINTAINING.md`** — it's home-only and never vendors, so the
-  reference would dangle in every downstream repo (consistency-check #8 guards this). Downstream "how to
-  extend" lives in the vendored `AI/README.md`; `MAINTAINING.md` is the home-only "how to evolve" guide.
+- **Nothing under `AI/` may reference `MAINTAINING.md` or `CHANGELOG.md`** — both are home-only and never
+  vendor, so the reference would dangle in every downstream repo (consistency-check #8 guards this).
+  Downstream "how to extend" lives in the vendored `AI/README.md`; `MAINTAINING.md` is the home-only "how
+  to evolve" guide and `CHANGELOG.md` the home-only release history.
+- **The Kit version is single-sourced** in `AGENT-INSTRUCTIONS.md`'s header and **matches the latest
+  `CHANGELOG.md` entry** (consistency-check #9). Bump it on every change to vendored `AI/` content per
+  semver; home-only changes don't bump — see §"Versioning & releases".
 - **`<!-- To Remove -->` blocks are disposable examples** (Role samples in `PROJECT.md`, the sample
   ladder in `reference/`) — and the only sanctioned home for concrete stack terms. `aikit-project-profile-bootstrap`
   deletes them on adoption; consistency-check #1 strips them before grepping.
@@ -174,8 +202,13 @@ grep -rnE "<!-- fill:" AI/PROJECT.md AI/reference/*.md | grep -vE "<!-- fill:use
 #    `user` never. Completeness — no managed slot left untagged — is guarded by bootstrap's
 #    marker-preservation Verify item, not by grep: a missing marker matches nothing.)
 
-# 8. Vendored files must not reference the home-only maintenance guide
-grep -rn "MAINTAINING" AI/                                                        # expect: none (never vendors — the ref would dangle downstream)
+# 8. Vendored files must not reference home-only guides (the ref would dangle downstream)
+grep -rnE "MAINTAINING|CHANGELOG" AI/                                             # expect: none (home-only — never vendor)
+
+# 9. Kit version single-sourced and in sync with the changelog
+manual_v=$(grep -oE "Kit version:\*\* [0-9]+\.[0-9]+\.[0-9]+" AI/AGENT-INSTRUCTIONS.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+log_v=$(grep -oE "^## \[[0-9]+\.[0-9]+\.[0-9]+\]" CHANGELOG.md | head -1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+[ "$manual_v" = "$log_v" ] && echo "in sync: $manual_v" || echo "DRIFT: manual=$manual_v changelog=$log_v"  # expect: in sync
 ```
 
 ## Anti-patterns (kit maintenance)
@@ -188,3 +221,5 @@ grep -rn "MAINTAINING" AI/                                                      
 - ❌ Letting the README folder map drift from the real files.
 - ❌ Weakening a HARD RULE for the sake of brevity.
 - ❌ Putting maintenance/meta content inside `AI/` (it would ship into every downstream project).
+- ❌ Changing vendored `AI/` content without bumping the Kit version + adding a `CHANGELOG.md` entry.
+- ❌ Referencing `CHANGELOG.md` (or `MAINTAINING.md`) from inside `AI/` — home-only, dangles downstream.
