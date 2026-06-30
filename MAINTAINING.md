@@ -52,7 +52,7 @@ AI/                       # THE KIT — this is what gets copied into other repo
                           #     Integrations, Version control, …) — the only place knobs live
   README.md               #   human guide (what it is, Setup, how to extend)
   reference/              #   descriptive project facts (the "what") + index
-  skills/                 #   repeatable procedures (folder-per-skill: {name}/SKILL.md) + index
+  skills/                 #   repeatable procedures (folder-per-skill; kit-shipped: aikit-{name}/SKILL.md) + index
   templates/              #   literal copy-me scaffolds + index
 MAINTAINING.md            # this file — stays OUTSIDE AI/, never vendored downstream
 ai-progress/              # runtime work-tracking, created per project at the root — not part of the kit
@@ -66,9 +66,9 @@ evidence-backed ones, **the source to re-check it against**:
 
 - `<!-- fill:user -->` — a judgment/preference only the user can set: response-economy mode, mandated
   tool channels, the Role mandate/tension, version-control policy, locked decisions. Bootstrap **asks**;
-  `sync-project-profile` **re-asks / confirms presence**, and **never** auto-changes it.
+  `aikit-sync-project-profile` **re-asks / confirms presence**, and **never** auto-changes it.
 - `<!-- fill:auto · «evidence source» -->` — evidence-backed and derivable from the repo. The evidence
-  clause is a short, **stack-agnostic** category that mirrors `bootstrap-project-profile`'s detection
+  clause is a short, **stack-agnostic** category that mirrors `aikit-bootstrap-project-profile`'s detection
   tables — e.g. `dependency manifest`, `package scripts / Makefile / CI`, `tool config (.mcp.json /
   editor MCP)`, `linter & formatter configs`, `file tree`, `file tree + .gitignore`, `harvested
   instruction sources (README / CONTRIBUTING / agent docs)`, `repo's existing patterns`. **Never name a
@@ -91,7 +91,7 @@ the Mode line), put the `fill:` marker **last**.
 **The marker persists after the slot is filled** — unlike `TODO` (the slot's *content*, overwritten so
 it vanishes), `{placeholder}` (sub-slot prose, also overwritten), and `<!-- To Remove -->` (disposable
 example blocks deleted at bootstrap). That persistence is the point: the marker is simultaneously (a) the
-**field inventory** `sync-project-profile`'s health check walks, (b) the **sync gate** — `auto` = may
+**field inventory** `aikit-sync-project-profile`'s health check walks, (b) the **sync gate** — `auto` = may
 propose an evidence-backed change, `user` = must ask — and (c) a hint that drives bootstrap's
 detect-vs-ask. `TODO` answers *"is it filled yet?"*; `fill:` answers *"who owns it / how is it
 re-validated?"*
@@ -105,15 +105,15 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 
 | Change | Also update |
 | --- | --- |
-| **New per-project knob / fillable field** (PROJECT.md or reference) | `bootstrap-project-profile` (detect-or-ask step **+** a Verify item **+** the frontmatter `description`); **tag the new slot with a `fill:` marker** — `fill:user` if it's judgment/preference, `fill:auto · «source»` if it's evidence-backed (so `sync-project-profile` can re-validate it); and the relevant README surface (folder map / "What's in here" / "How to extend"). |
+| **New per-project knob / fillable field** (PROJECT.md or reference) | `aikit-bootstrap-project-profile` (detect-or-ask step **+** a Verify item **+** the frontmatter `description`); **tag the new slot with a `fill:` marker** — `fill:user` if it's judgment/preference, `fill:auto · «source»` if it's evidence-backed (so `aikit-sync-project-profile` can re-validate it); and the relevant README surface (folder map / "What's in here" / "How to extend"). |
 | **New behavioral rule** | The right `AGENT-INSTRUCTIONS.md` section; mark **HARD RULE** if it's a guardrail; add an §8 anti-pattern if it's a common mistake. |
-| **New recurring procedure** | `skills/{name}/SKILL.md` (folder-per-skill) **+** `skills/README.md` index. |
+| **New recurring procedure** (kit-shipped) | `skills/aikit-{name}/SKILL.md` (folder-per-skill; frontmatter `name:` matches the folder) **+** `skills/README.md` index. Kit-shipped skills carry the **`aikit-` prefix** so they can't collide with a host project's own skills once vendored; the generic `{name}` in `_SKILL-TEMPLATE.md` / `skills/README.md` is for *project-authored* skills downstream, which stay unprefixed. |
 | **New project-fact category** | `reference/{doc}.md` **+** `reference/README.md` index; route to its skill at the bottom. |
 | **New scaffold** | `templates/{file}` **+** `templates/README.md` index. |
 | **New manual section** | Append as the next `§N` — **never renumber** existing sections. |
 | **Renamed / added / removed file** | The README **folder map** and the **"What's in here"** table. |
 
-The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `bootstrap-project-profile`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `sync-project-profile` can re-validate it, and a Verify item guards it.
+The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `aikit-bootstrap-project-profile`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `aikit-sync-project-profile` can re-validate it, and a Verify item guards it.
 
 ## Invariants (don't break)
 
@@ -129,8 +129,11 @@ The most-missed one: **adding a fillable field without tagging it `fill:` AND wi
 - **All relative links resolve**, and the README folder map matches the real tree.
 - **No project / stack / tool terms** in the portable files (`AGENT-INSTRUCTIONS.md`, the README's
   generic parts, the reference/skills/templates guides).
+- **Nothing under `AI/` may reference `MAINTAINING.md`** — it's home-only and never vendors, so the
+  reference would dangle in every downstream repo (consistency-check #8 guards this). Downstream "how to
+  extend" lives in the vendored `AI/README.md`; `MAINTAINING.md` is the home-only "how to evolve" guide.
 - **`<!-- To Remove -->` blocks are disposable examples** (Role samples in `PROJECT.md`, the sample
-  ladder in `reference/`) — and the only sanctioned home for concrete stack terms. `bootstrap-project-profile`
+  ladder in `reference/`) — and the only sanctioned home for concrete stack terms. `aikit-bootstrap-project-profile`
   deletes them on adoption; consistency-check #1 strips them before grepping.
 - **Every managed slot in `PROJECT.md` / `reference/*.md` carries exactly one well-formed `fill:`
   marker** — `<!-- fill:user -->` or `<!-- fill:auto · «source» -->` (no third variant; `auto` always
@@ -160,7 +163,7 @@ grep -rnoE "\`(standard|concise|terse)\`" AI/                                   
 
 # 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding).
 #    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them.)
-grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|bootstrap-project-profile|sync-project-profile" # expect: PROJECT.md + reference/*
+grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|aikit-bootstrap-project-profile|aikit-sync-project-profile" # expect: PROJECT.md + reference/*
 
 # 6. Folder map matches reality
 find AI -maxdepth 2 -type f | sort                                                # compare to README's folder map
@@ -170,6 +173,9 @@ grep -rnE "<!-- fill:" AI/PROJECT.md AI/reference/*.md | grep -vE "<!-- fill:use
 #    (every marker is exactly one of the two forms — `auto` always carries the ` · ` evidence clause,
 #    `user` never. Completeness — no managed slot left untagged — is guarded by bootstrap's
 #    marker-preservation Verify item, not by grep: a missing marker matches nothing.)
+
+# 8. Vendored files must not reference the home-only maintenance guide
+grep -rn "MAINTAINING" AI/                                                        # expect: none (never vendors — the ref would dangle downstream)
 ```
 
 ## Anti-patterns (kit maintenance)
@@ -177,7 +183,7 @@ grep -rnE "<!-- fill:" AI/PROJECT.md AI/reference/*.md | grep -vE "<!-- fill:use
 - ❌ Adding words that don't fix a demonstrated failure (bloat).
 - ❌ Coupling `AGENT-INSTRUCTIONS.md` to a stack, tool, or this repo.
 - ❌ Restating one rule in multiple files instead of referencing it.
-- ❌ Adding a fillable field without wiring `bootstrap-project-profile` + a Verify item.
+- ❌ Adding a fillable field without wiring `aikit-bootstrap-project-profile` + a Verify item.
 - ❌ Renumbering manual sections after inserting one (insert at the end instead).
 - ❌ Letting the README folder map drift from the real files.
 - ❌ Weakening a HARD RULE for the sake of brevity.

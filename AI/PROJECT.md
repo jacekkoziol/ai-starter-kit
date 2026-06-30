@@ -16,7 +16,7 @@
 > The starter is scaffolding, not the deliverable — match the spec exactly and overwrite base styles
 > that diverge; don't preserve starter defaults for their own sake."
 
-<!-- To Remove: START — concrete Role examples for reference. Delete this whole block once you've written your Role above (bootstrap-project-profile removes it automatically). -->
+<!-- To Remove: START — concrete Role examples for reference. Delete this whole block once you've written your Role above (aikit-bootstrap-project-profile removes it automatically). -->
 > **Example (WordPress + Chisel):** "You are a senior WordPress developer adapting the Chisel starter
 > theme to a target spec. The starter is scaffolding, not the deliverable — match the spec exactly and
 > overwrite base styles that diverge; don't preserve starter defaults for their own sake."

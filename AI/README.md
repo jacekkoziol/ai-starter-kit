@@ -37,9 +37,9 @@ AI/
   skills/                 # the "how": step-by-step procedures
     README.md             #   layer guide + index
     _SKILL-TEMPLATE.md    #   copy → skills/{name}/SKILL.md
-    bootstrap-project-profile/
+    aikit-bootstrap-project-profile/
       SKILL.md            #   first-adoption skill: fill PROJECT.md + reference/*.md from the repo
-    sync-project-profile/
+    aikit-sync-project-profile/
       SKILL.md            #   health + drift check: keep PROJECT.md + reference/*.md healthy & in sync
   templates/              # literal code/scaffold to copy
     README.md             #   layer guide + index
@@ -57,8 +57,8 @@ template = copy-me.** The agent reads reference before building, runs a skill to
 copies a template for boilerplate. Start with just the manual + `PROJECT.md`; grow the other folders
 from real friction (see "How to extend").
 
-> **Kit lifecycle:** [`bootstrap-project-profile`](skills/bootstrap-project-profile/SKILL.md) does the
-> **first fill** of the profile from the repo; [`sync-project-profile`](skills/sync-project-profile/SKILL.md)
+> **Kit lifecycle:** [`aikit-bootstrap-project-profile`](skills/aikit-bootstrap-project-profile/SKILL.md) does the
+> **first fill** of the profile from the repo; [`aikit-sync-project-profile`](skills/aikit-sync-project-profile/SKILL.md)
 > later **keeps it healthy and in sync** — re-validating evidence-backed (`fill:auto`) values against the
 > codebase and re-asking judgment (`fill:user`) ones.
 
@@ -157,8 +157,8 @@ it **after** step 2 (in tools that discover skills only when the kit is loaded, 
 until the pointer is wired):
 
 1. Start your agent from the repo root.
-2. Invoke the skill — in Claude Code: `/bootstrap-project-profile`. In tools without slash-commands,
-   paste: *"Run the `bootstrap-project-profile` skill in `AI/skills/`: analyze this codebase and fill
+2. Invoke the skill — in Claude Code: `/aikit-bootstrap-project-profile`. In tools without slash-commands,
+   paste: *"Run the `aikit-bootstrap-project-profile` skill in `AI/skills/`: analyze this codebase and fill
    the TODOs in `AI/PROJECT.md` and `AI/reference/*.md`."*
 
 It scans the repo, fills the `TODO`s with evidence-backed values, then **pauses to ask you** to confirm
@@ -202,7 +202,7 @@ here, start work with the prompt in **Start an AI session**.
 | --- | --- |
 | `AGENT-INSTRUCTIONS.md`, `README.md` | `PROJECT.md` — re-fill for the new stack |
 | `reference/`, `skills/`, `templates/` guide + index files | `reference/*.md` values — re-fill |
-| `skills/bootstrap-project-profile/`, `skills/_SKILL-TEMPLATE.md` | `ai-progress/` — don't copy; regrows at the new root |
+| `skills/aikit-bootstrap-project-profile/`, `skills/_SKILL-TEMPLATE.md` | `ai-progress/` — don't copy; regrows at the new root |
 | | Project-specific skills/templates you added — leave behind unless they apply |
 
 ## Start an AI session
@@ -217,7 +217,7 @@ before asking for any work:
 > per-phase plan-review gate. Follow it. Also read the project profile (`AI/PROJECT.md` / `CLAUDE.md`)
 > if one exists, for the **Role** (your persona/mandate), **response-economy mode** (§9), stack,
 > conventions, and build/test/lint commands. If `PROJECT.md` is still full of `TODO`s, the kit isn't
-> set up — say so and offer to run `bootstrap-project-profile` before real work.
+> set up — say so and offer to run `aikit-bootstrap-project-profile` before real work.
 >
 > First check `ai-progress/INDEX.md` — if an effort is already in progress, open its roadmap and
 > **resume the next phase** instead of scoping from scratch.

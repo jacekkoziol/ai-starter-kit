@@ -16,7 +16,7 @@
 Mark the rung that crosses into "STOP and ask" (new dependency, migration, irreversible change) so the
 agent surfaces it instead of silently choosing it.
 
-<!-- To Remove: START — sample ladder for reference. Delete this whole block once you've written your real ladders below (bootstrap-project-profile removes it). -->
+<!-- To Remove: START — sample ladder for reference. Delete this whole block once you've written your real ladders below (aikit-bootstrap-project-profile removes it). -->
 ## Example (replace with your own)
 
 > **Add data access** — for reading/writing persisted data. Stop at the first match.
