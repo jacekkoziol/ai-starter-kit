@@ -9,6 +9,20 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.2.4] — 2026-07-01
+
+### Fixed
+
+- **`aikit-update-kit` no longer clobbers a project's custom README index rows.** Step 3 previously
+  listed the `skills/` / `reference/` / `templates/` layer-guide `README.md`s as "safe to overwrite",
+  which would delete the `## Index` rows (and curated descriptions) a downstream project adds for its
+  own skills/docs/templates. Those three READMEs are now removed from the blanket-overwrite list and get
+  a dedicated reconcile step: take the new version's prose + kit rows, then carry over every project row
+  unchanged (a row is project-authored when the new snapshot doesn't ship its target; for skills, the
+  missing `aikit-` prefix is the tell). Added a matching Verify item and anti-pattern.
+- **`aikit-project-profile-sync` now checks `templates` index↔folder parity** too (previously `skills` +
+  `reference` only), completing the backstop that catches any index row lost during an update.
+
 ## [1.2.3] — 2026-07-01
 
 ### Changed

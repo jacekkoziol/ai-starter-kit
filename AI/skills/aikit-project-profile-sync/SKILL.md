@@ -106,6 +106,8 @@ Run all checks; **collect every failure with its specifics — don't stop at the
   in `AI/skills/README.md` — every SKILL.md has a row and every row points at a real SKILL.md.
 - **Index ↔ folder parity (reference):** same, `AI/reference/*.md` (excluding `README.md`) against
   `AI/reference/README.md`.
+- **Index ↔ folder parity (templates):** same, `AI/templates/*` (excluding `README.md`) against
+  `AI/templates/README.md` — every template file has a row and every row points at a real file.
 
 ### 3. DRIFT dimension — content alignment (only meaningful once health passes)
 
