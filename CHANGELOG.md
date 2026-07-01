@@ -9,6 +9,21 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.8.0] — 2026-07-01
+
+### Added
+
+- **`AGENT-INIT.md` — one-command, agent-driven kit setup.** A new agent-facing installer at the top of
+  `AI/`: point any agent at it on first adoption and it identifies its runtime, wires the root pointer
+  (Setup step 2) and the skills symlink (step 3), then tells the user to reload and run
+  `aikit-project-profile-bootstrap`. README §Setup gains a "Fastest path" pointer to it; the manual
+  steps remain the fallback and the human explanation of what it wires.
+- **Explicit multi-runtime skill-discovery wiring.** README step 3 and `AGENT-INIT.md` now name Codex
+  (`.agents/skills`), Gemini CLI (`.gemini/skills` / `.agents/skills`), Cursor (`.cursor/skills`), and
+  GitHub Copilot (`.github/skills` / `.agents/skills`) alongside Claude Code — all share the same
+  `SKILL.md` Agent-Skills standard the kit ships. `.agents/skills` is called out as a shared alias
+  several accept, and the docs flag that only Codex documents symlink-following (verify, else fall back).
+
 ## [1.7.1] — 2026-07-01
 
 ### Changed
