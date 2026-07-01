@@ -60,6 +60,7 @@ AI/                       # THE KIT — this is what gets copied into other repo
   reference/              #   descriptive project facts (the "what") + index
   skills/                 #   repeatable procedures (folder-per-skill; kit-shipped: aikit-{name}/SKILL.md) + index
   templates/              #   literal copy-me scaffolds + index
+README.md                 # human front-door for the repo (quickstart + doc routing) — home-only, never vendored
 MAINTAINING.md            # this file — stays OUTSIDE AI/, never vendored downstream
 ai-progress/              # runtime work-tracking, created per project at the root — not part of the kit
 ```
