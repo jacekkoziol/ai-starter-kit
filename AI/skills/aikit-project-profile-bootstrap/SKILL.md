@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders). On first adoption it also wires skill discovery (links AI/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable. Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
+description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders, project-specific rules). On first adoption it also wires skill discovery (links AI/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable. Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
@@ -144,6 +144,14 @@ user**; never assume. Keep the stop-if-missing rule.
 - Then **delete the `<!-- To Remove -->` sample-ladder block** — like the Role examples, it's a
   reference sample, not project content.
 
+### 7.5 Harvest project-specific rules → `PROJECT.md` Project-specific rules
+
+Free-form house rules that don't fit the other sections (a formatter-before-commit rule, a
+feature-flag mandate, a required-test rule). Harvest them from the instruction sources read in step 2
+(`CONTRIBUTING`, agent docs, ADRs) and **ask the user** for any others. Add each as a bullet,
+**keeping the placeholder line** so the section always invites the next rule. These are the owner's
+directives, not inferred — add none if there are none rather than inventing rules.
+
 ### 8. Fill the files
 
 Replace each placeholder with its evidence-backed value, preserving structure, guidance blockquotes,
@@ -191,6 +199,7 @@ with **no** skill mechanism there's nothing to wire: a skill is invoked by point
       (filling a slot does **not** remove it) — the inventory `aikit-project-profile-sync` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
+- [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
 
 ## Anti-patterns
 

@@ -316,4 +316,7 @@ real friction. Each `reference/` doc routes to its `skill`; each `skill` copies 
 **2. Tune the rules.** Every section in `AGENT-INSTRUCTIONS.md` is editable. Tighten the gate (e.g.
 "never push without explicit approval"), adjust the phase-ordering sequence to your domain, or add
 anti-patterns you keep hitting. Mark the ones that cause silent failures as **HARD RULE** so they read
-as non-negotiable.
+as non-negotiable. **But note:** editing the manual forks the portable layer — `aikit-update-kit`
+replaces it wholesale, so your edits must be re-applied on each update. Reserve manual edits for genuine
+changes to the *methodology*; put anything **project-specific** in `PROJECT.md` → "Project-specific
+rules" (or a `reference/` doc), which the manual already loads each session and the updater preserves.

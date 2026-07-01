@@ -1,14 +1,16 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 1.2.5
+> **Kit version:** 1.3.0
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
 >
 > **At session start, also read [`PROJECT.md`](PROJECT.md)** — the project's **Role** (your
-> persona/mandate), stack, build/test/lint commands, conventions, and locked decisions — and skim
-> [`reference/`](reference/) for the doc that
-> owns whatever you're about to touch. This manual is the "how"; those are the "what." See
+> persona/mandate), stack, build/test/lint commands, conventions, locked decisions, and
+> **project-specific rules** — and skim [`reference/`](reference/) for the doc that owns whatever
+> you're about to touch. This manual is the "how"; those are the "what." When the user gives you a
+> durable, project-wide rule or preference, **record it in [`PROJECT.md`](PROJECT.md)**
+> ("Project-specific rules") so it survives beyond this session — not in this manual (§8). See
 > [README.md](README.md) for the folder map and how it all fits.
 
 ---
@@ -461,6 +463,8 @@ A checklist to run before you say "done":
 - ❌ Committing when the user didn't ask and no policy authorized it — or treating your summary as
   permission. Silence isn't approval (§2.6).
 - ❌ Reformatting or refactoring untouched code as an uninvited side effect.
+- ❌ Recording project-specific rules in this manual (`AGENT-INSTRUCTIONS.md`) — it's the portable layer,
+  replaced on kit update; project rules belong in `PROJECT.md` ("Project-specific rules") or `reference/`.
 
 ---
 

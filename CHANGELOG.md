@@ -9,6 +9,27 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.3.0] — 2026-07-01
+
+### Added
+
+- **`PROJECT.md` "Project-specific rules" section** — a `fill:user` catch-all home for free-form house
+  rules that don't fit the structured sections (e.g. "feature-flag all new UI", "run the formatter
+  before every commit"). Because it lives in `PROJECT.md`, it's loaded via the manual's session-start
+  read-pointer and preserved by `aikit-update-kit`, so project instructions survive kit updates. Wired
+  into `aikit-project-profile-bootstrap` (new harvest step 7.5 + Verify item + frontmatter description).
+- **Capture directive in the manual header** — it now lists "project-specific rules" among what
+  `PROJECT.md` holds and instructs the agent to **record durable, project-wide rules/preferences in
+  `PROJECT.md`** so they persist across sessions. The positive counterpart to the §8 guardrail — it's
+  what makes the new section actually get populated instead of sitting empty.
+
+### Changed
+
+- **Guardrail against losing project rules on update.** Added an §8 anti-pattern (project-specific
+  rules belong in `PROJECT.md` / `reference/`, not the portable manual) and a caveat in the README
+  "How to extend → Tune the rules" note, which previously invited manual edits without flagging that
+  `aikit-update-kit` overwrites them.
+
 ## [1.2.5] — 2026-07-01
 
 ### Changed

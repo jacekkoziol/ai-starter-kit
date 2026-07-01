@@ -94,6 +94,20 @@ Settled architectural choices the agent should treat as given (don't relitigate)
 
 - TODO.  <!-- fill:user -->
 
+## Project-specific rules
+
+> Free-form house rules the agent must follow on THIS project that don't fit the sections above —
+> e.g. "feature-flag all new UI", "run the formatter before every commit", "every new endpoint needs
+> an integration test". Keep them short; move anything detailed into a [reference/](reference/) doc and
+> link it. **Record them here, never in [AGENT-INSTRUCTIONS.md](AGENT-INSTRUCTIONS.md)** — the manual is
+> replaced wholesale by `aikit-update-kit`, while this file is preserved. **Append-only:** new rules
+> surface over time, so keep this section and the placeholder below even once filled — it's their
+> durable, update-safe home.
+
+<!-- Add each rule as its own bullet as it emerges; keep the placeholder bullet so there's always a spot. -->
+
+- _Add project-specific rules here as they emerge._  <!-- fill:user -->
+
 ## Glossary (optional)
 
 - **TODO term** — TODO meaning.
