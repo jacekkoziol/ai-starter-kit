@@ -9,6 +9,17 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.2.3] — 2026-07-01
+
+### Changed
+
+- **Documented per-skill resource bundling** in `skills/README.md` "Format & discovery". The open
+  Agent Skills format lets a skill folder carry its own `scripts/` / `references/` / `assets/`
+  (referenced one level deep, loaded on demand); the kit's guidance previously described only the
+  shared top-level `reference/`. Added the shared-vs-skill-local rule: co-locate a resource owned by
+  one skill; keep shared project facts in top-level `reference/` (only those get an index row, a
+  `fill:` marker, and `aikit-project-profile-sync` re-validation). Docs-only — no structural change.
+
 ## [1.2.2] — 2026-07-01
 
 ### Changed

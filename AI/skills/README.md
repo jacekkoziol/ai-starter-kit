@@ -18,6 +18,14 @@ open [Agent Skills](https://agentskills.io) format that agent runtimes **auto-di
 across the many agents that support it (e.g. Claude Code exposes each as a `/{name}` command). Start
 from [`_SKILL-TEMPLATE.md`](_SKILL-TEMPLATE.md) — copy it to `skills/{name}/SKILL.md` and fill it in.
 
+A skill folder can also **bundle its own resources** — `scripts/`, `references/`, `assets/`, or any
+files, referenced one level deep from `SKILL.md` and loaded only when the skill runs. Co-locate a
+resource here when it's **owned by one skill** (a script it runs, a scaffold it stamps, a lookup table
+only it reads). Keep **shared** project facts — used by more than one skill, or part of the project
+profile — in the top-level [`reference/`](../reference/) instead: only those get an index row, a
+`fill:` marker, and [`aikit-project-profile-sync`](aikit-project-profile-sync/SKILL.md)
+re-validation; a co-located file gets none of that.
+
 A good skill: names its triggers, lists the reference it assumes, gives numbered steps, ends with a
 verification checklist and the anti-patterns to avoid.
 
