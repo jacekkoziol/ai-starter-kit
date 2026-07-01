@@ -9,6 +9,18 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.2.2] — 2026-07-01
+
+### Changed
+
+- **Aligned skill-authoring guidance with the open [Agent Skills](https://agentskills.io) spec** —
+  no structural change; the kit's folder-per-skill + `SKILL.md` layout was already fully conformant.
+  Two point-of-use clarifications: `skills/_SKILL-TEMPLATE.md` now states the runtime's `name`
+  constraints (lowercase alphanumerics + hyphens, no leading/trailing/doubled hyphen, ≤64 chars — a
+  name that breaks this is silently skipped at discovery), closing a gap where an author could pick an
+  invalid name; and `skills/README.md` "Format & discovery" now names the open standard and notes the
+  format is portable across the many agents that support it.
+
 ## [1.2.1] — 2026-06-30
 
 ### Changed

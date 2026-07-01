@@ -13,9 +13,10 @@ already covers the task, extend it rather than add a near-duplicate (reuse befor
 
 ## Format & discovery
 
-One folder per skill: `skills/{name}/SKILL.md`. This matches the convention agent runtimes use to
-**auto-discover** skills (e.g. Claude Code exposes each as a `/{name}` command). Start from
-[`_SKILL-TEMPLATE.md`](_SKILL-TEMPLATE.md) — copy it to `skills/{name}/SKILL.md` and fill it in.
+One folder per skill: `skills/{name}/SKILL.md` with `name` + `description` frontmatter. This is the
+open [Agent Skills](https://agentskills.io) format that agent runtimes **auto-discover** — portable
+across the many agents that support it (e.g. Claude Code exposes each as a `/{name}` command). Start
+from [`_SKILL-TEMPLATE.md`](_SKILL-TEMPLATE.md) — copy it to `skills/{name}/SKILL.md` and fill it in.
 
 A good skill: names its triggers, lists the reference it assumes, gives numbered steps, ends with a
 verification checklist and the anti-patterns to avoid.

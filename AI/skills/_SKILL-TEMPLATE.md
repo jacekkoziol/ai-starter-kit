@@ -8,7 +8,9 @@ description: One line — what this does and the trigger that should invoke it.
 > **Before copying,** confirm no existing skill already covers this task (see
 > [When to add one](../README.md)) and extend that one if it does. Then copy this file to
 > `skills/{name}/SKILL.md`, set the frontmatter `name:` to that same `{name}` — the folder name *is*
-> the invocable command, so the two must match — and fill it in. Finally, add a row to
+> the invocable command, so the two must match — and fill it in. (`{name}` must be lowercase
+> alphanumerics and hyphens — no leading, trailing, or doubled hyphen — and ≤64 chars; a name that
+> breaks this is silently skipped at discovery.) Finally, add a row to
 > [the skills index](../README.md). (The relative links below are written for that copied location —
 > `skills/{name}/SKILL.md` — so they resolve once copied.)
 
