@@ -5,6 +5,10 @@ description: Upgrade this project's vendored AI/ kit to a newer version — repl
 
 # Update the vendored kit
 
+**Canonical home:** <https://github.com/jacekkoziol/ai-starter-kit> — the built-in default update
+source. **Forking the kit? Change this one line** (per-project overrides live in `PROJECT.md` → "Kit
+source").
+
 > Pulls a newer snapshot of the `AI/` kit into a project that already uses it, **without losing the
 > project's answers**. The methodology files (the manual, skills, templates, layer guides) are
 > replaced; the project's *filled* profile (`PROJECT.md`, `reference/*.md`) is reconciled, not
@@ -48,8 +52,8 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
      branches and `main` don't capture untracked files. Take a **physical copy** as the restore point
      (`cp -r AI AI.bak` **outside the repo**, e.g. a scratch dir, so it's never committed) before
      overwriting; review against it in step 8 and delete it once satisfied.
-2. **Get the new snapshot — resolve the source first.** The kit's **canonical home** is
-   <https://github.com/jacekkoziol/ai-starter-kit> (the built-in default). Read `PROJECT.md` → "Kit
+2. **Get the new snapshot — resolve the source first.** The kit's **canonical home** (top of this file)
+   is the built-in default. Read `PROJECT.md` → "Kit
    source": if it names a project override (a fork, mirror, or local path), **ask which to use** — the
    override or the canonical home. If it's `default` (or absent), use the canonical home automatically.
    If neither resolves (e.g. a fork that blanked its home, and no override), **ask the user** — don't

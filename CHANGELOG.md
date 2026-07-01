@@ -9,6 +9,16 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.7.1] — 2026-07-01
+
+### Changed
+
+- **Canonical-home URL hoisted to a prominent callout in `aikit-update-kit`.** The kit's default update
+  source now sits in a labeled **Canonical home** line directly under the skill's title (with a
+  "forking? change this one line" cue), instead of being buried in Procedure step 2. Step 2 now
+  references it, so the URL stays single-sourced within the file. No behavior change — per-project
+  overrides still live in `PROJECT.md` → "Kit source".
+
 ## [1.7.0] — 2026-07-01
 
 ### Added
