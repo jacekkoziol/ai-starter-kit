@@ -9,6 +9,18 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.5.0] — 2026-07-01
+
+### Added
+
+- **Accessibility (WCAG 2.2 / ARIA) as project-layer guidance** — kept out of the stack-agnostic
+  manual and skills because it's web-specific. Two additions: (1) `PROJECT.md` "Project-specific rules"
+  now lists `"all UI meets WCAG 2.2 AA + ARIA APG"` among its example house rules; (2)
+  `aikit-project-profile-bootstrap` now **proposes** an accessibility rule — conform to WCAG 2.2 level
+  AA and follow the ARIA Authoring Practices ([APG](https://www.w3.org/WAI/ARIA/apg/patterns/)) — when
+  it detects a UI-producing stack (silent for backend/CLI/infra), guarded by a Verify item. Detail can
+  grow into a project-authored `reference/accessibility.md`.
+
 ## [1.4.2] — 2026-07-01
 
 ### Changed

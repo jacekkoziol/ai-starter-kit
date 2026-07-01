@@ -152,6 +152,12 @@ feature-flag mandate, a required-test rule). Harvest them from the instruction s
 **keeping the placeholder line** so the section always invites the next rule. These are the owner's
 directives, not inferred — add none if there are none rather than inventing rules.
 
+**If the stack produces web UI** (HTML templates, a frontend framework, a component library — from
+step 3), **propose** an accessibility rule for the user to confirm: conform to
+[WCAG 2.2](https://www.w3.org/WAI/standards-guidelines/wcag/) level AA and follow the ARIA Authoring
+Practices ([APG](https://www.w3.org/WAI/ARIA/apg/patterns/)) patterns. On acceptance add it as a rule
+bullet; detail can grow into a project-authored `reference/accessibility.md`. Skip it for non-UI stacks.
+
 ### 8. Fill the files
 
 Replace each placeholder with its evidence-backed value, preserving structure, guidance blockquotes,
@@ -200,6 +206,7 @@ with **no** skill mechanism there's nothing to wire: a skill is invoked by point
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
 - [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
+- [ ] For a UI-producing stack, an accessibility rule (WCAG 2.2 AA + ARIA APG) was **proposed** at the gate; skipped for non-UI stacks.
 
 ## Anti-patterns
 

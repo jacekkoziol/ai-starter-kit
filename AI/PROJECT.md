@@ -97,8 +97,8 @@ Settled architectural choices the agent should treat as given (don't relitigate)
 ## Project-specific rules
 
 > Free-form house rules the agent must follow on THIS project that don't fit the sections above —
-> e.g. "feature-flag all new UI", "run the formatter before every commit", "every new endpoint needs
-> an integration test". Keep them short; move anything detailed into a [reference/](reference/) doc and
+> e.g. "all UI meets WCAG 2.2 AA + ARIA APG", "feature-flag all new UI", "run the formatter before
+> every commit". Keep them short; move anything detailed into a [reference/](reference/) doc and
 > link it. **Record them here, never in [AGENT-INSTRUCTIONS.md](AGENT-INSTRUCTIONS.md)** — the manual is
 > replaced wholesale by `aikit-update-kit`, while this file is preserved. **Append-only:** new rules
 > surface over time, so keep this section and the placeholder below even once filled — it's their
