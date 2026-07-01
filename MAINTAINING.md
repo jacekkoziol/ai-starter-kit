@@ -1,15 +1,15 @@
 # Maintaining the AI kit
 
-> Instructions for an AI agent (or human) **changing the `AI/` kit itself** — adding or editing rules,
+> Instructions for an AI agent (or human) **changing the `ai-kit/` kit itself** — adding or editing rules,
 > fields, skills, reference docs, or templates.
 >
-> **This file is not part of the kit.** It lives *outside* `AI/` on purpose: the `AI/` folder gets
+> **This file is not part of the kit.** It lives *outside* `ai-kit/` on purpose: the `ai-kit/` folder gets
 > vendored into other repos, and this guide must never ride along — it belongs only in the kit's home
-> repo (sibling to `AI/`). It's also distinct from [`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md),
+> repo (sibling to `ai-kit/`). It's also distinct from [`ai-kit/AGENT-INSTRUCTIONS.md`](ai-kit/AGENT-INSTRUCTIONS.md),
 > which tells an agent how to *use* the kit on a project; this tells you how to *evolve* the kit.
 >
-> **Before changing anything,** read [`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md) and
-> [`AI/README.md`](AI/README.md) so you know the current shape.
+> **Before changing anything,** read [`ai-kit/AGENT-INSTRUCTIONS.md`](ai-kit/AGENT-INSTRUCTIONS.md) and
+> [`ai-kit/README.md`](ai-kit/README.md) so you know the current shape.
 
 ## Session-start handshake
 
@@ -20,7 +20,7 @@ never fabricate it:
 `✅ MAINTAINING.md loaded — maintaining the AI kit; honoring its prime directives & invariants.`
 
 Emit it once per session, in every response mode. (Mirrors the kit's own session-start handshake in
-[`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md), which confirms the *vendored* kit loaded — this one
+[`ai-kit/AGENT-INSTRUCTIONS.md`](ai-kit/AGENT-INSTRUCTIONS.md), which confirms the *vendored* kit loaded — this one
 confirms the *maintenance* guide loaded.)
 
 **Periodic-check nudge.** After the handshake, read the ledger in
@@ -63,7 +63,7 @@ last-run date only *after* running one) live in [`maintenance/`](maintenance/REA
 ## Layout
 
 ```
-AI/                       # THE KIT — this is what gets copied into other repos
+ai-kit/                       # THE KIT — this is what gets copied into other repos
   AGENT-INSTRUCTIONS.md   #   portable behavioral manual (§0–§9) — stack/tool-agnostic
   AGENT-INIT.md           #   one-time agent-run installer: wire root pointer + skill discovery per runtime
   PROJECT.md              #   per-project profile + knobs (Role, Response economy, Commands,
@@ -73,7 +73,7 @@ AI/                       # THE KIT — this is what gets copied into other repo
   skills/                 #   repeatable procedures (folder-per-skill; kit-shipped: aikit-{name}/SKILL.md) + index
   templates/              #   literal copy-me scaffolds + index
 README.md                 # human front-door for the repo (quickstart + doc routing) — home-only, never vendored
-MAINTAINING.md            # this file — stays OUTSIDE AI/, never vendored downstream
+MAINTAINING.md            # this file — stays OUTSIDE ai-kit/, never vendored downstream
 maintenance/              # home-only periodic chores (time-triggered upkeep) — never vendored
   README.md               #   folder guide + the last-run ledger (task · cadence · last run)
   verify-runtime-wiring.md #  re-verify AGENT-INIT/README runtime facts vs current tool docs
@@ -82,7 +82,7 @@ ai-progress/              # runtime work-tracking, created per project at the ro
 
 ## The `fill:` marker convention
 
-Every **managed slot** in `AI/PROJECT.md` and `AI/reference/*.md` — a value the project owner or the
+Every **managed slot** in `ai-kit/PROJECT.md` and `ai-kit/reference/*.md` — a value the project owner or the
 agent must supply — carries a persistent HTML-comment marker naming **who fills it** and, for
 evidence-backed ones, **the source to re-check it against**:
 
@@ -134,19 +134,19 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 | **New scaffold** | `templates/{file}` **+** `templates/README.md` index. |
 | **New manual section** | Append as the next `§N` — **never renumber** existing sections. |
 | **Renamed / added / removed file** | The README **folder map** and the **"What's in here"** table. |
-| **Any change to vendored `AI/` content** | Bump the **Kit version** in `AGENT-INSTRUCTIONS.md`'s header per semver **+** add a dated `CHANGELOG.md` entry (see §"Versioning & releases"). Changes touching only home-only files (this guide, `CHANGELOG.md`) don't bump. |
+| **Any change to vendored `ai-kit/` content** | Bump the **Kit version** in `AGENT-INSTRUCTIONS.md`'s header per semver **+** add a dated `CHANGELOG.md` entry (see §"Versioning & releases"). Changes touching only home-only files (this guide, `CHANGELOG.md`) don't bump. |
 
 The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `aikit-project-profile-bootstrap`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `aikit-project-profile-sync` can re-validate it, and a Verify item guards it.
 
 ## Versioning & releases
 
 The kit follows **Semantic Versioning** (`MAJOR.MINOR.PATCH`). The version is **single-sourced** in the
-**Kit version** line at the top of [`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md) — so it rides
-*inside* the vendored `AI/` folder and a downstream copy always records which snapshot it has. The §0
+**Kit version** line at the top of [`ai-kit/AGENT-INSTRUCTIONS.md`](ai-kit/AGENT-INSTRUCTIONS.md) — so it rides
+*inside* the vendored `ai-kit/` folder and a downstream copy always records which snapshot it has. The §0
 session-start handshake echoes it (`✅ AI kit v1.0.0 loaded — …`), surfacing the live version every
 session.
 
-**Bump on every change that alters vendored `AI/` content,** sized by impact:
+**Bump on every change that alters vendored `ai-kit/` content,** sized by impact:
 
 - **MAJOR** — breaking: renumbered manual sections, a removed/renamed knob or fillable field, or
   anything that forces a downstream re-bootstrap or breaks a `§N` reference.
@@ -175,12 +175,12 @@ The manual's Kit version and the latest `CHANGELOG.md` entry must always match �
 - **All relative links resolve**, and the README folder map matches the real tree.
 - **No project / stack / tool terms** in the portable files (`AGENT-INSTRUCTIONS.md`, the README's
   generic parts, the reference/skills/templates guides).
-- **Nothing under `AI/` may reference `MAINTAINING.md` or `CHANGELOG.md`** — both are home-only and never
+- **Nothing under `ai-kit/` may reference `MAINTAINING.md` or `CHANGELOG.md`** — both are home-only and never
   vendor, so the reference would dangle in every downstream repo (consistency-check #8 guards this).
-  Downstream "how to extend" lives in the vendored `AI/README.md`; `MAINTAINING.md` is the home-only "how
+  Downstream "how to extend" lives in the vendored `ai-kit/README.md`; `MAINTAINING.md` is the home-only "how
   to evolve" guide and `CHANGELOG.md` the home-only release history.
 - **The Kit version is single-sourced** in `AGENT-INSTRUCTIONS.md`'s header and **matches the latest
-  `CHANGELOG.md` entry** (consistency-check #9). Bump it on every change to vendored `AI/` content per
+  `CHANGELOG.md` entry** (consistency-check #9). Bump it on every change to vendored `ai-kit/` content per
   semver; home-only changes don't bump — see §"Versioning & releases".
 - **`<!-- To Remove -->` blocks are disposable examples** (Role samples in `PROJECT.md`, the sample
   ladder in `reference/`) — and the only sanctioned home for concrete stack terms. `aikit-project-profile-bootstrap`
@@ -199,36 +199,36 @@ The manual's Kit version and the latest `CHANGELOG.md` entry must always match �
 #    (concrete examples allowed only inside <!-- To Remove --> blocks; stripped here before grep.
 #     ^-anchored so prose that mentions the markers can't start a strip; per-file (\;) so a range
 #     can never bleed across files.)
-find AI -name '*.md' -exec sed '/^<!-- To Remove: START/,/^<!-- To Remove: End/d' {} \; \
+find ai-kit -name '*.md' -exec sed '/^<!-- To Remove: START/,/^<!-- To Remove: End/d' {} \; \
   | grep -niE "wordpress|wp-content|wp-config|chisel|gutenberg|timber|theme\.json"  # expect: none
 
 # 2. Manual sections sequential, none renumbered
-grep -nE "^## [0-9]" AI/AGENT-INSTRUCTIONS.md                                     # expect: 0..9 in order
+grep -nE "^## [0-9]" ai-kit/AGENT-INSTRUCTIONS.md                                     # expect: 0..9 in order
 
 # 3. Every cross-reference still resolves (eyeball the §N you touched)
-grep -rn "§[0-9]" AI/
+grep -rn "§[0-9]" ai-kit/
 
 # 4. Mode names consistent
-grep -rnoE "\`(standard|concise|terse)\`" AI/                                     # expect: only these three
+grep -rnoE "\`(standard|concise|terse)\`" ai-kit/                                     # expect: only these three
 
 # 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding).
 #    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them.)
-grep -rl "TODO" AI/ | grep -vE "README|_SKILL-TEMPLATE|templates/|aikit-project-profile-bootstrap|aikit-project-profile-sync" # expect: PROJECT.md + reference/*
+grep -rl "TODO" ai-kit/ | grep -vE "README|_SKILL-TEMPLATE|templates/|aikit-project-profile-bootstrap|aikit-project-profile-sync" # expect: PROJECT.md + reference/*
 
 # 6. Folder map matches reality
-find AI -maxdepth 2 -type f | sort                                                # compare to README's folder map
+find ai-kit -maxdepth 2 -type f | sort                                                # compare to README's folder map
 
 # 7. fill: markers in the managed files are well-formed (see §"The `fill:` marker convention")
-grep -rnE "<!-- fill:" AI/PROJECT.md AI/reference/*.md | grep -vE "<!-- fill:user -->|<!-- fill:auto · "  # expect: none
+grep -rnE "<!-- fill:" ai-kit/PROJECT.md ai-kit/reference/*.md | grep -vE "<!-- fill:user -->|<!-- fill:auto · "  # expect: none
 #    (every marker is exactly one of the two forms — `auto` always carries the ` · ` evidence clause,
 #    `user` never. Completeness — no managed slot left untagged — is guarded by bootstrap's
 #    marker-preservation Verify item, not by grep: a missing marker matches nothing.)
 
 # 8. Vendored files must not reference home-only guides (the ref would dangle downstream)
-grep -rnE "MAINTAINING|CHANGELOG" AI/                                             # expect: none (home-only — never vendor)
+grep -rnE "MAINTAINING|CHANGELOG" ai-kit/                                             # expect: none (home-only — never vendor)
 
 # 9. Kit version single-sourced and in sync with the changelog
-manual_v=$(grep -oE "Kit version:\*\* [0-9]+\.[0-9]+\.[0-9]+" AI/AGENT-INSTRUCTIONS.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+manual_v=$(grep -oE "Kit version:\*\* [0-9]+\.[0-9]+\.[0-9]+" ai-kit/AGENT-INSTRUCTIONS.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
 log_v=$(grep -oE "^## \[[0-9]+\.[0-9]+\.[0-9]+\]" CHANGELOG.md | head -1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
 [ "$manual_v" = "$log_v" ] && echo "in sync: $manual_v" || echo "DRIFT: manual=$manual_v changelog=$log_v"  # expect: in sync
 ```
@@ -242,7 +242,7 @@ log_v=$(grep -oE "^## \[[0-9]+\.[0-9]+\.[0-9]+\]" CHANGELOG.md | head -1 | grep 
 - ❌ Renumbering manual sections after inserting one (insert at the end instead).
 - ❌ Letting the README folder map drift from the real files.
 - ❌ Weakening a HARD RULE for the sake of brevity.
-- ❌ Putting maintenance/meta content inside `AI/` (it would ship into every downstream project).
-- ❌ Changing vendored `AI/` content without bumping the Kit version + adding a `CHANGELOG.md` entry.
-- ❌ Referencing `CHANGELOG.md` (or `MAINTAINING.md`) from inside `AI/` — home-only, dangles downstream.
+- ❌ Putting maintenance/meta content inside `ai-kit/` (it would ship into every downstream project).
+- ❌ Changing vendored `ai-kit/` content without bumping the Kit version + adding a `CHANGELOG.md` entry.
+- ❌ Referencing `CHANGELOG.md` (or `MAINTAINING.md`) from inside `ai-kit/` — home-only, dangles downstream.
 - ❌ Committing or pushing a change without first presenting the review / commit / commit-and-push options (directive #7) — silence isn't approval.

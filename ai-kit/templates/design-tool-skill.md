@@ -1,4 +1,4 @@
-<!-- TEMPLATE — copy to <your-repo>/AI/skills/{tool}-to-code/SKILL.md and fill it in.
+<!-- TEMPLATE — copy to <your-repo>/ai-kit/skills/{tool}-to-code/SKILL.md and fill it in.
      This scaffolds a PROJECT-AUTHORED (unprefixed) skill that wires ONE specific design tool to the
      kit's stack-agnostic `aikit-implement-from-design`. Tool/stack-specific terms ARE fine in the
      copy you make — it lives in YOUR project, not the portable kit. The relative links below are
@@ -23,7 +23,7 @@ description: One line — translate {tool} designs into this project's code; nam
 ## Read first
 
 - [`aikit-implement-from-design`](../aikit-implement-from-design/SKILL.md) — the generic design→code flow.
-- `AI/PROJECT.md` — this project's design-token + component locations and build/preview commands.
+- `ai-kit/PROJECT.md` — this project's design-token + component locations and build/preview commands.
 
 ## Procedure
 

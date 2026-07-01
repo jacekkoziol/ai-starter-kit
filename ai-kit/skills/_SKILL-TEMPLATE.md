@@ -30,7 +30,7 @@ description: One line — what this does and the trigger that should invoke it.
 
 ## Verify
 
-- [ ] TODO — how to confirm it worked (the build/test/lint command from `AI/PROJECT.md`).
+- [ ] TODO — how to confirm it worked (the build/test/lint command from `ai-kit/PROJECT.md`).
 
 ## Anti-patterns
 

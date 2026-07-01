@@ -1,17 +1,17 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders, project-specific rules). On first adoption it also wires skill discovery (links AI/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
+description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders, project-specific rules). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
 
-Scans the repository and fills the `TODO` placeholders in the `AI/` kit — turning the blank
+Scans the repository and fills the `TODO` placeholders in the `ai-kit/` kit — turning the blank
 [`PROJECT.md`](../../PROJECT.md) and [`reference/`](../../reference/) scaffolds into a profile that
 reflects *this* codebase, backed by evidence from the repo (not memory).
 
 ## When to use
 
-- **First adoption** — you've dropped the `AI/` kit into a project and the profile/reference docs are
+- **First adoption** — you've dropped the `ai-kit/` kit into a project and the profile/reference docs are
   still full of `TODO`s.
 - **Refresh** — after a major stack, tooling, or layout change, to bring the docs back in sync.
 - Trigger phrases: "fill the TODOs", "bootstrap the project profile", "analyze the codebase and
@@ -57,7 +57,7 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 Grep the kit so you fill exactly what's blank (robust to future doc changes):
 
 ```bash
-grep -rn "TODO" AI/
+grep -rn "TODO" ai-kit/
 ```
 
 (Optional, per AGENT-INSTRUCTIONS §4: log this as `ai-progress/task-bootstrap-profile.md`.)
@@ -173,28 +173,28 @@ user's corrections to the docs, then finish.
 ### 10. Confirm the kit is wired
 
 Check the repo's root agent-entry file (`CLAUDE.md` / `AGENTS.md` / `.cursorrules` /
-`.github/copilot-instructions.md`) for a pointer to `AI/AGENT-INSTRUCTIONS.md`. If none exists or the
+`.github/copilot-instructions.md`) for a pointer to `ai-kit/AGENT-INSTRUCTIONS.md`. If none exists or the
 pointer is missing, tell the user to add the line — *"For how to approach any coding task, follow
-`AI/AGENT-INSTRUCTIONS.md`."* (README adoption step 2). Without it, no agent auto-loads the kit and the
+`ai-kit/AGENT-INSTRUCTIONS.md`."* (README adoption step 2). Without it, no agent auto-loads the kit and the
 methodology is never used.
 
 ### 11. Wire skill discovery (so the kit's skills are invocable)
 
-Make `AI/skills/` discoverable by the agent runtime. Most runtimes auto-discover skills only from
-**their own** directory (e.g. Claude Code from `.claude/skills/`), not from `AI/skills/`, so the
+Make `ai-kit/skills/` discoverable by the agent runtime. Most runtimes auto-discover skills only from
+**their own** directory (e.g. Claude Code from `.claude/skills/`), not from `ai-kit/skills/`, so the
 `/aikit-*` commands don't exist until it's wired in. Run (or offer to run) the symlink command in
-**README adoption step 3** — for Claude Code, one whole-folder link (`.claude/skills` → `AI/skills`)
+**README adoption step 3** — for Claude Code, one whole-folder link (`.claude/skills` → `ai-kit/skills`)
 makes every current and future skill resolve — then have the user commit it. Mind the guard: if a real
 `.claude/skills/` already exists, use the per-skill fallback instead of clobbering it. For a runtime
 with **no** skill mechanism there's nothing to wire: a skill is invoked by pointing the agent at its
-`AI/skills/<name>/SKILL.md`.
+`ai-kit/skills/<name>/SKILL.md`.
 
 ### 12. Set kit integration — config visibility + update source
 
 **Config visibility:** ask whether the kit should be **shared** (committed & pushed with the repo — the
 default) or **local-only** (kept on this machine, not pushed). Record the answer in `PROJECT.md` →
 "Config visibility". If **local-only**, add the kit's paths to `.git/info/exclude` (the per-clone ignore
-that's never committed) — `AI/`, `ai-progress/`, and the root pointer file **only if it was created
+that's never committed) — `ai-kit/`, `ai-progress/`, and the root pointer file **only if it was created
 solely for the kit** (leave it tracked if it also holds team content). This works only while those paths
 are **untracked**, so do it before the kit is committed (else `git rm --cached -r` them first). For a
 shared kit, do nothing here — it's committed normally in README step 6.
@@ -204,23 +204,23 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
 
 ## Verify
 
-- [ ] `grep -rn "TODO" AI/` shows only intentionally-unresolved placeholders (each annotated "confirm").
+- [ ] `grep -rn "TODO" ai-kit/` shows only intentionally-unresolved placeholders (each annotated "confirm").
 - [ ] Every command in `PROJECT.md` exists **verbatim** in `package.json` / `Makefile` / CI.
 - [ ] Every path referenced in `file-locations.md` actually exists in the repo.
 - [ ] Guidance blockquotes + the generic-vs-project framing + HARD RULE markers are intact in each file.
 - [ ] Ask the user to confirm the command table runs — don't assume (AGENT-INSTRUCTIONS §7).
 - [ ] `PROJECT.md`'s `## Role` is filled (or annotated for confirmation) — not left blank.
-- [ ] No `<!-- To Remove -->` block remains in any `AI/` file (the Role examples + the sample ladder were deleted).
-- [ ] Root agent-entry file points at `AI/AGENT-INSTRUCTIONS.md` (or the user has been told to add it).
+- [ ] No `<!-- To Remove -->` block remains in any `ai-kit/` file (the Role examples + the sample ladder were deleted).
+- [ ] Root agent-entry file points at `ai-kit/AGENT-INSTRUCTIONS.md` (or the user has been told to add it).
 - [ ] The kit's skills resolve in the runtime (e.g. `/aikit-plan` in Claude Code), or the runtime has no
-      skill mechanism and skills are invoked by `AI/skills/<name>/SKILL.md` path.
+      skill mechanism and skills are invoked by `ai-kit/skills/<name>/SKILL.md` path.
 - [ ] Every managed slot still carries its `<!-- fill:user -->` / `<!-- fill:auto · «source» -->` marker
       (filling a slot does **not** remove it) — the inventory `aikit-project-profile-sync` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
 - [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
 - [ ] For a UI-producing stack, an accessibility rule (WCAG 2.2 AA + ARIA APG) was **proposed** at the gate; skipped for non-UI stacks.
-- [ ] Config visibility was **asked** and recorded in `PROJECT.md`; if local-only, `AI/` (+ `ai-progress/`, kit-only pointer) are in `.git/info/exclude` while still untracked.
+- [ ] Config visibility was **asked** and recorded in `PROJECT.md`; if local-only, `ai-kit/` (+ `ai-progress/`, kit-only pointer) are in `.git/info/exclude` while still untracked.
 - [ ] `PROJECT.md` "Kit source" is present (`default`, or a project override URL/path) for `aikit-update-kit`.
 
 ## Anti-patterns

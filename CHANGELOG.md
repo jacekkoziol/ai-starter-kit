@@ -1,20 +1,41 @@
 # Changelog
 
-All notable changes to the **AI kit** (the vendored `AI/` folder) are recorded here. This file is
+All notable changes to the **AI kit** (the vendored `ai-kit/` folder) are recorded here. This file is
 **home-only** — it lives beside [`MAINTAINING.md`](MAINTAINING.md) and never vendors downstream.
 
 The kit follows [Semantic Versioning](https://semver.org/): **MAJOR** = breaking (forces a downstream
 re-bootstrap or breaks a `§N` reference), **MINOR** = additive/backward-compatible, **PATCH** =
 wording/clarification/fixes. The canonical version is the **Kit version** line at the top of
-`AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
+`ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
+
+## [2.0.0] — 2026-07-01
+
+### Changed
+
+- **BREAKING — the kit folder is renamed `AI/` → `ai-kit/`.** The vendored folder now carries a
+  distinctive name so it can't collide with a host repo's own `AI/` directory — the same
+  collision-avoidance rationale behind the `aikit-` skill prefix, applied at the directory level. The
+  folder is self-documenting and mirrors the repo name (`ai-starter-kit`). Nothing about the kit's
+  contents or `§N` structure changed; only the mount point moved. The product is still called **"the AI
+  kit"** — only the folder name changed.
+
+  **Migration for a project already on a 1.x kit** (fastest path: re-run
+  [`AGENT-INIT.md`](ai-kit/AGENT-INIT.md) from the repo root, which re-derives all of this; or do it
+  manually):
+  1. Rename the vendored folder: `git mv AI ai-kit` (or a plain rename if it's untracked/local-only).
+  2. Re-point the **root pointer** file (`CLAUDE.md` / `AGENTS.md` / `.cursorrules` / …): the
+     `read AI/AGENT-INSTRUCTIONS.md` line becomes `read ai-kit/AGENT-INSTRUCTIONS.md`.
+  3. Re-point the **skill symlinks**: `.claude/skills` (and any `.agents/skills` / `.cursor/skills`)
+     now link to `../ai-kit/skills`.
+  4. **Local-only** installs: swap the `AI/` entries in `.git/info/exclude` for `ai-kit/`.
 
 ## [1.8.0] — 2026-07-01
 
 ### Added
 
 - **`AGENT-INIT.md` — one-command, agent-driven kit setup.** A new agent-facing installer at the top of
-  `AI/`: point any agent at it on first adoption and it identifies its runtime, wires the root pointer
+  `ai-kit/`: point any agent at it on first adoption and it identifies its runtime, wires the root pointer
   (Setup step 2) and the skills symlink (step 3), then tells the user to reload and run
   `aikit-project-profile-bootstrap`. README §Setup gains a "Fastest path" pointer to it; the manual
   steps remain the fallback and the human explanation of what it wires.
@@ -49,10 +70,10 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 
 ### Added
 
-- **Config visibility: shared or local-only.** A project can now keep the `AI/` kit on its machine
+- **Config visibility: shared or local-only.** A project can now keep the `ai-kit/` kit on its machine
   without pushing it. New `PROJECT.md` "Config visibility" field (`fill:user`, default `shared`) records
   the choice plus the reverse steps. `aikit-project-profile-bootstrap` gains a step that asks it and,
-  for **local-only**, adds `AI/` / `ai-progress/` / the kit-only root pointer to `.git/info/exclude`
+  for **local-only**, adds `ai-kit/` / `ai-progress/` / the kit-only root pointer to `.git/info/exclude`
   (the per-clone ignore that's never committed; effective only while untracked), guarded by a Verify
   item. README Setup step 6 notes the option.
 
@@ -61,7 +82,7 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 - **`aikit-update-kit` is now config-visibility-aware.** The v1.4.1 "branch off clean `main`" snapshot
   only protects a *tracked* kit; a local-only kit is **untracked**, which git branches/`main` don't
   capture. The snapshot + review steps now branch on visibility: tracked → branch off `main` / review
-  the git diff; local-only → physical `cp -r AI AI.bak` outside the repo / review with `diff -r`, then
+  the git diff; local-only → physical `cp -r ai-kit ai-kit.bak` outside the repo / review with `diff -r`, then
   delete the copy. Added a matching anti-pattern.
 
 ## [1.5.0] — 2026-07-01
@@ -92,7 +113,7 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 
 - **Hardened `aikit-update-kit` against accidental deletion of project data.** Four additions: (1) run
   the update on a **branch off clean `main`** so `main` is a zero-cost restore point and *not merging =
-  instant rollback* (no physical `AI.bak/` copy needed); (2) an explicit **"never delete project-owned
+  instant rollback* (no physical `ai-kit.bak/` copy needed); (2) an explicit **"never delete project-owned
   content" inventory** at the top of the procedure — filled `PROJECT.md`/`reference`, project-authored
   skills + co-located resources, project reference docs + templates, README project-rows, and
   `ai-progress/` (out of scope) — closing the gap where templates and project skills were only
@@ -197,8 +218,8 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 
 - **Skill-discovery setup.** New `README.md` adoption step 3, "Wire skill discovery" — makes the kit's
   skills invocable in the host runtime (which auto-discovers skills only from its own dir, not
-  `AI/skills/`). Recommends a single whole-folder Claude Code symlink (`.claude/skills` → `AI/skills`),
-  so every skill under `AI/skills/` — shipped `aikit-*` and project-authored alike — and any added
+  `ai-kit/skills/`). Recommends a single whole-folder Claude Code symlink (`.claude/skills` → `ai-kit/skills`),
+  so every skill under `ai-kit/skills/` — shipped `aikit-*` and project-authored alike — and any added
   later resolves with no re-linking; includes a guard against clobbering an existing `.claude/skills/`
   and a per-skill fallback for that case. Generic guidance for other runtimes (link the dir, or invoke
   a skill by `SKILL.md` path where there's no skill mechanism).
@@ -240,7 +261,7 @@ _Both found via a deep adversarial prose/skill-internal audit of the 1.1.0 tree.
   source (mockup, screenshot, exported spec, design-tool reference) into code: extract decisions →
   reuse existing tokens/components (§3) → structure-before-style (§4.5) → verify parity (§7). Names no
   vendor; references the manual rather than restating it.
-- **Skill `aikit-update-kit`** — downstream procedure to upgrade a vendored `AI/` kit to a newer
+- **Skill `aikit-update-kit`** — downstream procedure to upgrade a vendored `ai-kit/` kit to a newer
   version, replacing methodology files while preserving the filled `PROJECT.md` + `reference/*.md`,
   then running `aikit-project-profile-sync`. Completes the versioning story (the consumer side).
 - **Template `templates/design-tool-skill.md`** — generic scaffold for a downstream, project-authored

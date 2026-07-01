@@ -1,7 +1,7 @@
 # `maintenance/` — periodic upkeep for the kit (home-only)
 
 > **Home-only, never vendored.** Like [`MAINTAINING.md`](../MAINTAINING.md) and
-> [`CHANGELOG.md`](../CHANGELOG.md), this folder lives *outside* `AI/` and must never be copied
+> [`CHANGELOG.md`](../CHANGELOG.md), this folder lives *outside* `ai-kit/` and must never be copied
 > downstream — it's chores for keeping *this* home repo's kit current, not part of the kit itself.
 
 Some upkeep isn't triggered by a code change — it's *time*-triggered, because the kit encodes **external
@@ -24,6 +24,6 @@ as the session-start handshakes). Leave it `never` for a task that hasn't run ye
 
 1. Write `maintenance/{task}.md` — a short checklist: which external facts/sources to re-check, what to
    compare them against in the kit, and what to update. Bump the Kit version + add a `CHANGELOG.md`
-   entry **only if** a fix touches vendored `AI/` content (home-only edits don't bump).
+   entry **only if** a fix touches vendored `ai-kit/` content (home-only edits don't bump).
 2. Add a row to the ledger above (task · cadence · last run · notes).
 3. That's it — the session-start nudge picks it up automatically from the ledger.

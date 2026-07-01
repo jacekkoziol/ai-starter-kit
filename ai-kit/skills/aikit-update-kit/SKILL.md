@@ -1,6 +1,6 @@
 ---
 name: aikit-update-kit
-description: Upgrade this project's vendored AI/ kit to a newer version — replace the methodology files while PRESERVING all project-owned content (filled PROJECT.md, reference/*.md, custom README index rows, and any project-authored skills/docs/templates), then health-check with aikit-project-profile-sync. Use when the kit's home repo has published a newer Kit version than the one in this project's AGENT-INSTRUCTIONS.md header.
+description: Upgrade this project's vendored ai-kit/ kit to a newer version — replace the methodology files while PRESERVING all project-owned content (filled PROJECT.md, reference/*.md, custom README index rows, and any project-authored skills/docs/templates), then health-check with aikit-project-profile-sync. Use when the kit's home repo has published a newer Kit version than the one in this project's AGENT-INSTRUCTIONS.md header.
 ---
 
 # Update the vendored kit
@@ -9,7 +9,7 @@ description: Upgrade this project's vendored AI/ kit to a newer version — repl
 source. **Forking the kit? Change this one line** (per-project overrides live in `PROJECT.md` → "Kit
 source").
 
-> Pulls a newer snapshot of the `AI/` kit into a project that already uses it, **without losing the
+> Pulls a newer snapshot of the `ai-kit/` kit into a project that already uses it, **without losing the
 > project's answers**. The methodology files (the manual, skills, templates, layer guides) are
 > replaced; the project's *filled* profile (`PROJECT.md`, `reference/*.md`) is reconciled, not
 > overwritten. Finishes by running [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md)
@@ -39,7 +39,7 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 > the update untouched: the filled `PROJECT.md` and `reference/*.md`; **project-authored** (unprefixed)
 > skills and their co-located `scripts/`/`references/`/`assets/`; project-authored reference docs and
 > templates; project rows in the `skills`/`reference`/`templates` README indexes. `ai-progress/` lives
-> at the repo root, outside `AI/` — the update never touches it. Everything else under `AI/` is
+> at the repo root, outside `ai-kit/` — the update never touches it. Everything else under `ai-kit/` is
 > kit-owned and safe to replace (steps 3–5 draw the exact line).
 
 1. **Snapshot first — how depends on config visibility** (`PROJECT.md` → "Config visibility"). Commit
@@ -50,15 +50,21 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
      tracked files losslessly.
    - **Local-only** (kit excluded via `.git/info/exclude`, so **untracked**): git can't snapshot it —
      branches and `main` don't capture untracked files. Take a **physical copy** as the restore point
-     (`cp -r AI AI.bak` **outside the repo**, e.g. a scratch dir, so it's never committed) before
+     (`cp -r ai-kit ai-kit.bak` **outside the repo**, e.g. a scratch dir, so it's never committed) before
      overwriting; review against it in step 8 and delete it once satisfied.
 2. **Get the new snapshot — resolve the source first.** The kit's **canonical home** (top of this file)
    is the built-in default. Read `PROJECT.md` → "Kit
    source": if it names a project override (a fork, mirror, or local path), **ask which to use** — the
    override or the canonical home. If it's `default` (or absent), use the canonical home automatically.
    If neither resolves (e.g. a fork that blanked its home, and no override), **ask the user** — don't
-   guess a URL. Obtain the target version's `AI/` from the chosen source and note its Kit version so you
+   guess a URL. Obtain the target version's `ai-kit/` from the chosen source and note its Kit version so you
    can confirm the jump.
+
+   > **Folder rename in v2.0.0 (`AI/` → `ai-kit/`).** If your current install predates 2.0.0 its folder is
+   > still named `AI/`. Rename it (`git mv AI ai-kit`), then re-point the root pointer's
+   > `AI/AGENT-INSTRUCTIONS.md` reference, the skill symlinks (`→ ../ai-kit/skills`), and any local-only
+   > `.git/info/exclude` entries — or just re-run [`AGENT-INIT.md`](../../AGENT-INIT.md), which re-derives
+   > all of them. Full steps are in the source's 2.0.0 release notes.
 3. **Replace the purely kit-owned files** (safe to overwrite — no project content):
    `AGENT-INSTRUCTIONS.md`, the top-level `README.md`, `skills/_SKILL-TEMPLATE.md`, and every
    `skills/aikit-*/` — plus any **new** files the version adds. Replace these **path by path**; **never
@@ -85,9 +91,9 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 7. **Confirm the version.** The session-start handshake should now read the new `v{version}` (from the
    updated `AGENT-INSTRUCTIONS.md` header).
 8. **Review, then finalize — per visibility.** **Scan for deletions** — every removed file/line under
-   `AI/` must be kit-owned; flag any project-owned deletion before it lands.
+   `ai-kit/` must be kit-owned; flag any project-owned deletion before it lands.
    - **Shared / tracked:** review the git diff and commit per the version-control policy (§2.6).
-   - **Local-only:** git shows nothing (the kit is excluded), so review with `diff -r AI.bak AI`; once
+   - **Local-only:** git shows nothing (the kit is excluded), so review with `diff -r ai-kit.bak ai-kit`; once
      satisfied there's nothing to commit — delete the backup copy.
    Summarize what changed and any slots you reconciled by hand.
 
@@ -98,7 +104,7 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 - [ ] The `skills`/`reference`/`templates` README indexes keep every **project-authored** row; only kit rows were replaced.
 - [ ] **Nothing project-owned vanished** — every project-authored skill, reference doc, template, and co-located resource that existed pre-update still exists (`git diff main` shows deletions only of kit files).
 - [ ] `aikit-project-profile-sync` reports healthy (no leftover placeholders, links resolve, markers valid).
-- [ ] The diff is reviewable and committed; nothing under `AI/` references the kit's home-only files.
+- [ ] The diff is reviewable and committed; nothing under `ai-kit/` references the kit's home-only files.
 
 ## Anti-patterns
 
@@ -110,7 +116,7 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 - ❌ Updating over a dirty tree, so the change isn't a clean reviewable diff.
 - ❌ Updating straight on `main` instead of a branch — you forfeit the clean-`main` restore point (§2.6, §5.2).
 - ❌ Trusting a git branch / clean `main` as the snapshot for a **local-only** (untracked, `.git/info/exclude`)
-  kit — git doesn't track it, so nothing is captured; take a physical `AI.bak` copy outside the repo instead.
+  kit — git doesn't track it, so nothing is captured; take a physical `ai-kit.bak` copy outside the repo instead.
 - ❌ Wholesale-wiping a shared directory (`rm -rf` / `rsync --delete` of `skills/`, `reference/`,
   `templates/`) — nukes project-authored skills, reference docs, templates, and co-located resources at once.
 - ❌ Renaming or stripping the `aikit-` prefix on kit skills — the command name *is* the folder name, so
