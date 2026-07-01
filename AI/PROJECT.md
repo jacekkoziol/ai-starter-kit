@@ -106,6 +106,7 @@ Settled architectural choices the agent should treat as given (don't relitigate)
 
 <!-- Add each rule as its own bullet as it emerges; keep the placeholder bullet so there's always a spot. -->
 
+- Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages.
 - _Add project-specific rules here as they emerge._  <!-- fill:user -->
 
 ## Glossary (optional)

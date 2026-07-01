@@ -9,6 +9,16 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.4.0] — 2026-07-01
+
+### Added
+
+- **Default project rule: Conventional Commits.** `PROJECT.md` "Project-specific rules" now ships with
+  "Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages"
+  as an active default the agent follows once the kit is loaded. It's a normal user-owned rule entry —
+  a downstream project can edit or remove it, and `aikit-project-profile-bootstrap` leaves it untouched
+  (real content, not a `TODO`).
+
 ## [1.3.0] — 2026-07-01
 
 ### Added
