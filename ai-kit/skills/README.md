@@ -35,7 +35,7 @@ Kit-shipped skills are prefixed **`aikit-`** (`aikit-plan`, `aikit-project-profi
 **you** author stay unprefixed (`{name}`). The prefix is load-bearing — **don't rename or strip it:**
 
 - It **namespaces** the kit's skills so they can't collide with a host project's own skills — both share
-  `AI/skills/` and the runtime's discovery directory.
+  `ai-kit/skills/` and the runtime's discovery directory.
 - A skill's invocable name **is** its folder name (`aikit-plan` → `/aikit-plan`), and the frontmatter
   `name:` must match the folder. Renaming the folder silently changes the command and breaks every
   reference to it.
@@ -51,6 +51,6 @@ command and a botched update.)
 | --- | --- |
 | [aikit-plan](aikit-plan/SKILL.md) | Stand up / maintain `ai-progress/` (INDEX + per-effort roadmap + per-phase files) for non-trivial work — at the start of an effort, when starting/finishing a phase, hitting a blocker, or resuming cold. Walks the procedure for `AGENT-INSTRUCTIONS.md` §4. |
 | [aikit-implement-from-design](aikit-implement-from-design/SKILL.md) | Translate a visual design source (mockup, screenshot, exported spec, design-tool reference) into code — tool-agnostic: extract decisions → reuse existing tokens/components (§3) → structure-before-style (§4.5) → verify parity (§7). Specialize per tool via `templates/design-tool-skill.md`. |
-| [aikit-update-kit](aikit-update-kit/SKILL.md) | Upgrade this project's vendored `AI/` kit to a newer version — replace the methodology files while preserving the filled `PROJECT.md` + `reference/*.md`, then run `aikit-project-profile-sync`. |
+| [aikit-update-kit](aikit-update-kit/SKILL.md) | Upgrade this project's vendored `ai-kit/` kit to a newer version — replace the methodology files while preserving the filled `PROJECT.md` + `reference/*.md`, then run `aikit-project-profile-sync`. |
 | [aikit-project-profile-bootstrap](aikit-project-profile-bootstrap/SKILL.md) | First adoption / refresh — analyze the codebase and fill the `TODO`s in `PROJECT.md` + `reference/*.md` with evidence-backed values. |
 | [aikit-project-profile-sync](aikit-project-profile-sync/SKILL.md) | Health-check the installed kit (pointer wired · no stray `TODO`/`<!-- To Remove -->` · valid mode · references resolve · index↔folder parity) **and** correct drift — re-validate each `fill:auto` value against its cited evidence source and propose updates; re-ask `fill:user` values. Run periodically; complements `aikit-project-profile-bootstrap` (the first fill). |

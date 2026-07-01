@@ -1,11 +1,11 @@
 ---
 name: aikit-project-profile-sync
-description: Re-validate the installed AI/ kit against the codebase — health-check that the kit is wired and consistent (root pointer, no leftover TODO/`<!-- To Remove -->`, valid mode, references resolve, index↔folder parity) AND correct drift: re-validate each `fill:auto` value against its cited evidence source and propose evidence-backed updates; re-ask `fill:user` values. Run periodically after the kit has been bootstrapped.
+description: Re-validate the installed ai-kit/ kit against the codebase — health-check that the kit is wired and consistent (root pointer, no leftover TODO/`<!-- To Remove -->`, valid mode, references resolve, index↔folder parity) AND correct drift: re-validate each `fill:auto` value against its cited evidence source and propose evidence-backed updates; re-ask `fill:user` values. Run periodically after the kit has been bootstrapped.
 ---
 
 # Sync Project Profile
 
-Keeps an already-bootstrapped `AI/` kit **healthy** and **in sync**. Bootstrap fills the blanks once
+Keeps an already-bootstrapped `ai-kit/` kit **healthy** and **in sync**. Bootstrap fills the blanks once
 and (by [`aikit-project-profile-bootstrap`](../aikit-project-profile-bootstrap/SKILL.md) contract rule 5) never
 re-touches a filled value — so nothing re-validates the profile as the codebase evolves. This skill
 closes that gap. It assumes the kit was already bootstrapped: the persistent `fill:` markers on every
@@ -67,7 +67,7 @@ This skill adds **no new behavioral rules**; it applies the manual's existing on
 ### 1. Inventory the managed slots
 
 ```bash
-grep -rn "fill:" AI/PROJECT.md AI/reference/*.md
+grep -rn "fill:" ai-kit/PROJECT.md ai-kit/reference/*.md
 ```
 
 Enumerate every managed field and its kind: `fill:user` (ask) vs `fill:auto · «source»` (re-validate
@@ -80,12 +80,12 @@ Run all checks; **collect every failure with its specifics — don't stop at the
 - **Root pointer wired / kit active** (mirrors bootstrap step 10, README Setup step 2): find the
   auto-loaded entry file at the repo root (`CLAUDE.md` / `AGENTS.md` / `.cursorrules` /
   `.github/copilot-instructions.md`, plus any subdirectory entry file the tool actually loads), grep it
-  for a pointer to `AI/AGENT-INSTRUCTIONS.md`, and resolve that relative path **from the entry file's own
+  for a pointer to `ai-kit/AGENT-INSTRUCTIONS.md`, and resolve that relative path **from the entry file's own
   directory** to confirm the target exists. A pointer that doesn't resolve fails silently → the whole
   methodology is inert.
-- **No leftover `<!-- To Remove -->` blocks:** `grep -rn "To Remove" AI/` → expect none (bootstrap steps
+- **No leftover `<!-- To Remove -->` blocks:** `grep -rn "To Remove" ai-kit/` → expect none (bootstrap steps
   3.5 / 7 delete them).
-- **No stray un-annotated `TODO` / `{placeholder}`:** `grep -rn "TODO" AI/` (and scan for `{…}` braces);
+- **No stray un-annotated `TODO` / `{placeholder}`:** `grep -rn "TODO" ai-kit/` (and scan for `{…}` braces);
   every remaining hit must be an intentionally-deferred slot annotated `confirm with owner` (bootstrap
   contract rule 2). A raw `TODO` = a managed slot never filled.
 - **Role filled:** the `fill:user` slot under `PROJECT.md` `## Role` holds real content, not
@@ -98,16 +98,16 @@ Run all checks; **collect every failure with its specifics — don't stop at the
   Verify + contract rule 3).
 - **References resolve — file paths:** every path named in `file-locations.md` (and any path cited as a
   `fill:auto` evidence source) exists in the repo.
-- **References resolve — internal links:** every relative Markdown link and `@import` inside `AI/`
+- **References resolve — internal links:** every relative Markdown link and `@import` inside `ai-kit/`
   resolves relative to its linking file's directory.
-- **References resolve — `§N` cross-refs:** every `§N` inside `AI/` maps to a real heading in
+- **References resolve — `§N` cross-refs:** every `§N` inside `ai-kit/` maps to a real heading in
   `AGENT-INSTRUCTIONS.md`.
-- **Index ↔ folder parity (skills):** bidirectionally set-compare `AI/skills/*/SKILL.md` against the rows
-  in `AI/skills/README.md` — every SKILL.md has a row and every row points at a real SKILL.md.
-- **Index ↔ folder parity (reference):** same, `AI/reference/*.md` (excluding `README.md`) against
-  `AI/reference/README.md`.
-- **Index ↔ folder parity (templates):** same, `AI/templates/*` (excluding `README.md`) against
-  `AI/templates/README.md` — every template file has a row and every row points at a real file.
+- **Index ↔ folder parity (skills):** bidirectionally set-compare `ai-kit/skills/*/SKILL.md` against the rows
+  in `ai-kit/skills/README.md` — every SKILL.md has a row and every row points at a real SKILL.md.
+- **Index ↔ folder parity (reference):** same, `ai-kit/reference/*.md` (excluding `README.md`) against
+  `ai-kit/reference/README.md`.
+- **Index ↔ folder parity (templates):** same, `ai-kit/templates/*` (excluding `README.md`) against
+  `ai-kit/templates/README.md` — every template file has a row and every row points at a real file.
 
 ### 3. DRIFT dimension — content alignment (only meaningful once health passes)
 

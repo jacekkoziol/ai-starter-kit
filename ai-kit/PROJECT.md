@@ -77,14 +77,14 @@ runs them itself or asks you to.
 
 ## Config visibility
 
-> Is this `AI/` kit **shared** (committed & pushed with the repo, for the whole team) or **local-only**
+> Is this `ai-kit/` kit **shared** (committed & pushed with the repo, for the whole team) or **local-only**
 > (kept on your machine, hidden from the remote via `.git/info/exclude` — which is itself never
 > committed)? Set at bootstrap; change any time with the steps below.
 
 - **Mode:** `shared`  <!-- shared | local-only -->  <!-- fill:user -->
 
-**Switching** (effective only while the kit is **untracked** — run `git rm --cached -r AI/ ai-progress/`
-first if already committed): **to local-only** → add `AI/`, `ai-progress/`, and the kit's dedicated
+**Switching** (effective only while the kit is **untracked** — run `git rm --cached -r ai-kit/ ai-progress/`
+first if already committed): **to local-only** → add `ai-kit/`, `ai-progress/`, and the kit's dedicated
 root pointer to `.git/info/exclude`; **to shared** → remove those lines, then `git add` the kit.
 
 ## Kit source

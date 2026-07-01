@@ -1,15 +1,15 @@
-# `/AI` — how this works (for you, the human)
+# `/ai-kit` — how this works (for you, the human)
 
 **A drop-in operating manual that gives any AI coding agent the discipline of a senior engineer** — a
 clear way of working, **analyze → clarify → plan → gate → build → verify**, that gets your sign-off on
 a plan before it writes code and leaves a trail that survives context resets and hand-offs. It's a
-single `AI/` folder of plain Markdown — a stack-agnostic methodology plus a short per-project profile —
+single `ai-kit/` folder of plain Markdown — a stack-agnostic methodology plus a short per-project profile —
 that works with Claude Code, Codex, Gemini CLI, Cursor, Copilot, or anything that auto-loads a root
 instruction file; no plugin, nothing to install.
 
 This README is the **human's guide** — what the kit is, how to set it up, and how to grow it. The
 agent's own manual is [`AGENT-INSTRUCTIONS.md`](AGENT-INSTRUCTIONS.md); fill the per-project specifics
-in [`PROJECT.md`](PROJECT.md). Copy the whole `AI/` folder into any repo to reuse it.
+in [`PROJECT.md`](PROJECT.md). Copy the whole `ai-kit/` folder into any repo to reuse it.
 
 ## What's in here
 
@@ -26,7 +26,7 @@ in [`PROJECT.md`](PROJECT.md). Copy the whole `AI/` folder into any repo to reus
 ### Folder map
 
 ```
-AI/
+ai-kit/
   AGENT-INSTRUCTIONS.md   # the portable "how to work" manual (stack-agnostic)
   AGENT-INIT.md           # one-time installer: agent wires the pointer + skills, then reload  ← run once on adoption
   PROJECT.md              # the project "what" — Role, stack, commands, conventions  ← fill per project
@@ -57,7 +57,7 @@ ai-progress/              # ← lives at the PROJECT ROOT, not here. Agent-maint
                           #   tracking (INDEX + roadmaps + phase files). See AGENT-INSTRUCTIONS.md §4.
 ```
 
-> **Why `ai-progress/` is at the project root, not in `AI/`:** `AI/` is the *methodology* (stable,
+> **Why `ai-progress/` is at the project root, not in `ai-kit/`:** `ai-kit/` is the *methodology* (stable,
 > committed once, rarely changes). `ai-progress/` is *live work* the agent rewrites constantly and
 > that devs check often — it stays visible at the root. Keep the two separate.
 
@@ -125,17 +125,17 @@ first adoption or you're porting it into another project; each **Porting note** 
 differences.
 
 > **Fastest path — let the agent wire it.** After step 1, point your agent at
-> [`AGENT-INIT.md`](AGENT-INIT.md) (*"read `AI/AGENT-INIT.md` and set the kit up"*) and it does **steps 2–3**
+> [`AGENT-INIT.md`](AGENT-INIT.md) (*"read `ai-kit/AGENT-INIT.md` and set the kit up"*) and it does **steps 2–3**
 > for its runtime, then tells you to reload and run bootstrap (step 4). The manual steps below are the
 > fallback and the human explanation of exactly what it wires.
 
-### 1. Drop in the `AI/` folder
+### 1. Drop in the `ai-kit/` folder
 
-Copy the whole `AI/` folder to the **repo root** (where your VCS root and your agent's working
+Copy the whole `ai-kit/` folder to the **repo root** (where your VCS root and your agent's working
 directory are). It's self-contained and references no specific project, so this is a plain copy — no
 edits needed yet.
 
-> **Porting note:** copy `AI/` as-is. Do **not** copy the source repo's `ai-progress/` — that's the
+> **Porting note:** copy `ai-kit/` as-is. Do **not** copy the source repo's `ai-progress/` — that's the
 > *other* project's live work; a fresh one grows on its own at the new root. Project-specific
 > `reference/`, `skills/`, or `templates/` you added for the old stack stay behind unless they
 > genuinely apply.
@@ -148,58 +148,58 @@ Most AI coding tools auto-load one root instruction file at session start — `C
 `CLAUDE.md` as a **symlink** to it (`ln -s AGENTS.md CLAUDE.md`), so both load one file you maintain in
 a single place. Add this one line to that root file (create it if none exists):
 
-> For how to approach any coding task, follow `AI/AGENT-INSTRUCTIONS.md`, and open each session with
+> For how to approach any coding task, follow `ai-kit/AGENT-INSTRUCTIONS.md`, and open each session with
 > the one-line load-confirmation it specifies.
 
 **If your agent's working directory is the repo root**, that's it — use the path exactly as above.
 
 **If you work from a subdirectory** (a theme, package, or service whose own `CLAUDE.md`/`AGENTS.md` is
 the file your tool auto-loads), put the pointer line in *that* file and make the path reach the root
-kit — e.g. `follow ../../AI/AGENT-INSTRUCTIONS.md` (match the `../` depth to your layout). A path that
+kit — e.g. `follow ../../ai-kit/AGENT-INSTRUCTIONS.md` (match the `../` depth to your layout). A path that
 doesn't resolve from the working directory fails **silently**.
 
 **If more than one agent tool is used on the same repo** (e.g. Claude Code, Cursor, and Copilot each
 auto-load a *different* file), point each tool's entry file at the kit. Either add the pointer line to
 each, or symlink them to the canonical `AGENTS.md` (as above) so there's a single source to maintain.
-The kit stays one `AI/` folder; only the thin pointer is shared.
+The kit stays one `ai-kit/` folder; only the thin pointer is shared.
 
 Without this line, **no agent ever loads the kit and the whole methodology is silently inert** — this
 is the single most common setup failure.
 
 ### 3. Wire skill discovery (so the kit's skills are invocable)
 
-The kit holds **all** its skills under `AI/skills/` — the shipped `aikit-*` ones **and** any you author
+The kit holds **all** its skills under `ai-kit/skills/` — the shipped `aikit-*` ones **and** any you author
 later (`_SKILL-TEMPLATE.md` → `skills/{name}/SKILL.md`). Most agent runtimes auto-discover skills only
-from **their own** directory — not from `AI/skills/` — so without this step the agent has the skill
+from **their own** directory — not from `ai-kit/skills/` — so without this step the agent has the skill
 *files* but can't invoke them (e.g. `/aikit-plan` won't exist, and neither will
 `/aikit-project-profile-bootstrap` for the next step).
 
 Point your runtime's skill-discovery at the kit. **Claude Code** reads `.claude/skills/` and follows
-symlinks, so link the whole folder once — every current and future skill under `AI/skills/` then
+symlinks, so link the whole folder once — every current and future skill under `ai-kit/skills/` then
 resolves with no re-linking:
 
 ```bash
 # from the repo root; won't clobber an existing .claude/skills (see fallback below)
-[ -e .claude/skills ] && echo ".claude/skills exists — see fallback" || { mkdir -p .claude && ln -s ../AI/skills .claude/skills; }
+[ -e .claude/skills ] && echo ".claude/skills exists — see fallback" || { mkdir -p .claude && ln -s ../ai-kit/skills .claude/skills; }
 ```
 
 That makes `/aikit-plan`, `/aikit-project-profile-bootstrap`, your own `skills/{name}/` — all of them —
-available, and any skill added to `AI/skills/` later appears automatically. Commit the `.claude/skills`
+available, and any skill added to `ai-kit/skills/` later appears automatically. Commit the `.claude/skills`
 symlink so teammates get it (Claude Code shows a one-time trust prompt on first load). Working from a
 subdirectory whose own `.claude/` your tool loads? Create the link there and match the `../` depth
-(e.g. `ln -s ../../AI/skills .claude/skills`).
+(e.g. `ln -s ../../ai-kit/skills .claude/skills`).
 
 > **Fallback — you already have a real `.claude/skills/`** with non-kit skills: don't replace it. Either
-> move those skill folders into `AI/skills/` (the kit's model — one home for all skills), or symlink the
+> move those skill folders into `ai-kit/skills/` (the kit's model — one home for all skills), or symlink the
 > kit's skills in individually:
 > ```bash
 > mkdir -p .claude/skills
-> for d in AI/skills/aikit-*/; do n=$(basename "$d"); [ -e ".claude/skills/$n" ] || ln -s "../../${d%/}" ".claude/skills/$n"; done
+> for d in ai-kit/skills/aikit-*/; do n=$(basename "$d"); [ -e ".claude/skills/$n" ] || ln -s "../../${d%/}" ".claude/skills/$n"; done
 > ```
 > (Per-skill links need re-running whenever a new skill is added; the whole-folder symlink doesn't.)
 
 **Codex, Gemini CLI, Cursor, and GitHub Copilot** all support the same `SKILL.md` Agent-Skills standard
-the kit ships — wire each the same way, symlinking its skills directory to `AI/skills`:
+the kit ships — wire each the same way, symlinking its skills directory to `ai-kit/skills`:
 
 | Runtime | Skills directory |
 | --- | --- |
@@ -212,15 +212,15 @@ the kit ships — wire each the same way, symlinking its skills directory to `AI
 
 ```bash
 # from the repo root; same no-clobber guard + fallback as Claude Code above
-[ -e .agents/skills ] && echo ".agents/skills exists — see fallback above" || { mkdir -p .agents && ln -s ../AI/skills .agents/skills; }
+[ -e .agents/skills ] && echo ".agents/skills exists — see fallback above" || { mkdir -p .agents && ln -s ../ai-kit/skills .agents/skills; }
 ```
 
 Only Codex documents symlink-following explicitly — after linking, confirm the kit's skills resolve
 (`/skills` / `/skills list`); if they don't, use the per-skill fallback above.
 
 > **Other runtimes:** if your tool auto-discovers skills from a directory, link or point it at
-> `AI/skills/` the same way; if it has **no** skill mechanism, skip this step — invoke a skill by
-> telling the agent to *follow `AI/skills/<name>/SKILL.md`* by path.
+> `ai-kit/skills/` the same way; if it has **no** skill mechanism, skip this step — invoke a skill by
+> telling the agent to *follow `ai-kit/skills/<name>/SKILL.md`* by path.
 
 ### 4. Fill the project profile
 
@@ -229,8 +229,8 @@ it **after** step 3 (the `/aikit-project-profile-bootstrap` command exists only 
 
 1. Start your agent from the repo root.
 2. Invoke the skill — in Claude Code: `/aikit-project-profile-bootstrap`. In tools without slash-commands,
-   paste: *"Run the `aikit-project-profile-bootstrap` skill in `AI/skills/`: analyze this codebase and fill
-   the TODOs in `AI/PROJECT.md` and `AI/reference/*.md`."*
+   paste: *"Run the `aikit-project-profile-bootstrap` skill in `ai-kit/skills/`: analyze this codebase and fill
+   the TODOs in `ai-kit/PROJECT.md` and `ai-kit/reference/*.md`."*
 
 It scans the repo, fills the `TODO`s with evidence-backed values, then **pauses to ask you** to confirm
 the build/test/lint commands, the inferred decision ladders, the drafted Role, and your
@@ -256,18 +256,18 @@ In a **fresh** session, verify the halves are live before doing real work:
 - **The skills resolve.** In Claude Code, `/aikit-plan` (and the other `aikit-*` skills) should be
   listed/invocable — confirming step 3 wired discovery. If not, the symlinks are missing or sit under a
   `.claude/` your tool doesn't load.
-- Run `grep -rn "TODO" AI/` and confirm it returns only intentionally-deferred placeholders (each
+- Run `grep -rn "TODO" ai-kit/` and confirm it returns only intentionally-deferred placeholders (each
   annotated `confirm with owner`), not raw scaffolding `TODO`s.
 
 ### 6. Commit
 
-Commit `AI/` (the kit + the filled profile), the root-pointer line, and the `.claude/skills` symlink
+Commit `ai-kit/` (the kit + the filled profile), the root-pointer line, and the `.claude/skills` symlink
 from step 3 together. The kit and profile are committed once and rarely change; `ai-progress/` is
 created later — at the root, on your first real task — and is committed continuously as live work (see
 **How the progress files work**).
 
 **Keeping the kit local-only?** If you'd rather not push the config (`PROJECT.md` → "Config
-visibility"), skip committing it — bootstrap adds `AI/`, `ai-progress/`, and the kit-only root pointer
+visibility"), skip committing it — bootstrap adds `ai-kit/`, `ai-progress/`, and the kit-only root pointer
 to `.git/info/exclude`, so the kit stays on your machine only. Everything else in setup is unchanged.
 
 **Setup is done when:** the pointer line exists in the auto-loaded entry file · the kit's skills resolve
@@ -288,14 +288,14 @@ the Role and a real build command · all of it is committed. From here, start wo
 
 ## Start an AI session
 
-**Launch the agent from the project root** (so it can see `AI/`, the project profile, and
+**Launch the agent from the project root** (so it can see `ai-kit/`, the project profile, and
 `ai-progress/`). Then paste this at the start of every new session (new project or new conversation),
 before asking for any work:
 
-> Read `AI/AGENT-INSTRUCTIONS.md` first and confirm you loaded it with the one-line handshake it
+> Read `ai-kit/AGENT-INSTRUCTIONS.md` first and confirm you loaded it with the one-line handshake it
 > specifies — it owns how you approach every
 > task: analyze → clarify → plan → gate → build → verify, plus the progress-file procedure and the
-> per-phase plan-review gate. Follow it. Also read the project profile (`AI/PROJECT.md` / `CLAUDE.md`)
+> per-phase plan-review gate. Follow it. Also read the project profile (`ai-kit/PROJECT.md` / `CLAUDE.md`)
 > if one exists, for the **Role** (your persona/mandate), **response-economy mode** (§9), stack,
 > conventions, and build/test/lint commands. If `PROJECT.md` is still full of `TODO`s, the kit isn't
 > set up — say so and offer to run `aikit-project-profile-bootstrap` before real work.
@@ -323,7 +323,7 @@ TASK:
 [YOUR TASK HERE] — describe what you want.
 
 > **Tip:** keep this prompt handy as a snippet. If your agent auto-loads a root instruction file
-> (`CLAUDE.md` / `AGENTS.md` / `.cursorrules`), put the "read `AI/AGENT-INSTRUCTIONS.md`" line there
+> (`CLAUDE.md` / `AGENTS.md` / `.cursorrules`), put the "read `ai-kit/AGENT-INSTRUCTIONS.md`" line there
 > so you only need to paste the phase-workflow reminder + task.
 
 ## How to extend it
