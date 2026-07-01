@@ -75,6 +75,18 @@ runs them itself or asks you to.
 - **Commit:** TODO — e.g. one commit per completed phase, after verify.  <!-- fill:user -->
 - **PR:** TODO — who opens it, target branch.  <!-- fill:user -->
 
+## Config visibility
+
+> Is this `AI/` kit **shared** (committed & pushed with the repo, for the whole team) or **local-only**
+> (kept on your machine, hidden from the remote via `.git/info/exclude` — which is itself never
+> committed)? Set at bootstrap; change any time with the steps below.
+
+- **Mode:** `shared`  <!-- shared | local-only -->  <!-- fill:user -->
+
+**Switching** (effective only while the kit is **untracked** — run `git rm --cached -r AI/ ai-progress/`
+first if already committed): **to local-only** → add `AI/`, `ai-progress/`, and the kit's dedicated
+root pointer to `.git/info/exclude`; **to shared** → remove those lines, then `git add` the kit.
+
 ## Conventions
 
 Details in [reference/coding-conventions.md](reference/coding-conventions.md). Headlines:

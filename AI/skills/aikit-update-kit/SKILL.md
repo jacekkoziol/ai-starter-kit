@@ -38,12 +38,16 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 > at the repo root, outside `AI/` — the update never touches it. Everything else under `AI/` is
 > kit-owned and safe to replace (steps 3–5 draw the exact line).
 
-1. **Establish a clean baseline, then branch — that's your snapshot.** Commit or stash any
-   work-in-progress (never update over uncommitted changes), then run the update on a **dedicated
-   branch off a clean `main`** (§2.6 forbids committing to `main` directly anyway). Clean `main` is now
-   your restore point — the update is reviewed as the branch diff, and **not merging = instant
-   rollback**. Don't take a physical `AI.bak/` copy: git already snapshots this losslessly, and a stray
-   copy just risks being committed by accident.
+1. **Snapshot first — how depends on config visibility** (`PROJECT.md` → "Config visibility"). Commit
+   or stash any work-in-progress either way.
+   - **Shared / tracked** (default): run the update on a **dedicated branch off a clean `main`** (§2.6
+     forbids committing to `main` directly anyway). Clean `main` is your restore point — the update is
+     the branch diff, and **not merging = instant rollback**. No physical copy needed; git snapshots
+     tracked files losslessly.
+   - **Local-only** (kit excluded via `.git/info/exclude`, so **untracked**): git can't snapshot it —
+     branches and `main` don't capture untracked files. Take a **physical copy** as the restore point
+     (`cp -r AI AI.bak` **outside the repo**, e.g. a scratch dir, so it's never committed) before
+     overwriting; review against it in step 8 and delete it once satisfied.
 2. **Get the new snapshot.** Obtain the target version's `AI/` from the kit's source. Note its Kit
    version so you can confirm the jump.
 3. **Replace the purely kit-owned files** (safe to overwrite — no project content):
@@ -71,9 +75,12 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
    index↔folder parity) and re-validates `fill:auto` values against the repo. Fix what it flags.
 7. **Confirm the version.** The session-start handshake should now read the new `v{version}` (from the
    updated `AGENT-INSTRUCTIONS.md` header).
-8. **Review the full diff and commit** per the project's version-control policy (§2.6). **Scan the diff
-   for deletions** — every removed file/line under `AI/` must be kit-owned; flag any project-owned
-   deletion before it lands. Summarize what changed and any slots you had to reconcile by hand.
+8. **Review, then finalize — per visibility.** **Scan for deletions** — every removed file/line under
+   `AI/` must be kit-owned; flag any project-owned deletion before it lands.
+   - **Shared / tracked:** review the git diff and commit per the version-control policy (§2.6).
+   - **Local-only:** git shows nothing (the kit is excluded), so review with `diff -r AI.bak AI`; once
+     satisfied there's nothing to commit — delete the backup copy.
+   Summarize what changed and any slots you reconciled by hand.
 
 ## Verify
 
@@ -93,6 +100,8 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 - ❌ Updating without then running `aikit-project-profile-sync` (drift goes unnoticed).
 - ❌ Updating over a dirty tree, so the change isn't a clean reviewable diff.
 - ❌ Updating straight on `main` instead of a branch — you forfeit the clean-`main` restore point (§2.6, §5.2).
+- ❌ Trusting a git branch / clean `main` as the snapshot for a **local-only** (untracked, `.git/info/exclude`)
+  kit — git doesn't track it, so nothing is captured; take a physical `AI.bak` copy outside the repo instead.
 - ❌ Wholesale-wiping a shared directory (`rm -rf` / `rsync --delete` of `skills/`, `reference/`,
   `templates/`) — nukes project-authored skills, reference docs, templates, and co-located resources at once.
 - ❌ Renaming or stripping the `aikit-` prefix on kit skills — the command name *is* the folder name, so

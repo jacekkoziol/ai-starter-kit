@@ -9,6 +9,25 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.6.0] — 2026-07-01
+
+### Added
+
+- **Config visibility: shared or local-only.** A project can now keep the `AI/` kit on its machine
+  without pushing it. New `PROJECT.md` "Config visibility" field (`fill:user`, default `shared`) records
+  the choice plus the reverse steps. `aikit-project-profile-bootstrap` gains a step that asks it and,
+  for **local-only**, adds `AI/` / `ai-progress/` / the kit-only root pointer to `.git/info/exclude`
+  (the per-clone ignore that's never committed; effective only while untracked), guarded by a Verify
+  item. README Setup step 6 notes the option.
+
+### Changed
+
+- **`aikit-update-kit` is now config-visibility-aware.** The v1.4.1 "branch off clean `main`" snapshot
+  only protects a *tracked* kit; a local-only kit is **untracked**, which git branches/`main` don't
+  capture. The snapshot + review steps now branch on visibility: tracked → branch off `main` / review
+  the git diff; local-only → physical `cp -r AI AI.bak` outside the repo / review with `diff -r`, then
+  delete the copy. Added a matching anti-pattern.
+
 ## [1.5.0] — 2026-07-01
 
 ### Added

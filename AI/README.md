@@ -239,6 +239,10 @@ from step 3 together. The kit and profile are committed once and rarely change; 
 created later — at the root, on your first real task — and is committed continuously as live work (see
 **How the progress files work**).
 
+**Keeping the kit local-only?** If you'd rather not push the config (`PROJECT.md` → "Config
+visibility"), skip committing it — bootstrap adds `AI/`, `ai-progress/`, and the kit-only root pointer
+to `.git/info/exclude`, so the kit stays on your machine only. Everything else in setup is unchanged.
+
 **Setup is done when:** the pointer line exists in the auto-loaded entry file · the kit's skills resolve
 in your runtime (e.g. `/aikit-plan`) · `PROJECT.md` has no un-annotated `TODO`s and a chosen
 response-economy mode · the command table is confirmed to actually run · a fresh agent session restates

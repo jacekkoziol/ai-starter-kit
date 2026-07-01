@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders, project-specific rules). On first adoption it also wires skill discovery (links AI/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable. Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
+description: Analyze the codebase and replace the TODO placeholders in AI/PROJECT.md and AI/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders, project-specific rules). On first adoption it also wires skill discovery (links AI/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this AI/ kit in a project, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
@@ -189,6 +189,16 @@ makes every current and future skill resolve — then have the user commit it. M
 with **no** skill mechanism there's nothing to wire: a skill is invoked by pointing the agent at its
 `AI/skills/<name>/SKILL.md`.
 
+### 12. Set config visibility (shared vs local-only)
+
+Ask whether the kit should be **shared** (committed & pushed with the repo — the default) or
+**local-only** (kept on this machine, not pushed). Record the answer in `PROJECT.md` → "Config
+visibility". If **local-only**, add the kit's paths to `.git/info/exclude` (the per-clone ignore that's
+never committed) — `AI/`, `ai-progress/`, and the root pointer file **only if it was created solely for
+the kit** (leave it tracked if it also holds team content). This works only while those paths are
+**untracked**, so do it before the kit is committed (else `git rm --cached -r` them first). For a shared
+kit, do nothing here — it's committed normally in README step 6.
+
 ## Verify
 
 - [ ] `grep -rn "TODO" AI/` shows only intentionally-unresolved placeholders (each annotated "confirm").
@@ -207,6 +217,7 @@ with **no** skill mechanism there's nothing to wire: a skill is invoked by point
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
 - [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
 - [ ] For a UI-producing stack, an accessibility rule (WCAG 2.2 AA + ARIA APG) was **proposed** at the gate; skipped for non-UI stacks.
+- [ ] Config visibility was **asked** and recorded in `PROJECT.md`; if local-only, `AI/` (+ `ai-progress/`, kit-only pointer) are in `.git/info/exclude` while still untracked.
 
 ## Anti-patterns
 
