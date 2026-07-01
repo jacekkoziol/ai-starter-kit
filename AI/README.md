@@ -136,8 +136,10 @@ edits needed yet.
 ### 2. Wire the root pointer (the load-bearing step — everything depends on it)
 
 Most AI coding tools auto-load one root instruction file at session start — `CLAUDE.md`, `AGENTS.md`,
-`.cursorrules`, or `.github/copilot-instructions.md`. Add this one line to whichever your tool uses
-(create the file if none exists):
+`.cursorrules`, or `.github/copilot-instructions.md`. **Starting fresh (no such file yet)? Prefer
+`AGENTS.md`** — it's the emerging cross-tool standard most agents read — and for Claude Code create
+`CLAUDE.md` as a **symlink** to it (`ln -s AGENTS.md CLAUDE.md`), so both load one file you maintain in
+a single place. Add this one line to that root file (create it if none exists):
 
 > For how to approach any coding task, follow `AI/AGENT-INSTRUCTIONS.md`, and open each session with
 > the one-line load-confirmation it specifies.
@@ -151,8 +153,8 @@ doesn't resolve from the working directory fails **silently**.
 
 **If more than one agent tool is used on the same repo** (e.g. Claude Code, Cursor, and Copilot each
 auto-load a *different* file), point each tool's entry file at the kit. Either add the pointer line to
-each, or symlink them to one canonical file so there's a single source to maintain — e.g.
-`ln -s AGENTS.md CLAUDE.md`. The kit stays one `AI/` folder; only the thin pointer is shared.
+each, or symlink them to the canonical `AGENTS.md` (as above) so there's a single source to maintain.
+The kit stays one `AI/` folder; only the thin pointer is shared.
 
 Without this line, **no agent ever loads the kit and the whole methodology is silently inert** — this
 is the single most common setup failure.

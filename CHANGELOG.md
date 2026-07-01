@@ -9,6 +9,16 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.4.2] — 2026-07-01
+
+### Changed
+
+- **README Setup step 2 now recommends an `AGENTS.md`-first root pointer.** For a project with no agent
+  config yet, prefer `AGENTS.md` (the emerging cross-tool standard most agents read) as the canonical
+  root file, and symlink `CLAUDE.md → AGENTS.md` for Claude Code so every tool loads one maintained
+  source. The multi-tool paragraph now references that canonical file instead of repeating the symlink
+  command (single-source).
+
 ## [1.4.1] — 2026-07-01
 
 ### Changed
