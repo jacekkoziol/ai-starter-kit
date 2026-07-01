@@ -189,15 +189,18 @@ makes every current and future skill resolve — then have the user commit it. M
 with **no** skill mechanism there's nothing to wire: a skill is invoked by pointing the agent at its
 `AI/skills/<name>/SKILL.md`.
 
-### 12. Set config visibility (shared vs local-only)
+### 12. Set kit integration — config visibility + update source
 
-Ask whether the kit should be **shared** (committed & pushed with the repo — the default) or
-**local-only** (kept on this machine, not pushed). Record the answer in `PROJECT.md` → "Config
-visibility". If **local-only**, add the kit's paths to `.git/info/exclude` (the per-clone ignore that's
-never committed) — `AI/`, `ai-progress/`, and the root pointer file **only if it was created solely for
-the kit** (leave it tracked if it also holds team content). This works only while those paths are
-**untracked**, so do it before the kit is committed (else `git rm --cached -r` them first). For a shared
-kit, do nothing here — it's committed normally in README step 6.
+**Config visibility:** ask whether the kit should be **shared** (committed & pushed with the repo — the
+default) or **local-only** (kept on this machine, not pushed). Record the answer in `PROJECT.md` →
+"Config visibility". If **local-only**, add the kit's paths to `.git/info/exclude` (the per-clone ignore
+that's never committed) — `AI/`, `ai-progress/`, and the root pointer file **only if it was created
+solely for the kit** (leave it tracked if it also holds team content). This works only while those paths
+are **untracked**, so do it before the kit is committed (else `git rm --cached -r` them first). For a
+shared kit, do nothing here — it's committed normally in README step 6.
+
+**Update source:** confirm `PROJECT.md` → "Kit source" — leave `default` to update from the kit's
+canonical home, or set a fork/mirror/local path if this project vendors the kit from elsewhere.
 
 ## Verify
 
@@ -218,6 +221,7 @@ kit, do nothing here — it's committed normally in README step 6.
 - [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
 - [ ] For a UI-producing stack, an accessibility rule (WCAG 2.2 AA + ARIA APG) was **proposed** at the gate; skipped for non-UI stacks.
 - [ ] Config visibility was **asked** and recorded in `PROJECT.md`; if local-only, `AI/` (+ `ai-progress/`, kit-only pointer) are in `.git/info/exclude` while still untracked.
+- [ ] `PROJECT.md` "Kit source" is present (`default`, or a project override URL/path) for `aikit-update-kit`.
 
 ## Anti-patterns
 

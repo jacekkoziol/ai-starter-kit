@@ -87,6 +87,15 @@ runs them itself or asks you to.
 first if already committed): **to local-only** → add `AI/`, `ai-progress/`, and the kit's dedicated
 root pointer to `.git/info/exclude`; **to shared** → remove those lines, then `git add` the kit.
 
+## Kit source
+
+> Where [`aikit-update-kit`](skills/aikit-update-kit/SKILL.md) pulls a newer kit from. Leave as
+> `default` to use the kit's **canonical home** (named in that skill); set it to your own fork, mirror,
+> or local path to override. At update time the skill uses `default` automatically, **asks which** if an
+> override is set, and asks you outright if neither resolves.
+
+- **Source:** `default`  <!-- default | a URL or local path -->  <!-- fill:user -->
+
 ## Conventions
 
 Details in [reference/coding-conventions.md](reference/coding-conventions.md). Headlines:

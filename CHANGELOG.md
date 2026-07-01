@@ -9,6 +9,17 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.7.0] — 2026-07-01
+
+### Added
+
+- **Configurable update source with a baked-in default.** `aikit-update-kit` now names the kit's
+  canonical home (<https://github.com/jacekkoziol/ai-starter-kit>) as the built-in default, so updates
+  run from it automatically. A new `PROJECT.md` "Kit source" field (`fill:user`, default `default`) lets
+  a project override it with a fork, mirror, or local path. At update time the skill uses the canonical
+  home automatically, **asks which** when an override is set, and asks the user outright if neither
+  resolves (unchanged fallback). Bootstrap step 12 now also confirms the field, guarded by a Verify item.
+
 ## [1.6.0] — 2026-07-01
 
 ### Added

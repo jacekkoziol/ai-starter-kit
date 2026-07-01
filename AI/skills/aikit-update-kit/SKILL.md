@@ -23,9 +23,9 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 ## Read first
 
 - [`AGENT-INSTRUCTIONS.md`](../../AGENT-INSTRUCTIONS.md) header — your **current** Kit version.
-- The kit's **home repo** (wherever your team vendors `AI/` from) — its changelog / release notes for
-  what changed between your version and the latest. If you don't know the source, **ask the user**;
-  don't guess a URL.
+- The kit's **source** (resolved in step 2 — the canonical home, or a `PROJECT.md` → "Kit source"
+  override) — read its changelog / release notes for what changed between your version and the latest.
+  If no source resolves, **ask the user**; don't guess a URL.
 - [`PROJECT.md`](../../PROJECT.md) + [`reference/`](../../reference/) — the filled content you must
   preserve through the update.
 
@@ -48,8 +48,13 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
      branches and `main` don't capture untracked files. Take a **physical copy** as the restore point
      (`cp -r AI AI.bak` **outside the repo**, e.g. a scratch dir, so it's never committed) before
      overwriting; review against it in step 8 and delete it once satisfied.
-2. **Get the new snapshot.** Obtain the target version's `AI/` from the kit's source. Note its Kit
-   version so you can confirm the jump.
+2. **Get the new snapshot — resolve the source first.** The kit's **canonical home** is
+   <https://github.com/jacekkoziol/ai-starter-kit> (the built-in default). Read `PROJECT.md` → "Kit
+   source": if it names a project override (a fork, mirror, or local path), **ask which to use** — the
+   override or the canonical home. If it's `default` (or absent), use the canonical home automatically.
+   If neither resolves (e.g. a fork that blanked its home, and no override), **ask the user** — don't
+   guess a URL. Obtain the target version's `AI/` from the chosen source and note its Kit version so you
+   can confirm the jump.
 3. **Replace the purely kit-owned files** (safe to overwrite — no project content):
    `AGENT-INSTRUCTIONS.md`, the top-level `README.md`, `skills/_SKILL-TEMPLATE.md`, and every
    `skills/aikit-*/` — plus any **new** files the version adds. Replace these **path by path**; **never
