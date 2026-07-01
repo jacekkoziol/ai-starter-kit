@@ -23,6 +23,13 @@ Emit it once per session, in every response mode. (Mirrors the kit's own session
 [`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md), which confirms the *vendored* kit loaded — this one
 confirms the *maintenance* guide loaded.)
 
+**Periodic-check nudge.** After the handshake, read the ledger in
+[`maintenance/README.md`](maintenance/README.md): if any task's *last run + cadence* falls before today's
+real date, add a one-line reminder that it's due (e.g. `⏰ verify-runtime-wiring due — last ran
+2026-06-01`). Use the actual current date; if it's unknown or the ledger is missing, **skip silently** —
+never fabricate a run, a date, or a nudge. The chores themselves (and the discipline for stamping a
+last-run date only *after* running one) live in [`maintenance/`](maintenance/README.md).
+
 ## Prime directives
 
 1. **Stay lean — every addition must earn its place.** The kit's value is that it's short enough to
@@ -58,6 +65,7 @@ confirms the *maintenance* guide loaded.)
 ```
 AI/                       # THE KIT — this is what gets copied into other repos
   AGENT-INSTRUCTIONS.md   #   portable behavioral manual (§0–§9) — stack/tool-agnostic
+  AGENT-INIT.md           #   one-time agent-run installer: wire root pointer + skill discovery per runtime
   PROJECT.md              #   per-project profile + knobs (Role, Response economy, Commands,
                           #     Integrations, Version control, …) — the only place knobs live
   README.md               #   human guide (what it is, Setup, how to extend)
@@ -66,6 +74,9 @@ AI/                       # THE KIT — this is what gets copied into other repo
   templates/              #   literal copy-me scaffolds + index
 README.md                 # human front-door for the repo (quickstart + doc routing) — home-only, never vendored
 MAINTAINING.md            # this file — stays OUTSIDE AI/, never vendored downstream
+maintenance/              # home-only periodic chores (time-triggered upkeep) — never vendored
+  README.md               #   folder guide + the last-run ledger (task · cadence · last run)
+  verify-runtime-wiring.md #  re-verify AGENT-INIT/README runtime facts vs current tool docs
 ai-progress/              # runtime work-tracking, created per project at the root — not part of the kit
 ```
 

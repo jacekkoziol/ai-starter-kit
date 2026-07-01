@@ -21,6 +21,7 @@ many agents that support it, not tied to any one tool.
 | [`AI/README.md`](AI/README.md) | Human guide to *using* the kit on a project (the full setup). |
 | [`MAINTAINING.md`](MAINTAINING.md) | How to *evolve* the kit — prime directives, invariants, consistency checks (home-only). |
 | [`CHANGELOG.md`](CHANGELOG.md) | Release history; the kit follows SemVer (home-only). |
+| [`maintenance/`](maintenance/) | Home-only periodic upkeep — checklists for time-triggered chores (e.g. re-verifying runtime setup facts) + a last-run ledger. Never vendored. |
 | [`AGENTS.md`](AGENTS.md) | Entry pointer for an agent working *in this repo* (`CLAUDE.md` symlinks to it). |
 | [`LICENSE`](LICENSE) | MIT. |
 
@@ -39,6 +40,7 @@ Those are the headlines — **follow [`AI/README.md`](AI/README.md) for the exac
 | Adopt / use the kit on a project | [`AI/README.md`](AI/README.md) |
 | Understand the agent's operating rules | [`AI/AGENT-INSTRUCTIONS.md`](AI/AGENT-INSTRUCTIONS.md) |
 | Evolve or maintain the kit itself | [`MAINTAINING.md`](MAINTAINING.md) |
+| Keep the kit's per-runtime setup facts current | [`maintenance/verify-runtime-wiring.md`](maintenance/verify-runtime-wiring.md) |
 | See what changed between versions | [`CHANGELOG.md`](CHANGELOG.md) |
 
 ## License
