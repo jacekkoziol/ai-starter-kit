@@ -1,6 +1,6 @@
 ---
 name: aikit-update-kit
-description: Upgrade this project's vendored AI/ kit to a newer version — replace the methodology files while PRESERVING the project's filled PROJECT.md, reference/*.md, and custom README index rows, then health-check with aikit-project-profile-sync. Use when the kit's home repo has published a newer Kit version than the one in this project's AGENT-INSTRUCTIONS.md header.
+description: Upgrade this project's vendored AI/ kit to a newer version — replace the methodology files while PRESERVING all project-owned content (filled PROJECT.md, reference/*.md, custom README index rows, and any project-authored skills/docs/templates), then health-check with aikit-project-profile-sync. Use when the kit's home repo has published a newer Kit version than the one in this project's AGENT-INSTRUCTIONS.md header.
 ---
 
 # Update the vendored kit
@@ -31,15 +31,29 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 
 ## Procedure
 
-1. **Establish a clean baseline.** Ensure the working tree is committed so the update lands as one
-   reviewable diff. Never update over uncommitted changes.
+> **Never delete project-owned content** (the whole point of this skill). Preserve, and carry across
+> the update untouched: the filled `PROJECT.md` and `reference/*.md`; **project-authored** (unprefixed)
+> skills and their co-located `scripts/`/`references/`/`assets/`; project-authored reference docs and
+> templates; project rows in the `skills`/`reference`/`templates` README indexes. `ai-progress/` lives
+> at the repo root, outside `AI/` — the update never touches it. Everything else under `AI/` is
+> kit-owned and safe to replace (steps 3–5 draw the exact line).
+
+1. **Establish a clean baseline, then branch — that's your snapshot.** Commit or stash any
+   work-in-progress (never update over uncommitted changes), then run the update on a **dedicated
+   branch off a clean `main`** (§2.6 forbids committing to `main` directly anyway). Clean `main` is now
+   your restore point — the update is reviewed as the branch diff, and **not merging = instant
+   rollback**. Don't take a physical `AI.bak/` copy: git already snapshots this losslessly, and a stray
+   copy just risks being committed by accident.
 2. **Get the new snapshot.** Obtain the target version's `AI/` from the kit's source. Note its Kit
    version so you can confirm the jump.
 3. **Replace the purely kit-owned files** (safe to overwrite — no project content):
    `AGENT-INSTRUCTIONS.md`, the top-level `README.md`, `skills/_SKILL-TEMPLATE.md`, and every
-   `skills/aikit-*/` — plus any **new** files the version adds. The `reference/`, `skills/`, and
-   `templates/` layer-guide `README.md`s are **not** in this list; their `## Index` tables hold project
-   rows — reconcile them next.
+   `skills/aikit-*/` — plus any **new** files the version adds. Replace these **path by path**; **never
+   wholesale-wipe a shared directory** (`skills/`, `reference/`, `templates/`) with `rm -rf` / `cp -r` /
+   `rsync --delete` — each mixes kit and project files. If a new kit file would land on a path the
+   project already authored, **stop and ask** (§5.2) — don't overwrite it. The `reference/`, `skills/`,
+   and `templates/` layer-guide `README.md`s are **not** in this list; their `## Index` tables hold
+   project rows — reconcile them next.
 4. **Reconcile the layer-guide README indexes — do NOT blanket-overwrite** `skills/README.md`,
    `reference/README.md`, or `templates/README.md`. Each `## Index` mixes **kit rows** (pointing at
    kit-shipped skills/docs/templates) with **project rows** (ones this project added). Take the new
@@ -57,14 +71,16 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
    index↔folder parity) and re-validates `fill:auto` values against the repo. Fix what it flags.
 7. **Confirm the version.** The session-start handshake should now read the new `v{version}` (from the
    updated `AGENT-INSTRUCTIONS.md` header).
-8. **Review the full diff and commit** per the project's version-control policy (§2.6). Summarize what
-   changed and any slots you had to reconcile by hand.
+8. **Review the full diff and commit** per the project's version-control policy (§2.6). **Scan the diff
+   for deletions** — every removed file/line under `AI/` must be kit-owned; flag any project-owned
+   deletion before it lands. Summarize what changed and any slots you had to reconcile by hand.
 
 ## Verify
 
 - [ ] `AGENT-INSTRUCTIONS.md` header shows the **new** Kit version.
 - [ ] `PROJECT.md` + `reference/*.md` keep every prior project answer; new slots added with markers.
 - [ ] The `skills`/`reference`/`templates` README indexes keep every **project-authored** row; only kit rows were replaced.
+- [ ] **Nothing project-owned vanished** — every project-authored skill, reference doc, template, and co-located resource that existed pre-update still exists (`git diff main` shows deletions only of kit files).
 - [ ] `aikit-project-profile-sync` reports healthy (no leftover placeholders, links resolve, markers valid).
 - [ ] The diff is reviewable and committed; nothing under `AI/` references the kit's home-only files.
 
@@ -76,6 +92,9 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
   own `## Index` rows and the descriptions it wrote for its custom skills/docs/templates.
 - ❌ Updating without then running `aikit-project-profile-sync` (drift goes unnoticed).
 - ❌ Updating over a dirty tree, so the change isn't a clean reviewable diff.
+- ❌ Updating straight on `main` instead of a branch — you forfeit the clean-`main` restore point (§2.6, §5.2).
+- ❌ Wholesale-wiping a shared directory (`rm -rf` / `rsync --delete` of `skills/`, `reference/`,
+  `templates/`) — nukes project-authored skills, reference docs, templates, and co-located resources at once.
 - ❌ Renaming or stripping the `aikit-` prefix on kit skills — the command name *is* the folder name, so
   it breaks discovery and the kit-vs-project distinction this reconcile relies on (see `skills/README.md`).
 - ❌ Bumping the Kit version or tagging downstream — versioning is the kit home repo's job.

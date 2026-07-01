@@ -9,6 +9,21 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.4.1] — 2026-07-01
+
+### Changed
+
+- **Hardened `aikit-update-kit` against accidental deletion of project data.** Four additions: (1) run
+  the update on a **branch off clean `main`** so `main` is a zero-cost restore point and *not merging =
+  instant rollback* (no physical `AI.bak/` copy needed); (2) an explicit **"never delete project-owned
+  content" inventory** at the top of the procedure — filled `PROJECT.md`/`reference`, project-authored
+  skills + co-located resources, project reference docs + templates, README project-rows, and
+  `ai-progress/` (out of scope) — closing the gap where templates and project skills were only
+  implicitly preserved; (3) a **path-by-path replace rule** forbidding wholesale directory wipes
+  (`rm -rf` / `rsync --delete` of `skills/`/`reference/`/`templates/`) and overwriting a
+  project-authored path with a new kit file (stop and ask), plus two matching anti-patterns; (4) a
+  **post-update "nothing project-owned vanished" check** + a diff-scan-for-deletions step before commit.
+
 ## [1.4.0] — 2026-07-01
 
 ### Added
