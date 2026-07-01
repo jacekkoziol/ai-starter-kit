@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 1.2.4
+> **Kit version:** 1.2.5
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -176,8 +176,10 @@ Before claiming a task or phase complete (§7):
 - Update the progress file: mark the phase done **with a one-line outcome**, append a session-log
   line biased toward "what's next."
 - Summarize for the user: what changed, what was verified, what's open.
-- Commit only when the user asks or `PROJECT.md`'s Version-control policy says to; never commit to the
-  main/default branch directly. Pushing, PRs, and deploys stay stop-and-ask (§5.2).
+- Commit only when the user asks or `PROJECT.md`'s Version-control policy says to. When neither has
+  pre-authorized it, **offer** — commit now, or review the diff first? — and act only on the answer;
+  silence isn't approval. Never commit to the main/default branch directly; pushing, PRs, and deploys
+  stay stop-and-ask (§5.2).
 
 ---
 
@@ -456,6 +458,8 @@ A checklist to run before you say "done":
 - ❌ Silently picking a costly or irreversible option that was the user's to decide.
 - ❌ Hiding unwanted output / swallowing errors instead of fixing the cause.
 - ❌ Claiming "done" without running the build/tests, or reporting success when a step failed.
+- ❌ Committing when the user didn't ask and no policy authorized it — or treating your summary as
+  permission. Silence isn't approval (§2.6).
 - ❌ Reformatting or refactoring untouched code as an uninvited side effect.
 
 ---

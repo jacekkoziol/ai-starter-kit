@@ -9,6 +9,16 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `AI/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [1.2.5] — 2026-07-01
+
+### Changed
+
+- **Made the §2.6 commit gate explicit.** The Phase F hand-off step now tells the agent to **offer** —
+  "commit now, or review the diff first?" — and act only on the answer (silence isn't approval) when
+  neither the user's ask nor `PROJECT.md`'s Version-control policy has pre-authorized the commit; added
+  the matching §8 anti-pattern. Previously §2.6 said only "commit only when the user asks", without the
+  proactive review-first offer or the silence-isn't-approval loophole close.
+
 ## [1.2.4] — 2026-07-01
 
 ### Fixed
