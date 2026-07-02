@@ -9,6 +9,31 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.2.0] — 2026-07-02
+
+Skill-by-skill verification pass, part 4: `aikit-project-profile-bootstrap` — closing "the most-missed
+one" (fields invisible to bootstrap) in the flagship skill itself. MINOR: bootstrap gains detect-or-ask
+steps, and the Glossary comes under `fill:` management.
+
+### Added
+
+- **Bootstrap step 7.7 — the user-owned policies are now asked.** Version control (Branch / Commit /
+  PR: three `fill:user` slots no step touched — they silently stayed `TODO` while governing §2.6
+  behavior) and Locked decisions (step 2 harvested ADRs but nothing routed them to the slot). Hints
+  are harvested first; the user sets the policy; candidates are proposed, never invented. Verify items
+  added; the gate (step 9) now also surfaces the proposed Locked decisions.
+- **The Glossary is a managed slot.** It held `TODO`s with no `fill:` marker (violating the
+  every-managed-slot-tagged invariant) and no wiring; now tagged `fill:auto · harvested instruction
+  sources`, filled from harvested domain terms in step 8 — or deleted if none apply (it's optional).
+
+### Fixed
+
+- **The TODO sweep is scoped to the fill-in surfaces.** Step 1 and Verify item 1 grepped all of
+  `ai-kit/`, matching the manual's §0 prose mention of `TODO` — an eternal false "unresolved
+  placeholder". Both now grep `ai-kit/PROJECT.md ai-kit/reference/` (mirroring consistency-check #5).
+- Frontmatter `description` reflects the full coverage (version-control policy, locked decisions,
+  glossary).
+
 ## [2.1.3] — 2026-07-02
 
 Skill-by-skill verification pass, part 3: `aikit-update-kit`.

@@ -132,4 +132,4 @@ Settled architectural choices the agent should treat as given (don't relitigate)
 
 ## Glossary (optional)
 
-- **TODO term** — TODO meaning.
+- **TODO term** — TODO meaning.  <!-- fill:auto · harvested instruction sources (README / CONTRIBUTING / agent docs) -->

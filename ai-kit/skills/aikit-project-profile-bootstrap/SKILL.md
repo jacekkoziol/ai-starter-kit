@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, conventions, file locations, decision ladders, project-specific rules). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
+description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, version-control policy, conventions, file locations, decision ladders, locked decisions, project-specific rules, glossary). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
@@ -54,10 +54,11 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 
 ### 1. Scope — find every placeholder
 
-Grep the kit so you fill exactly what's blank (robust to future doc changes):
+Grep the fill-in surfaces so you fill exactly what's blank (robust to future doc changes; scoped to
+the managed files, so the manual's prose mention of `TODO` doesn't read as a placeholder):
 
 ```bash
-grep -rn "TODO" ai-kit/
+grep -rn "TODO" ai-kit/PROJECT.md ai-kit/reference/
 ```
 
 (Optional, per AGENT-INSTRUCTIONS §4: log this as `ai-progress/task-bootstrap-profile.md`.)
@@ -158,17 +159,31 @@ step 3), **propose** an accessibility rule for the user to confirm: conform to
 Practices ([APG](https://www.w3.org/WAI/ARIA/apg/patterns/)) patterns. On acceptance add it as a rule
 bullet; detail can grow into a project-authored `reference/accessibility.md`. Skip it for non-UI stacks.
 
+### 7.7 Ask the user-owned policies → `PROJECT.md` Version control + Locked decisions
+
+Both are `fill:user` — harvest hints first, then **ask; never infer silently**:
+
+- **Version control (Branch / Commit / PR):** harvest hints from `CONTRIBUTING`, CI configs, and the
+  repo's branch/PR history (naming patterns, protected branches), then ask the user to set the
+  policy — branch naming, commit cadence, who opens PRs and against what.
+- **Locked decisions:** propose candidates from the ADRs / instruction sources read in step 2 —
+  settled choices the agent must not relitigate; the user confirms which to lock. Add none if there
+  are none — never invent.
+
 ### 8. Fill the files
 
 Replace each placeholder with its evidence-backed value, preserving structure, guidance blockquotes,
 and HARD RULE markers. Where evidence is missing, keep the `TODO` and annotate it (contract rule 2).
 
+**Glossary:** fill it with recurring domain terms harvested from the instruction sources (step 2);
+it's optional — delete the section if none apply (per `PROJECT.md`'s "delete rows that don't apply").
+
 ### 9. Gate — present before finalizing
 
 Per AGENT-INSTRUCTIONS §2.4: summarize what you found **with citations**, and explicitly surface for
 confirmation the least-certain outputs — **the Commands table**, **the inferred decision ladders**,
-and **the drafted Role** (its mandate/tension is inferred, so the user must confirm it). Apply the
-user's corrections to the docs, then finish.
+**the drafted Role** (its mandate/tension is inferred, so the user must confirm it), and **the
+proposed Locked decisions** (step 7.7). Apply the user's corrections to the docs, then finish.
 
 ### 10. Confirm the kit is wired
 
@@ -204,7 +219,7 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
 
 ## Verify
 
-- [ ] `grep -rn "TODO" ai-kit/` shows only intentionally-unresolved placeholders (each annotated "confirm").
+- [ ] `grep -rn "TODO" ai-kit/PROJECT.md ai-kit/reference/` shows only intentionally-unresolved placeholders (each annotated "confirm").
 - [ ] Every command in `PROJECT.md` exists **verbatim** in `package.json` / `Makefile` / CI.
 - [ ] Every path referenced in `file-locations.md` actually exists in the repo.
 - [ ] Guidance blockquotes + the generic-vs-project framing + HARD RULE markers are intact in each file.
@@ -217,6 +232,9 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
 - [ ] Every managed slot still carries its `<!-- fill:user -->` / `<!-- fill:auto · «source» -->` marker
       (filling a slot does **not** remove it) — the inventory `aikit-project-profile-sync` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
+- [ ] Version control (Branch / Commit / PR) was **asked** and recorded (or annotated for confirmation) — not left silently `TODO`.
+- [ ] Locked decisions: ADR-derived candidates were **proposed** at the gate; none invented.
+- [ ] Glossary filled from harvested terms, or the optional section deleted — not left as bare `TODO`s.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
 - [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
 - [ ] For a UI-producing stack, an accessibility rule (WCAG 2.2 AA + ARIA APG) was **proposed** at the gate; skipped for non-UI stacks.
