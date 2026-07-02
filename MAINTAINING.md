@@ -206,9 +206,11 @@ The manual's Kit version and the latest `CHANGELOG.md` entry must always match �
 # 1. Portability — no stack/tool coupling leaked into the kit
 #    (concrete examples allowed only inside <!-- To Remove --> blocks; stripped here before grep.
 #     ^-anchored so prose that mentions the markers can't start a strip; per-file (\;) so a range
-#     can never bleed across files.)
+#     can never bleed across files. Runtime-specific tool/command names count as tool coupling too —
+#     the kit is multi-runtime; runtime *product* names in wiring docs (AGENT-INIT, discovery notes)
+#     are fine, but "use tool X" instructions must stay runtime-conditional.)
 find ai-kit -name '*.md' -exec sed '/^<!-- To Remove: START/,/^<!-- To Remove: End/d' {} \; \
-  | grep -niE "wordpress|wp-content|wp-config|chisel|gutenberg|timber|theme\.json"  # expect: none
+  | grep -niE "wordpress|wp-content|wp-config|chisel|gutenberg|timber|theme\.json|askuserquestion|/compact"  # expect: none
 
 # 2. Manual sections sequential, none renumbered
 grep -nE "^## [0-9]" ai-kit/AGENT-INSTRUCTIONS.md                                     # expect: 0..9 in order
