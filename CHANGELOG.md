@@ -9,6 +9,40 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.1.0] — 2026-07-02
+
+Composition pass on the manual — one broken pointer fixed, three internal tensions resolved, two
+thin rules added. Aimed at keeping the manual unambiguous for weaker models as well as frontier ones.
+
+### Fixed
+
+- **§1.5 "Gate before building" pointed at §4.4** (resuming cold) instead of §2.4 (the gate) — the
+  manual's most important pointer now lands on the right procedure.
+
+### Added
+
+- **§1.12 — precedence when layers conflict.** Explicit in-chat user instruction (this session) >
+  `PROJECT.md` > the manual's defaults; HARD RULEs yield only to an explicit, per-instance user
+  instruction — never to inference, silence, or a general preference.
+- **§2.4 — unattended-gate rule.** No reviewer available (unattended / non-interactive run) → author
+  the plan, mark the effort blocked at the gate, stop; never self-approve. An explicit user
+  pre-authorization ("build without waiting for review") counts as the go. Matching §8 anti-pattern
+  added.
+
+### Changed
+
+- **The progress folder name is now canonical.** §4.1 said "e.g. `ai-progress/`" while §0/§8 hardcode
+  `ai-progress/INDEX.md`; the "e.g." is gone and the reason (the §0 session-start check relies on the
+  exact path) is stated in place.
+- **Progress-file commits ride the §2.6 commit gate.** §1.4/§4's "write it down, commit it" no longer
+  collides with "commit only when asked" — §4 now says plan commits follow §2.6, and `PROJECT.md`'s
+  Version-control policy may pre-authorize them.
+- **HARD RULE markers added** where the rules were already counted as such: §1.11 (secrets) and the
+  §2.4 plan gate.
+- **§2.6 default-branch rule aligned with §1.12 precedence:** "never commit to the main/default
+  branch" now yields to an explicit `PROJECT.md` Version-control policy.
+- **§0 handshake fallback paragraph reformatted to bullets** — scanability only, no semantic change.
+
 ## [2.0.0] — 2026-07-01
 
 ### Changed
