@@ -1,6 +1,6 @@
 ---
 name: aikit-plan
-description: Stand up and maintain phased progress files — an ai-progress/ folder (INDEX + per-effort roadmap + per-phase files) at the repo root — so multi-step work survives /compact, new sessions, and handoffs. Invoke when starting a non-trivial effort, starting/finishing a phase, hitting a blocker, or resuming cold. The canonical layout, hard rules, and templates live in AGENT-INSTRUCTIONS.md §4; this skill walks the doing.
+description: Stand up and maintain phased progress files — an ai-progress/ folder (INDEX + per-effort roadmap + per-phase files) at the repo root — so multi-step work survives context compaction, new sessions, and handoffs. Invoke when starting a non-trivial effort, starting/finishing a phase, hitting a blocker, or resuming cold. The canonical layout, hard rules, and templates live in AGENT-INSTRUCTIONS.md §4; this skill walks the doing.
 ---
 
 # Plan + progress
@@ -14,8 +14,8 @@ description: Stand up and maintain phased progress files — an ai-progress/ fol
 ## When to use
 
 - **Standing up an effort** — at the start of any **non-trivial** task (per §0 "Scale ceremony"),
-  before scoping work, create its progress files. Skip only when the user says so, or the task is
-  trivial / pure read-only (§4 "When to create").
+  create its progress files before building (Create below locks scope first, then writes the files).
+  Skip only when the user says so, or the task is trivial / pure read-only (§4 "When to create").
 - **During work** — when you start a phase, finish a checklist item or phase, hit a blocker, or
   discover new work.
 - **At session boundaries** — at session end (log line) and session start (resume cold, §4.4). The
@@ -34,8 +34,9 @@ description: Stand up and maintain phased progress files — an ai-progress/ fol
 
 1. Confirm the work is **non-trivial** (§0). Trivial single-file edits and read-only questions get no
    progress file.
-2. **Lock scope with the user** before writing — in scope, out of scope, locked decisions (§2.2). Use
-   `AskUserQuestion` for genuine open choices; don't invent answers.
+2. **Lock scope with the user** before authoring the files — in scope, out of scope, locked decisions
+   (§2.2). Batch genuine open choices into questions (via the runtime's question tool if it has one,
+   otherwise in chat); don't invent answers.
 3. Ensure `ai-progress/INDEX.md` exists (create it from the §4.6 INDEX template on a project's first
    effort); add one row for this effort/task.
 4. **Multi-step effort** → write `{effort-slug}-ROADMAP.md` (Source · Scope · phase table · log) and
@@ -44,6 +45,9 @@ description: Stand up and maintain phased progress files — an ai-progress/ fol
    (Templates: §4.6.)
 5. **Order phases to prevent rework** — foundations before dependents (§4.5). Append the first
    session-log line.
+6. **Gate before building (§2.4).** Present the plan and wait for the explicit go. A multi-phase
+   effort gates again at each phase start (see Update below); a single-step task is gated here, on
+   its `task-{slug}.md` plan.
 
 ### Update mid-work (follow §4.3)
 
@@ -59,7 +63,7 @@ description: Stand up and maintain phased progress files — an ai-progress/ fol
 ### Session end
 
 Append one session-log line to the active roadmap/task — even "no progress" — biased toward what's
-next; update the INDEX row's state phrase (§4.3, §7).
+next (§4.2 rule 5); update the INDEX row's state phrase (§7).
 
 ### Resume cold (session start, follow §4.4)
 

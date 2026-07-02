@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.1.0
+> **Kit version:** 2.1.1
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -219,7 +219,7 @@ person knows it's shared and not safe to change blindly).
 
 ## 4. Planning & progress tracking
 
-The plan is the **source of truth** — it outlives `/compact`, new sessions, and handoffs. Your
+The plan is the **source of truth** — it outlives context compaction, new sessions, and handoffs. Your
 recollection does not. Write it down; commit it under the same rules as any change (§2.6 —
 `PROJECT.md`'s Version-control policy may pre-authorize progress-file commits).
 

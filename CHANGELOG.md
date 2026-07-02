@@ -9,6 +9,26 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.1.1] — 2026-07-02
+
+Skill-by-skill verification pass, part 1: `aikit-plan` (clarity for weaker models + portability).
+
+### Fixed
+
+- **`aikit-plan` — single-step tasks no longer slip the plan-review gate.** Create gains an explicit
+  final step: present the plan and wait for the go (§2.4). Multi-phase efforts still gate per phase at
+  Update; a single-step `task-{slug}.md` is gated on its inline plan — previously nothing in the
+  skill's numbered steps paused before building.
+- **`aikit-plan` — runtime-agnostic phrasing.** The runtime-specific `AskUserQuestion` tool name is
+  gone (now: batch questions via the runtime's question tool if it has one, otherwise in chat), as is
+  `/compact` in the skill description and manual §4 (now: "context compaction") — the kit's other
+  target runtimes have neither.
+- **`aikit-plan` — "When to use" no longer contradicts the procedure's order.** It said "before
+  scoping work, create its progress files" while Create locks scope first (step 2) and writes the
+  files after (steps 3–4).
+- **`aikit-plan` — precise cites.** The session-end log-line rule now cites its owner (§4.2 rule 5,
+  was §4.3); "before writing" → "before authoring the files" (files, not code).
+
 ## [2.1.0] — 2026-07-02
 
 Composition pass on the manual — one broken pointer fixed, three internal tensions resolved, two
