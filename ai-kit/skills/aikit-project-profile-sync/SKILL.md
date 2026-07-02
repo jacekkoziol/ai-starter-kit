@@ -85,9 +85,13 @@ Run all checks; **collect every failure with its specifics — don't stop at the
   methodology is inert.
 - **No leftover `<!-- To Remove -->` blocks:** `grep -rn "To Remove" ai-kit/` → expect none (bootstrap steps
   3.5 / 7 delete them).
-- **No stray un-annotated `TODO` / `{placeholder}`:** `grep -rn "TODO" ai-kit/` (and scan for `{…}` braces);
-  every remaining hit must be an intentionally-deferred slot annotated `confirm with owner` (bootstrap
-  contract rule 2). A raw `TODO` = a managed slot never filled.
+- **No stray un-annotated `TODO` / `{placeholder}` on the fill-in surfaces:** grep `TODO` across the
+  files the step-1 inventory listed (the marker-bearing managed files — today `PROJECT.md` +
+  `reference/*.md`; inventory-derived, so a future marker-bearing surface joins automatically) and
+  scan them for `{…}` braces. Every hit must be an intentionally-deferred slot annotated `confirm
+  with owner` (bootstrap contract rule 2) — a raw `TODO` there is a managed slot never filled.
+  Scaffold/prose `TODO`s elsewhere (the manual's §0, templates, skills) are not managed slots and
+  stay out of this check.
 - **Role filled:** the `fill:user` slot under `PROJECT.md` `## Role` holds real content, not
   `TODO`/`{placeholder}`. (Presence only; content is user judgment, re-checked by asking in step 3.)
 - **Mode is a valid value:** the `## Response economy` Mode is exactly one of `standard | concise |
@@ -114,6 +118,9 @@ Run all checks; **collect every failure with its specifics — don't stop at the
 For each `fill:auto` field, re-read its **cited** evidence source (the same source bootstrap used) and
 diff against the documented value; draft an evidence-backed **proposed** update:
 
+- **Overview ("What this project is") + Glossary** → re-read the harvested instruction sources
+  (bootstrap step 2 — README / CONTRIBUTING / agent docs); diff the overview paragraph and the
+  glossary terms against what they now say.
 - **Stack & versions** → re-read the dependency manifest + pinned-runtime files (bootstrap step 3).
 - **Commands table** → re-extract Install/Dev/Build/Test/Lint/Format **verbatim** from the cited source,
   cross-check order against CI (step 4). Flag renamed/removed/added scripts; never fabricate (rule 4).

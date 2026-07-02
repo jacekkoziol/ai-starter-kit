@@ -9,6 +9,24 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.2.1] — 2026-07-02
+
+Skill-by-skill verification pass, part 5: `aikit-project-profile-sync` (plus a future-proofing touch
+to bootstrap step 1 raised at review).
+
+### Fixed
+
+- **Sync's stray-TODO health check is scoped to the fill-in surfaces — and inventory-derived.** It
+  grepped all of `ai-kit/`, so the manual's §0 prose `TODO`, `_SKILL-TEMPLATE`, and the `templates/`
+  scaffolds reported false health failures on every run. It now sweeps exactly the files the step-1
+  marker inventory lists (today `PROJECT.md` + `reference/*.md`) — a future marker-bearing surface
+  joins automatically, and scaffold/prose `TODO`s stay out. Bootstrap step 1 carries the matching
+  layering note.
+- **Sync's DRIFT list covers the harvested-source fields.** Overview "What this project is" and the
+  Glossary (managed since 2.2.0) — both `fill:auto · harvested instruction sources` — had no
+  re-validation bullet, so a literal reader never re-checked them. New bullet: re-read the bootstrap
+  step-2 sources and diff both.
+
 ## [2.2.0] — 2026-07-02
 
 Skill-by-skill verification pass, part 4: `aikit-project-profile-bootstrap` — closing "the most-missed

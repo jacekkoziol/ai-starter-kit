@@ -54,8 +54,10 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 
 ### 1. Scope — find every placeholder
 
-Grep the fill-in surfaces so you fill exactly what's blank (robust to future doc changes; scoped to
-the managed files, so the manual's prose mention of `TODO` doesn't read as a placeholder):
+Grep the fill-in surfaces so you fill exactly what's blank. The managed files are wherever `fill:`
+markers live — by the kit's layering, exactly `PROJECT.md` + `reference/*.md` (a future kit version
+adding a marker-bearing surface joins this sweep); the manual/templates/skills hold only scaffold or
+prose `TODO`s, not slots:
 
 ```bash
 grep -rn "TODO" ai-kit/PROJECT.md ai-kit/reference/
