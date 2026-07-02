@@ -9,6 +9,28 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.2.2] — 2026-07-02
+
+Verification pass, final part: `AGENT-INIT.md`, the kit `README.md`, `reference/*`, and `templates/*`.
+The whole reference layer and the templates guide verified clean — the findings were in the other
+three files.
+
+### Fixed
+
+- **`templates/design-tool-skill.md` — the copied skill no longer silently fails discovery.** The
+  template opens with an HTML comment above the YAML frontmatter and never said to remove it; copied
+  verbatim (as the templates guide instructs), the frontmatter sat mid-file, which skill discovery
+  silently skips. The comment now instructs its own deletion in the copy.
+- **`AGENT-INIT.md` — runtime-table headers no longer collide with the `§N` convention.** They said
+  `(§2)`/`(§3)` meaning AGENT-INIT's own steps, but kit-wide `§N` means a manual section; now
+  "(step 2)"/"(step 3)".
+- **Kit `README.md`:** "How to extend" pointed profile-filling at Setup step 3 (it's step 4 — step 3
+  is skill discovery); Setup step 4's ask-list gained the 2.2.0 additions (version-control policy,
+  locked decisions, config visibility, kit source); step 5's TODO check is scoped to the fill-in
+  surfaces like bootstrap/sync (the full-kit sweep always showed scaffold `TODO`s and contradicted
+  itself); the session prompt no longer pairs `CLAUDE.md` as the profile (it's the pointer); the
+  title path reads `ai-kit/` (was `/ai-kit`).
+
 ## [2.2.1] — 2026-07-02
 
 Skill-by-skill verification pass, part 5: `aikit-project-profile-sync` (plus a future-proofing touch

@@ -1,4 +1,4 @@
-# `/ai-kit` — how this works (for you, the human)
+# `ai-kit/` — how this works (for you, the human)
 
 **A drop-in operating manual that gives any AI coding agent the discipline of a senior engineer** — a
 clear way of working, **analyze → clarify → plan → gate → build → verify**, that gets your sign-off on
@@ -233,9 +233,10 @@ it **after** step 3 (the `/aikit-project-profile-bootstrap` command exists only 
    the TODOs in `ai-kit/PROJECT.md` and `ai-kit/reference/*.md`."*
 
 It scans the repo, fills the `TODO`s with evidence-backed values, then **pauses to ask you** to confirm
-the build/test/lint commands, the inferred decision ladders, the drafted Role, and your
-response-economy mode (`standard` | `concise` | `terse`). Answer those — they're the parts it can't
-safely infer.
+the build/test/lint commands, the inferred decision ladders, the drafted Role, your
+response-economy mode (`standard` | `concise` | `terse`), the version-control policy, any locked
+decisions, config visibility (shared vs local-only), and the kit's update source. Answer those —
+they're the parts it can't safely infer.
 
 Hand-filling is the fallback: open [`PROJECT.md`](PROJECT.md) and work through its `TODO` list (Role,
 Overview, Commands, Integrations, Version control, Conventions, Layout, Locked decisions), then the
@@ -256,8 +257,9 @@ In a **fresh** session, verify the halves are live before doing real work:
 - **The skills resolve.** In Claude Code, `/aikit-plan` (and the other `aikit-*` skills) should be
   listed/invocable — confirming step 3 wired discovery. If not, the symlinks are missing or sit under a
   `.claude/` your tool doesn't load.
-- Run `grep -rn "TODO" ai-kit/` and confirm it returns only intentionally-deferred placeholders (each
-  annotated `confirm with owner`), not raw scaffolding `TODO`s.
+- Run `grep -rn "TODO" ai-kit/PROJECT.md ai-kit/reference/` and confirm it returns only
+  intentionally-deferred placeholders (each annotated `confirm with owner`). (The manual, templates,
+  and skills legitimately contain scaffold `TODO`s — they're outside the fill-in surfaces.)
 
 ### 6. Commit
 
@@ -295,7 +297,7 @@ before asking for any work:
 > Read `ai-kit/AGENT-INSTRUCTIONS.md` first and confirm you loaded it with the one-line handshake it
 > specifies — it owns how you approach every
 > task: analyze → clarify → plan → gate → build → verify, plus the progress-file procedure and the
-> per-phase plan-review gate. Follow it. Also read the project profile (`ai-kit/PROJECT.md` / `CLAUDE.md`)
+> per-phase plan-review gate. Follow it. Also read the project profile (`ai-kit/PROJECT.md`)
 > if one exists, for the **Role** (your persona/mandate), **response-economy mode** (§9), stack,
 > conventions, and build/test/lint commands. If `PROJECT.md` is still full of `TODO`s, the kit isn't
 > set up — say so and offer to run `aikit-project-profile-bootstrap` before real work.
@@ -330,7 +332,7 @@ TASK:
 
 Keep the split that makes this kit work: **a generic "how" + a project-specific "what."**
 
-(Filling the project profile is **Setup** above — step 3. What follows is how the kit grows *after*
+(Filling the project profile is **Setup** above — step 4. What follows is how the kit grows *after*
 setup.)
 
 **1. Grow `reference/`, `skills/`, `templates/` from real friction.** The folders exist with starter

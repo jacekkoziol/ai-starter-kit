@@ -1,4 +1,6 @@
-<!-- TEMPLATE — copy to <your-repo>/ai-kit/skills/{tool}-to-code/SKILL.md and fill it in.
+<!-- TEMPLATE — copy to <your-repo>/ai-kit/skills/{tool}-to-code/SKILL.md, fill it in, and DELETE
+     this whole comment block in the copy: the `---` frontmatter must be the FIRST thing in the
+     file, or skill discovery silently skips it.
      This scaffolds a PROJECT-AUTHORED (unprefixed) skill that wires ONE specific design tool to the
      kit's stack-agnostic `aikit-implement-from-design`. Tool/stack-specific terms ARE fine in the
      copy you make — it lives in YOUR project, not the portable kit. The relative links below are

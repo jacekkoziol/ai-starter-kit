@@ -13,7 +13,7 @@
 You likely know which agent you are; if not, **ask the user**. It picks two paths — root file and skills
 directory — from this table; everything else is identical.
 
-| Runtime | Root file it auto-loads (§2) | Skills directory (§3) |
+| Runtime | Root file it auto-loads (step 2) | Skills directory (step 3) |
 | --- | --- | --- |
 | Claude Code | `CLAUDE.md` (or `AGENTS.md`) | `.claude/skills` |
 | Codex | `AGENTS.md` | `.agents/skills` |
