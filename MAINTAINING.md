@@ -24,7 +24,7 @@ Emit it once per session, in every response mode. (Mirrors the kit's own session
 confirms the *maintenance* guide loaded.)
 
 **Periodic-check nudge.** After the handshake, read the ledger in
-[`maintenance/README.md`](maintenance/README.md): if any task's *last run + cadence* falls before today's
+[`maintenance/README.md`](maintenance/README.md): if any task's *last run + cadence* falls on or before today's
 real date, add a one-line reminder that it's due (e.g. `⏰ verify-runtime-wiring due — last ran
 2026-06-01`). Use the actual current date; if it's unknown or the ledger is missing, **skip silently** —
 never fabricate a run, a date, or a nudge. The chores themselves (and the discipline for stamping a
@@ -57,8 +57,9 @@ last-run date only *after* running one) live in [`maintenance/`](maintenance/REA
    read-only turns). **State the current branch when you ask — especially call out when it's `main`**,
    so the user knows the commit would land directly on the default branch. Direct commits to `main` are
    fine in *this* home repo (kit maintenance lives on `main`); the vendored *"never commit to the
-   default branch directly"* rule (`AGENT-INSTRUCTIONS.md` §2) is about *downstream* use, not the work
-   here — but the ask still applies every time.
+   main/default branch directly unless `PROJECT.md`'s Version-control policy explicitly allows it"*
+   rule (`AGENT-INSTRUCTIONS.md` §2.6) is about *downstream* use, not the work here — but the ask
+   still applies every time.
 
 ## Layout
 
@@ -72,6 +73,10 @@ ai-kit/                       # THE KIT — this is what gets copied into other 
   reference/              #   descriptive project facts (the "what") + index
   skills/                 #   repeatable procedures (folder-per-skill; kit-shipped: aikit-{name}/SKILL.md) + index
   templates/              #   literal copy-me scaffolds + index
+AGENTS.md                 # root pointer for agent sessions in this repo — imports MAINTAINING.md every session
+CLAUDE.md                 # symlink → AGENTS.md (the filename Claude Code auto-loads)
+CHANGELOG.md              # home-only release history — one dated entry per Kit version; never vendored
+LICENSE                   # repo license
 README.md                 # human front-door for the repo (quickstart + doc routing) — home-only, never vendored
 MAINTAINING.md            # this file — stays OUTSIDE ai-kit/, never vendored downstream
 maintenance/              # home-only periodic chores (time-triggered upkeep) — never vendored
@@ -133,7 +138,7 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 | **New project-fact category** | `reference/{doc}.md` **+** `reference/README.md` index; route to its skill at the bottom. |
 | **New scaffold** | `templates/{file}` **+** `templates/README.md` index. |
 | **New manual section** | Append as the next `§N` — **never renumber** existing sections. |
-| **Renamed / added / removed file** | The README **folder map** and the **"What's in here"** table. |
+| **Renamed / added / removed file** | Kit-level: the README **folder map** and the **"What's in here"** table. Home-level: the **Layout** block in this guide. |
 | **Any change to vendored `ai-kit/` content** | Bump the **Kit version** in `AGENT-INSTRUCTIONS.md`'s header per semver **+** add a dated `CHANGELOG.md` entry (see §"Versioning & releases"). Changes touching only home-only files (this guide, `CHANGELOG.md`) don't bump. |
 
 The most-missed one: **adding a fillable field without tagging it `fill:` AND wiring `aikit-project-profile-bootstrap`** — then it's invisible to both the health check and sync. A new field is only "done" when it carries a `fill:` marker, bootstrap fills-or-asks it, `aikit-project-profile-sync` can re-validate it, and a Verify item guards it.
@@ -167,12 +172,15 @@ The manual's Kit version and the latest `CHANGELOG.md` entry must always match �
   manual, PROJECT.md, the skill, and the README) and any past references.
 - **Behavioral knobs** (Role, response-economy mode) live **only** in `PROJECT.md`; the manual points
   at them, never embeds them.
-- **Mode names are exactly** `standard | concise | terse` — everywhere, no drift.
+- **Response-economy mode names are exactly** `standard | concise | terse` — everywhere that knob
+  appears, no drift. (`PROJECT.md`'s Config-visibility "Mode" — `shared | local-only` — is a
+  different field; don't conflate the two.)
 - **HARD RULEs may be tightened, never weakened** — e.g. economy-never-overrides-substance, secrets,
   reuse-before-building, the plan-review gate.
 - **The session-start handshake stays self-verifying** — emitted only because the instruction was
   actually read; never a fabricated banner.
-- **All relative links resolve**, and the README folder map matches the real tree.
+- **All relative links resolve** (consistency-check #10), and the README folder map matches the real
+  tree (check #6).
 - **No project / stack / tool terms** in the portable files (`AGENT-INSTRUCTIONS.md`, the README's
   generic parts, the reference/skills/templates guides).
 - **Nothing under `ai-kit/` may reference `MAINTAINING.md` or `CHANGELOG.md`** — both are home-only and never
@@ -208,22 +216,29 @@ grep -nE "^## [0-9]" ai-kit/AGENT-INSTRUCTIONS.md                               
 # 3. Every cross-reference still resolves (eyeball the §N you touched)
 grep -rn "§[0-9]" ai-kit/
 
-# 4. Mode names consistent
-grep -rnoE "\`(standard|concise|terse)\`" ai-kit/                                     # expect: only these three
+# 4. Response-economy mode names consistent — (a) locate the legal names to eyeball context; (b) on
+#    any line where a legal name appears, every backticked token must be legal — a drifted sibling
+#    (`brief`, `verbose`) surfaces instead of vanishing. (Grepping only for the legal names can never
+#    catch a fourth; PROJECT.md's Config-visibility "Mode" is a different field, out of scope here.)
+grep -rnoE "\`(standard|concise|terse)\`" ai-kit/
+grep -rhE "\`(standard|concise|terse)\`" ai-kit/ | grep -oE "\`[a-z]+\`" | grep -vE "\`(standard|concise|terse)\`"  # expect: none
 
 # 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding).
 #    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them. AGENT-INSTRUCTIONS
 #     is excluded: its §0 mentions `TODO` in prose describing the convention, not as a fill-in slot.)
 grep -rl "TODO" ai-kit/ | grep -vE "README|_SKILL-TEMPLATE|templates/|aikit-project-profile-bootstrap|aikit-project-profile-sync|AGENT-INSTRUCTIONS" # expect: PROJECT.md + reference/*
 
-# 6. Folder map matches reality
-find ai-kit -maxdepth 2 -type f | sort                                                # compare to README's folder map
+# 6. Folder map matches reality (skills nest at depth 3 — maxdepth must reach them)
+find ai-kit -maxdepth 3 -type f | sort                                                # compare to README's folder map
+ls -1                                                                                  # compare to the Layout block in this guide
 
 # 7. fill: markers in the managed files are well-formed (see §"The `fill:` marker convention")
-grep -rnE "<!-- fill:" ai-kit/PROJECT.md ai-kit/reference/*.md | grep -vE "<!-- fill:user -->|<!-- fill:auto · "  # expect: none
-#    (every marker is exactly one of the two forms — `auto` always carries the ` · ` evidence clause,
-#    `user` never. Completeness — no managed slot left untagged — is guarded by bootstrap's
-#    marker-preservation Verify item, not by grep: a missing marker matches nothing.)
+grep -roE "<!-- fill:[^>]*-->" ai-kit/PROJECT.md ai-kit/reference/*.md | grep -vE "<!-- fill:user -->$|<!-- fill:auto · [^>]+ -->$"  # expect: none
+#    (every marker is exactly one of the two forms — `auto` always carries a non-empty ` · ` evidence
+#    clause, `user` never. -o extracts each marker individually, so a malformed marker can't hide
+#    behind a well-formed one sharing its line. Completeness — no managed slot left untagged — is
+#    guarded by bootstrap's marker-preservation Verify item, not by grep: a missing marker matches
+#    nothing.)
 
 # 8. Vendored files must not reference home-only guides (the ref would dangle downstream)
 grep -rnE "MAINTAINING|CHANGELOG" ai-kit/                                             # expect: none (home-only — never vendor)
@@ -232,6 +247,15 @@ grep -rnE "MAINTAINING|CHANGELOG" ai-kit/                                       
 manual_v=$(grep -oE "Kit version:\*\* [0-9]+\.[0-9]+\.[0-9]+" ai-kit/AGENT-INSTRUCTIONS.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
 log_v=$(grep -oE "^## \[[0-9]+\.[0-9]+\.[0-9]+\]" CHANGELOG.md | head -1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
 [ "$manual_v" = "$log_v" ] && echo "in sync: $manual_v" || echo "DRIFT: manual=$manual_v changelog=$log_v"  # expect: in sync
+tag_v=$(git tag -l 'v*' | sort -V | tail -1 | sed 's/^v//')
+[ "$tag_v" = "$manual_v" ] && echo "tag in sync: v$tag_v" || echo "TAG DRIFT: latest tag=v$tag_v manual=$manual_v"  # expect: in sync (the tag rides each release commit)
+
+# 10. All relative markdown links resolve (invariant "All relative links resolve"). Fenced code
+#     blocks are stripped first (example links use placeholder names); templates/ and
+#     _SKILL-TEMPLATE are skipped — their links are written for the copy destination by design.
+for f in $(git ls-files '*.md' | grep -vE '^ai-kit/templates/|_SKILL-TEMPLATE'); do d=$(dirname "$f"); \
+  sed '/^```/,/^```/d' "$f" | grep -oE '\]\([^)#: ]+' | sed 's/^](//' | while read -r l; do \
+  case "$l" in http*|mailto*|/*) continue;; esac; [ -e "$d/$l" ] || echo "BROKEN: $f -> $l"; done; done  # expect: none
 ```
 
 ## Anti-patterns (kit maintenance)
