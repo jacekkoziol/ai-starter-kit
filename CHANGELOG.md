@@ -9,6 +9,24 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.1.2] — 2026-07-02
+
+Skill-by-skill verification pass, part 2: `aikit-implement-from-design` (making the implicit explicit
+for weaker models).
+
+### Fixed
+
+- **Verify now checks states + breakpoints.** Step 1 headlines capturing every state ("missing a
+  state now means rework later"), but the closing checklist never verified them — a parity check
+  against a static mockup passed with only the default view built. New Verify item: every captured
+  state and responsive breakpoint implemented and exercised.
+- **The per-phase gate is explicit.** Step 4's "flip each `aikit-plan` phase" now routes through that
+  skill's Update steps — each phase gates at its start (§2.4) — instead of reading as bare
+  status-flipping.
+- **Recorded gaps are routed.** Step 2's token/component gaps now explicitly close first as step 3's
+  foundations work, and a gap needing a new dependency or pattern is flagged as a §5.2 stop-and-ask
+  (design work is exactly where uninvited libraries creep in).
+
 ## [2.1.1] — 2026-07-02
 
 Skill-by-skill verification pass, part 1: `aikit-plan` (clarity for weaker models + portability).

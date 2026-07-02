@@ -32,11 +32,14 @@ description: Translate a visual design source (mockup, screenshot, exported spec
    loading), and responsive behavior. Missing a state now means rework later.
 2. **Map to what already exists first (§3).** For each value the design needs, find the project's
    existing **token** (don't hardcode a hex/px that already has one) and existing **component**, then
-   apply the §3 reuse ladder. Record gaps where the design needs a token/component that doesn't exist yet.
-3. **Build in anti-rework order (§4.5):** foundations/tokens → structure/markup → presentation/styling
-   → behavior/interactivity. **Don't style before the structure stabilizes.**
-4. **Work section by section.** Flip each `aikit-plan` phase as you go; keep changes scoped to the
-   section in flight.
+   apply the §3 reuse ladder. Record gaps where the design needs a token/component that doesn't exist
+   yet (step 3 closes them first); a gap that needs a **new dependency or pattern** is a §5.2
+   stop-and-ask — don't install on your own.
+3. **Build in anti-rework order (§4.5):** foundations/tokens (close step 2's recorded gaps here, in
+   the shared layer) → structure/markup → presentation/styling → behavior/interactivity. **Don't
+   style before the structure stabilizes.**
+4. **Work section by section.** Advance each `aikit-plan` phase as you go (follow its Update steps —
+   each phase gates at its start, §2.4); keep changes scoped to the section in flight.
 5. **Verify parity, then run §7.** Compare the rendered result to the design source (use the project's
    preview/build), reconcile spacing/type/color against the captured decisions, then run
    build/test/lint and re-read the diff. Report any intentional deviations.
@@ -53,6 +56,8 @@ then hands the decisions to this skill. Keeps this procedure vendor-neutral and 
 - [ ] Tokens **reused**, not hardcoded; new components modeled on the closest sibling (§3).
 - [ ] Built structure-before-style; no styling landed before structure stabilized (§4.5).
 - [ ] Visual parity checked against the source; deviations called out.
+- [ ] Every **state** captured in step 1 (hover/active/focus/empty/error/loading) and each responsive
+      breakpoint implemented and exercised — not just the default view.
 - [ ] Build/test/lint ran (or the lightest real check, per §7); diff matches the plan.
 
 ## Anti-patterns
