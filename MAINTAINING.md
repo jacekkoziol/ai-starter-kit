@@ -212,8 +212,9 @@ grep -rn "§[0-9]" ai-kit/
 grep -rnoE "\`(standard|concise|terse)\`" ai-kit/                                     # expect: only these three
 
 # 5. Fill-in TODOs only where intended (fill-in surfaces, not stray scaffolding).
-#    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them.)
-grep -rl "TODO" ai-kit/ | grep -vE "README|_SKILL-TEMPLATE|templates/|aikit-project-profile-bootstrap|aikit-project-profile-sync" # expect: PROJECT.md + reference/*
+#    (`fill:` markers are orthogonal — they carry no `TODO`; check #7 governs them. AGENT-INSTRUCTIONS
+#     is excluded: its §0 mentions `TODO` in prose describing the convention, not as a fill-in slot.)
+grep -rl "TODO" ai-kit/ | grep -vE "README|_SKILL-TEMPLATE|templates/|aikit-project-profile-bootstrap|aikit-project-profile-sync|AGENT-INSTRUCTIONS" # expect: PROJECT.md + reference/*
 
 # 6. Folder map matches reality
 find ai-kit -maxdepth 2 -type f | sort                                                # compare to README's folder map
