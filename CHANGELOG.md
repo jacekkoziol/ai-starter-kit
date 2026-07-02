@@ -9,6 +9,25 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.1.3] — 2026-07-02
+
+Skill-by-skill verification pass, part 3: `aikit-update-kit`.
+
+### Fixed
+
+- **Step 3's kit-owned replace list was incomplete** — `AGENT-INIT.md` and the kit-shipped
+  `templates/` scaffolds weren't listed, so a literal updater left the installer and shipped templates
+  stale across every future version. Both are now in the list (project-authored scaffolds are
+  untouched: they're not in the new snapshot).
+- **The step 2 source re-ask is documented as deliberate.** Even with a configured "Kit source"
+  override, the updater asks which source to use — by design (§2.2 notwithstanding): an update pulls
+  outside content into the repo, so the user consciously confirms the source every time. The rationale
+  now lives in the step so it can't be mistaken for an ask-discipline violation and "fixed" away.
+- **Small precision fixes.** Step 1's §2.6 paraphrase matches the 2.1.0 rule text (gates, not
+  forbids); step 7 no longer implies a mid-session handshake banner (the next session echoes the new
+  version); the Verify deletion scan is split by visibility (shared: `git diff main`; local-only:
+  `diff -r` against the backup).
+
 ## [2.1.2] — 2026-07-02
 
 Skill-by-skill verification pass, part 2: `aikit-implement-from-design` (making the implicit explicit

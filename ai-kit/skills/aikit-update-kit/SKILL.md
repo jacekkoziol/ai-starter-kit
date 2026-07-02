@@ -45,7 +45,7 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 1. **Snapshot first — how depends on config visibility** (`PROJECT.md` → "Config visibility"). Commit
    or stash any work-in-progress either way.
    - **Shared / tracked** (default): run the update on a **dedicated branch off a clean `main`** (§2.6
-     forbids committing to `main` directly anyway). Clean `main` is your restore point — the update is
+     gates direct `main` commits anyway). Clean `main` is your restore point — the update is
      the branch diff, and **not merging = instant rollback**. No physical copy needed; git snapshots
      tracked files losslessly.
    - **Local-only** (kit excluded via `.git/info/exclude`, so **untracked**): git can't snapshot it —
@@ -53,9 +53,11 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
      (`cp -r ai-kit ai-kit.bak` **outside the repo**, e.g. a scratch dir, so it's never committed) before
      overwriting; review against it in step 8 and delete it once satisfied.
 2. **Get the new snapshot — resolve the source first.** The kit's **canonical home** (top of this file)
-   is the built-in default. Read `PROJECT.md` → "Kit
-   source": if it names a project override (a fork, mirror, or local path), **ask which to use** — the
-   override or the canonical home. If it's `default` (or absent), use the canonical home automatically.
+   is the built-in default. Read `PROJECT.md` → "Kit source": if it names a project override (a fork,
+   mirror, or local path), **ask which to use** — the override or the canonical home. (Deliberately
+   re-asked on every update, §2.2 notwithstanding: an update pulls outside content into the repo, so
+   the user consciously confirms the source each time.) If it's `default` (or absent), use the
+   canonical home automatically.
    If neither resolves (e.g. a fork that blanked its home, and no override), **ask the user** — don't
    guess a URL. Obtain the target version's `ai-kit/` from the chosen source and note its Kit version so you
    can confirm the jump.
@@ -66,8 +68,9 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
    > `.git/info/exclude` entries — or just re-run [`AGENT-INIT.md`](../../AGENT-INIT.md), which re-derives
    > all of them. Full steps are in the source's 2.0.0 release notes.
 3. **Replace the purely kit-owned files** (safe to overwrite — no project content):
-   `AGENT-INSTRUCTIONS.md`, the top-level `README.md`, `skills/_SKILL-TEMPLATE.md`, and every
-   `skills/aikit-*/` — plus any **new** files the version adds. Replace these **path by path**; **never
+   `AGENT-INSTRUCTIONS.md`, `AGENT-INIT.md`, the top-level `README.md`, `skills/_SKILL-TEMPLATE.md`,
+   every `skills/aikit-*/`, and the `templates/` scaffolds the new snapshot ships (project-authored
+   scaffolds aren't in it and stay) — plus any **new** files the version adds. Replace these **path by path**; **never
    wholesale-wipe a shared directory** (`skills/`, `reference/`, `templates/`) with `rm -rf` / `cp -r` /
    `rsync --delete` — each mixes kit and project files. If a new kit file would land on a path the
    project already authored, **stop and ask** (§5.2) — don't overwrite it. The `reference/`, `skills/`,
@@ -88,8 +91,9 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 6. **Run [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md).** It health-checks the
    merged kit (pointer wired, no leftover placeholders, references resolve, `fill:` markers valid,
    index↔folder parity) and re-validates `fill:auto` values against the repo. Fix what it flags.
-7. **Confirm the version.** The session-start handshake should now read the new `v{version}` (from the
-   updated `AGENT-INSTRUCTIONS.md` header).
+7. **Confirm the version.** The updated `AGENT-INSTRUCTIONS.md` header now carries the new Kit
+   version; the session-start handshake echoes it from the **next** session on — don't wait for a
+   banner mid-session.
 8. **Review, then finalize — per visibility.** **Scan for deletions** — every removed file/line under
    `ai-kit/` must be kit-owned; flag any project-owned deletion before it lands.
    - **Shared / tracked:** review the git diff and commit per the version-control policy (§2.6).
@@ -102,7 +106,7 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 - [ ] `AGENT-INSTRUCTIONS.md` header shows the **new** Kit version.
 - [ ] `PROJECT.md` + `reference/*.md` keep every prior project answer; new slots added with markers.
 - [ ] The `skills`/`reference`/`templates` README indexes keep every **project-authored** row; only kit rows were replaced.
-- [ ] **Nothing project-owned vanished** — every project-authored skill, reference doc, template, and co-located resource that existed pre-update still exists (`git diff main` shows deletions only of kit files).
+- [ ] **Nothing project-owned vanished** — every project-authored skill, reference doc, template, and co-located resource that existed pre-update still exists (shared: `git diff main` shows deletions only of kit files; local-only: `diff -r` against the `ai-kit.bak` copy).
 - [ ] `aikit-project-profile-sync` reports healthy (no leftover placeholders, links resolve, markers valid).
 - [ ] The diff is reviewable and committed; nothing under `ai-kit/` references the kit's home-only files.
 
