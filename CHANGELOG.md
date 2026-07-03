@@ -9,6 +9,22 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.3.0] — 2026-07-03
+
+### Added
+
+- **Bootstrap + sync now inventory the runtime's live MCP tool surface** (owner-requested). Tool
+  config files (`.mcp.json` etc.) only capture project-scoped servers; ones wired at the user/global
+  level were invisible to the Integrations detection. Bootstrap step 4.5 now also enumerates the
+  servers the agent can actually reach in-session and asks the user — **one decision per server** —
+  whether each belongs in the project profile. Accepted servers can be added to the project tool
+  config (offered; the normal gate applies); ones documented without a config entry carry a
+  **`(runtime-only)` tag**. The live surface is per-machine evidence, so sync **re-asks** tagged
+  entries instead of validating them against config — no cross-machine drift churn. Contract rule 1
+  gains the matching clause (user-stated answers are their own evidence, cited "user-confirmed") and
+  the first anti-pattern names the exception; a Verify item guards the inventory-and-ask; sync's
+  Integrations DRIFT bullet is extended to run the same inventory.
+
 ## [2.2.2] — 2026-07-02
 
 Verification pass, final part: `AGENT-INIT.md`, the kit `README.md`, `reference/*`, and `templates/*`.

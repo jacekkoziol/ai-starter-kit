@@ -33,7 +33,9 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 ## The contract (non-negotiable)
 
 1. **Evidence or nothing.** Every value you write must be backed by a real file, config, or command
-   found in the repo. Note the source (path) in the session summary so it's auditable.
+   found in the repo. Note the source (path) in the session summary so it's auditable. User-stated
+   answers (the mode, policies, per-server confirmations) are their own evidence — cite them as
+   "user-confirmed".
 2. **Don't guess.** If something can't be determined from the repo, **leave the `TODO`** and annotate
    it `TODO — not found; confirm with owner`. A wrong-but-confident value is worse than a blank.
 3. **Commands are sacred.** Never fabricate a build/test/lint command. Copy it **verbatim** from
@@ -119,6 +121,18 @@ Read tool config (`.mcp.json`, `.cursor/mcp.json`, editor MCP settings) and list
 servers / tools under "Available". The **mandated channels** (e.g. "all writes go through {tool}, never
 raw SQL") usually aren't in config — harvest them from instruction sources (step 2) or **ask the
 user**; never assume. Keep the stop-if-missing rule.
+
+**Then inventory the runtime's live tool surface** — the MCP servers/tools actually available to you
+in this session (use your runtime's tool listing; if it can't enumerate, note that and skip). The live
+surface is **per-machine evidence, not project evidence** — a globally-configured server your session
+sees may be invisible to a teammate's. So for each server visible at runtime but absent from the
+project's tool config, **ask the user — one decision per server** (batch the presentation, §2.2):
+document it under "Available", or leave it out (personal/global config, not a project fact). For an
+accepted server, **offer** to add it to the project's tool config so teammates and future syncs see it
+(a repo change — the normal gate applies); if the user wants it documented but *not* in config, record
+it with a **`(runtime-only)` tag** — [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md)
+re-asks tagged entries instead of validating them against config. The confirmed list also feeds the
+mandated-channels ask above.
 
 ### 5. Detect conventions → `reference/coding-conventions.md`
 
@@ -238,6 +252,9 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
 - [ ] Locked decisions: ADR-derived candidates were **proposed** at the gate; none invented.
 - [ ] Glossary filled from harvested terms, or the optional section deleted — not left as bare `TODO`s.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
+- [ ] The runtime's live tool surface was inventoried (or noted as non-enumerable); every
+      runtime-visible server absent from project config was asked about — one decision per server;
+      accepted-but-unconfigured entries carry the `(runtime-only)` tag.
 - [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
 - [ ] For a UI-producing stack, an accessibility rule (WCAG 2.2 AA + ARIA APG) was **proposed** at the gate; skipped for non-UI stacks.
 - [ ] Config visibility was **asked** and recorded in `PROJECT.md`; if local-only, `ai-kit/` (+ `ai-progress/`, kit-only pointer) are in `.git/info/exclude` while still untracked.
@@ -245,7 +262,8 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
 
 ## Anti-patterns
 
-- ❌ Writing any value not backed by a file in the repo — above all, inventing a build/test command.
+- ❌ Writing any value not backed by a file in the repo (user-confirmed answers are the one
+  exception — contract rule 1) — above all, inventing a build/test command.
 - ❌ Deleting the blockquote guidance or the "generic lives in AGENT-INSTRUCTIONS" framing.
 - ❌ Filling `decision-ladders.md` with generic fluff instead of the repo's actual patterns.
 - ❌ Overwriting content a human already filled in (only replace `TODO` markers).

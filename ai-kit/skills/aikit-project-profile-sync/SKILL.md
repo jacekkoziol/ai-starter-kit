@@ -125,7 +125,11 @@ diff against the documented value; draft an evidence-backed **proposed** update:
 - **Commands table** → re-extract Install/Dev/Build/Test/Lint/Format **verbatim** from the cited source,
   cross-check order against CI (step 4). Flag renamed/removed/added scripts; never fabricate (rule 4).
   The command string is `auto` (propose); the "Who runs it" column is judgment → **ask**.
-- **Integrations → Available** → re-read the cited tool config (step 4.5); diff configured servers/CLIs.
+- **Integrations → Available** → re-read the cited tool config (step 4.5); diff configured
+  servers/CLIs. Then inventory the runtime's live tool surface as bootstrap 4.5 does: a server newly
+  visible but undocumented → **ask**, one decision per server; a **`(runtime-only)`-tagged** entry is
+  user-confirmed, per-machine evidence — **re-ask** its presence rather than flagging it against
+  config (it may be personal, or another teammate's).
 - **Conventions / `coding-conventions.md`** → re-locate the cited linter/formatter/style configs
   (step 5); confirm each still exists and any "deviates from stock" note still matches; re-confirm
   pre-commit/CI HARD-RULE enforcers exist. Propose which config IS the source of truth; **ask** before
