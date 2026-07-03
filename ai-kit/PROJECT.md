@@ -79,13 +79,14 @@ runs them itself or asks you to.
 
 > Is this `ai-kit/` kit **shared** (committed & pushed with the repo, for the whole team) or **local-only**
 > (kept on your machine, hidden from the remote via `.git/info/exclude` — which is itself never
-> committed)? Set at bootstrap; change any time with the steps below.
+> committed)? Set at bootstrap; switch any time — see **Switching later** below.
 
 - **Mode:** `shared`  <!-- shared | local-only -->  <!-- fill:user -->
 
-**Switching** (effective only while the kit is **untracked** — run `git rm --cached -r ai-kit/ ai-progress/`
-first if already committed): **to local-only** → add `ai-kit/`, `ai-progress/`, and the kit's dedicated
-root pointer to `.git/info/exclude`; **to shared** → remove those lines, then `git add` the kit.
+**Switching later** → run [`aikit-switch-visibility`](skills/aikit-switch-visibility/SKILL.md) — it
+moves all four kit artifacts together (kit, `ai-progress/`, kit-only root pointer, skills symlinks),
+updates this Mode field, and surfaces the team-impact warnings (a pushed kit disappears from the
+remote when untracked; sharing makes this file team-visible).
 
 ## Kit source
 

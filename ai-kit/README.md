@@ -49,6 +49,8 @@ ai-kit/
       SKILL.md            #   first-adoption skill: fill PROJECT.md + reference/*.md from the repo
     aikit-project-profile-sync/
       SKILL.md            #   health + drift check: keep PROJECT.md + reference/*.md healthy & in sync
+    aikit-switch-visibility/
+      SKILL.md            #   flip Config visibility shared ⇄ local-only (kit + pointer + symlinks together)
   templates/              # literal code/scaffold to copy
     README.md             #   layer guide + index
     design-tool-skill.md  #   scaffold a downstream design-tool → code skill (e.g. Figma)

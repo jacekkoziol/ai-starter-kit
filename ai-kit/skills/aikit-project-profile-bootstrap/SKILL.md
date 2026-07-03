@@ -128,11 +128,14 @@ surface is **per-machine evidence, not project evidence** — a globally-configu
 sees may be invisible to a teammate's. So for each server visible at runtime but absent from the
 project's tool config, **ask the user — one decision per server** (batch the presentation, §2.2):
 document it under "Available", or leave it out (personal/global config, not a project fact). For an
-accepted server, **offer** to add it to the project's tool config so teammates and future syncs see it
-(a repo change — the normal gate applies); if the user wants it documented but *not* in config, record
-it with a **`(runtime-only)` tag** — [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md)
-re-asks tagged entries instead of validating them against config. The confirmed list also feeds the
-mandated-channels ask above.
+accepted server, the default follows **Config visibility** (step 12): kit **`shared`** → **offer** to
+add it to the project's tool config (creating the file if absent) so teammates and future syncs see it
+(a repo change — the normal gate applies); kit **`local-only`** → default to documenting it with the
+**`(runtime-only)` tag**, because the tracked tool config is **team-visible even though this kit
+isn't** — touch it only after flagging that mismatch and getting an explicit yes. Either way, a
+documented-but-unconfigured entry carries the tag —
+[`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md) re-asks tagged entries instead
+of validating them against config. The confirmed list also feeds the mandated-channels ask above.
 
 ### 5. Detect conventions → `reference/coding-conventions.md`
 
@@ -225,10 +228,12 @@ with **no** skill mechanism there's nothing to wire: a skill is invoked by point
 **Config visibility:** ask whether the kit should be **shared** (committed & pushed with the repo — the
 default) or **local-only** (kept on this machine, not pushed). Record the answer in `PROJECT.md` →
 "Config visibility". If **local-only**, add the kit's paths to `.git/info/exclude` (the per-clone ignore
-that's never committed) — `ai-kit/`, `ai-progress/`, and the root pointer file **only if it was created
-solely for the kit** (leave it tracked if it also holds team content). This works only while those paths
-are **untracked**, so do it before the kit is committed (else `git rm --cached -r` them first). For a
-shared kit, do nothing here — it's committed normally in README step 6.
+that's never committed) — `ai-kit/`, `ai-progress/`, the **skills symlinks from step 11**, and the root
+pointer file **only if it was created solely for the kit** (leave it tracked if it also holds team
+content). This works only while those paths are **untracked**, so do it before the kit is committed
+(else `git rm --cached -r` them first). For a shared kit, do nothing here — it's committed normally in
+README step 6. **Switching modes later** is its own procedure:
+[`aikit-switch-visibility`](../aikit-switch-visibility/SKILL.md).
 
 **Update source:** confirm `PROJECT.md` → "Kit source" — leave `default` to update from the kit's
 canonical home, or set a fork/mirror/local path if this project vendors the kit from elsewhere.

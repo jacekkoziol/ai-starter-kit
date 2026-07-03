@@ -9,6 +9,31 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.4.0] — 2026-07-03
+
+### Added
+
+- **New skill `aikit-switch-visibility` — flip the kit between `shared` and `local-only` safely.**
+  The old three-line "Switching" note in `PROJECT.md` was incomplete: it missed the **skills
+  symlinks** (a committed symlink into an excluded folder = broken for teammates), never said to
+  update the Mode field itself, and had no warning that untracking a **pushed** kit deletes it from
+  the remote for the whole team (§5.2 stop-and-ask). The skill owns the full both-directions
+  procedure — real-state check first (trust git over the field), all four artifacts moved together
+  (kit, `ai-progress/`, kit-only pointer, symlinks), the pushed-kit and shared-root-file warnings,
+  the Mode-field update, and a `(runtime-only)` entries review when going shared. `PROJECT.md`'s
+  note now routes there; skills index row + README folder map updated.
+
+### Changed
+
+- **The 2.3.0 runtime-server offer is Config-visibility-aware.** Kit `shared` → default to offering
+  the tool-config add (creating the file if absent); kit `local-only` → default to the
+  `(runtime-only)` tag, and touch the tracked (team-visible) tool config only after flagging the
+  visibility mismatch and getting an explicit yes. Sync inherits via its "as bootstrap 4.5 does"
+  reference.
+- **Bootstrap step 12 excludes the skills symlinks too** for a local-only first adoption (they were
+  missing from its exclude list — the same half-state bug the new skill fixes for switching), and
+  routes later mode changes to `aikit-switch-visibility`.
+
 ## [2.3.0] — 2026-07-03
 
 ### Added
