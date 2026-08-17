@@ -4,8 +4,8 @@
 clear way of working, **analyze → clarify → plan → gate → build → verify**, that gets your sign-off on
 a plan before it writes code and leaves a trail that survives context resets and hand-offs. It's a
 single `ai-kit/` folder of plain Markdown — a stack-agnostic methodology plus a short per-project profile —
-that works with Claude Code, Codex, Gemini CLI, Cursor, Copilot, or anything that auto-loads a root
-instruction file; no plugin, nothing to install.
+that works with Claude Code, Codex, Gemini CLI, Cursor, Windsurf, Copilot, or anything that auto-loads a
+root instruction file; no plugin, nothing to install.
 
 This README is the **human's guide** — what the kit is, how to set it up, and how to grow it. The
 agent's own manual is [`AGENT-INSTRUCTIONS.md`](AGENT-INSTRUCTIONS.md); fill the per-project specifics
@@ -145,7 +145,7 @@ edits needed yet.
 ### 2. Wire the root pointer (the load-bearing step — everything depends on it)
 
 Most AI coding tools auto-load one root instruction file at session start — `CLAUDE.md`, `AGENTS.md`,
-`GEMINI.md`, `.cursorrules`, or `.github/copilot-instructions.md`. **Starting fresh (no such file yet)? Prefer
+`GEMINI.md`, `.cursor/rules`, or `.github/copilot-instructions.md`. **Starting fresh (no such file yet)? Prefer
 `AGENTS.md`** — it's the emerging cross-tool standard most agents read — and for Claude Code create
 `CLAUDE.md` as a **symlink** to it (`ln -s AGENTS.md CLAUDE.md`), so both load one file you maintain in
 a single place. Add this one line to that root file (create it if none exists):
@@ -200,24 +200,27 @@ subdirectory whose own `.claude/` your tool loads? Create the link there and mat
 > ```
 > (Per-skill links need re-running whenever a new skill is added; the whole-folder symlink doesn't.)
 
-**Codex, Gemini CLI, Cursor, and GitHub Copilot** all support the same `SKILL.md` Agent-Skills standard
-the kit ships — wire each the same way, symlinking its skills directory to `ai-kit/skills`:
+**Codex, Gemini CLI, Cursor, GitHub Copilot, and Windsurf** all support the same `SKILL.md` Agent-Skills
+standard the kit ships — wire each the same way, symlinking its skills directory to `ai-kit/skills`:
 
 | Runtime | Skills directory |
 | --- | --- |
 | Codex | `.agents/skills` (scanned from the repo root; **follows symlinks**) |
 | Gemini CLI | `.gemini/skills`, or the `.agents/skills` alias |
-| Cursor | `.cursor/skills` (also reads `.claude/skills`) |
+| Cursor | `.cursor/skills`, or the `.agents/skills` alias (also reads `.claude/skills`) |
 | GitHub Copilot | `.github/skills`, or the `.agents/skills` alias |
+| Windsurf | `.windsurf/skills`, or the `.agents/skills` alias |
 
-`.agents/skills` is a shared alias several of them accept, so one symlink can serve multiple tools:
+`.agents/skills` is a shared alias **all** of them accept, so a single symlink serves every tool in this
+table:
 
 ```bash
 # from the repo root; same no-clobber guard + fallback as Claude Code above
 [ -e .agents/skills ] && echo ".agents/skills exists — see fallback above" || { mkdir -p .agents && ln -s ../ai-kit/skills .agents/skills; }
 ```
 
-Only Codex documents symlink-following explicitly — after linking, confirm the kit's skills resolve
+Claude Code and Codex are the ones that document symlink-following — and Claude Code documents it for a
+*single skill entry*, not for the whole folder — so after linking, confirm the kit's skills resolve
 (`/skills` / `/skills list`); if they don't, use the per-skill fallback above.
 
 > **Other runtimes:** if your tool auto-discovers skills from a directory, link or point it at

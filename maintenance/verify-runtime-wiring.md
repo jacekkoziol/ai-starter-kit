@@ -7,9 +7,10 @@
 
 [`ai-kit/AGENT-INIT.md`](../ai-kit/AGENT-INIT.md) and [`ai-kit/README.md`](../ai-kit/README.md) tell each AI runtime
 where to put the kit's root pointer and how to make its skills discoverable. Those are **external facts
-about fast-moving tools** — every one of the five named runtimes changed its skills story within a few
-months of first writing. Nothing in the repo *breaks* when they drift; the docs just quietly go wrong
-and mislead adopters. This chore re-checks them against the current official docs.
+about fast-moving tools** — every one of the named runtimes changed its skills story within a few
+months of first writing, and their doc URLs move too (Codex's whole doc site relocated between runs).
+Nothing in the repo *breaks* when they drift; the docs just quietly go wrong and mislead adopters. This
+chore re-checks them against the current official docs — **and fixes the links below when they redirect.**
 
 ## What the kit currently claims — verify each
 
@@ -19,17 +20,19 @@ like `.agents/skills`), whether it **follows symlinks**, and that it still reads
 
 | Runtime | Claimed root file | Claimed skills dir | Official docs to re-check |
 | --- | --- | --- | --- |
-| Claude Code | `CLAUDE.md` / `AGENTS.md` | `.claude/skills` (follows symlinks) | Claude Code docs → Skills |
-| Codex | `AGENTS.md` | `.agents/skills` (follows symlinks) | <https://developers.openai.com/codex/skills> · <https://developers.openai.com/codex/guides/agents-md> |
+| Claude Code | `CLAUDE.md` / `AGENTS.md` | `.claude/skills` (follows symlinks, **per skill entry**) | <https://code.claude.com/docs/en/skills> |
+| Codex | `AGENTS.md` | `.agents/skills` (follows symlinks) | <https://learn.chatgpt.com/docs/build-skills> · <https://learn.chatgpt.com/docs/agent-configuration/agents-md> |
 | Gemini CLI | `GEMINI.md` | `.gemini/skills` / `.agents/skills` | <https://geminicli.com/docs/cli/skills/> |
-| Cursor | `AGENTS.md` / `.cursor/rules` | `.cursor/skills` | <https://cursor.com/docs/skills> |
+| Cursor | `AGENTS.md` / `.cursor/rules` | `.cursor/skills` / `.agents/skills` | <https://cursor.com/docs/skills> · <https://cursor.com/docs/context/rules> |
 | GitHub Copilot | `.github/copilot-instructions.md` / `AGENTS.md` | `.github/skills` / `.agents/skills` | <https://docs.github.com/en/copilot/concepts/agents/about-agent-skills> · <https://code.visualstudio.com/docs/agent-customization/agent-skills> |
+| Windsurf | `AGENTS.md` | `.windsurf/skills` / `.agents/skills` | <https://docs.devin.ai/desktop/cascade/skills> (the `docs.windsurf.com` path redirects here) |
 
 ## Checklist
 
 1. **Re-verify each row** against its docs above. Flag any change to root file, skills dir, alias, or
-   symlink-following. The symlink caveat matters most: the kit claims *only Codex documents
-   symlink-following* — if another runtime now documents it (or Codex stops), that line must change.
+   symlink-following. The symlink caveat matters most: the kit claims *Claude Code and Codex document
+   symlink-following, Claude Code only for a single skill entry* — if another runtime documents it, one
+   of these stops, or Claude Code extends it to a whole-folder link, that line must change.
 2. **Scan for new runtimes** worth naming — ones that adopted the `SKILL.md` standard and currently fall
    under the generic "Other" rows.
 3. **Confirm the surfaces still agree.** These mirror the same facts and must not drift apart:

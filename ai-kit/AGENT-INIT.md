@@ -18,8 +18,9 @@ directory — from this table; everything else is identical.
 | Claude Code | `CLAUDE.md` (or `AGENTS.md`) | `.claude/skills` |
 | Codex | `AGENTS.md` | `.agents/skills` |
 | Gemini CLI | `GEMINI.md` | `.gemini/skills` (or the `.agents/skills` alias) |
-| Cursor | `AGENTS.md` (or `.cursor/rules`) | `.cursor/skills` |
+| Cursor | `AGENTS.md` (or `.cursor/rules`) | `.cursor/skills` (or the `.agents/skills` alias) |
 | GitHub Copilot | `.github/copilot-instructions.md` (or `AGENTS.md`) | `.github/skills` (or `.agents/skills`) |
+| Windsurf | `AGENTS.md` | `.windsurf/skills` (or the `.agents/skills` alias) |
 | Other, has a skills dir | the file it auto-loads | that dir |
 | Other, no skills dir | the file it auto-loads | — (invoke skills by path) |
 
@@ -40,13 +41,13 @@ directory. Link that directory to the kit once — from the repo root, using you
 
 ```bash
 mkdir -p .claude && ln -s ../ai-kit/skills .claude/skills    # Claude Code
-mkdir -p .agents && ln -s ../ai-kit/skills .agents/skills    # Codex, Gemini, Copilot (shared .agents alias)
-mkdir -p .cursor && ln -s ../ai-kit/skills .cursor/skills    # Cursor
+mkdir -p .agents && ln -s ../ai-kit/skills .agents/skills    # Codex, Gemini, Cursor, Copilot, Windsurf (shared .agents alias)
 ```
 
 That exposes every current and future `ai-kit/skills/*` (`/aikit-plan`, `/aikit-project-profile-bootstrap`, …).
-Then **confirm they resolve** (e.g. `/skills` / `/skills list`) — only Codex documents symlink-following,
-so if the skills don't appear, or the directory already exists with other skills, **don't clobber it**:
+Then **confirm they resolve** (e.g. `/skills` / `/skills list`) — Claude Code and Codex are the ones that
+document symlink-following, and Claude Code documents it for a *single skill entry* rather than the whole
+folder, so if the skills don't appear, or the directory already exists with other skills, **don't clobber it**:
 use the per-skill fallback in [`README.md` → Setup step 3](README.md). No skills mechanism? Skip this;
 invoke skills by path (`follow ai-kit/skills/<name>/SKILL.md`).
 

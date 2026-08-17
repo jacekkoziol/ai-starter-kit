@@ -14,7 +14,7 @@ task is overdue.
 
 | Task | Cadence | Last run | Notes |
 | --- | --- | --- | --- |
-| [`verify-runtime-wiring`](verify-runtime-wiring.md) | 1 week | 2026-07-01 | Runtime facts (root files, skills dirs, symlink support) re-verified against current docs at kit v1.8.0. |
+| [`verify-runtime-wiring`](verify-runtime-wiring.md) | 1 week | 2026-08-17 | Drift found & fixed at kit v2.5.0: Claude Code now documents symlink-following too, Cursor accepts `.agents/skills`, Windsurf added, Codex doc URLs moved to `learn.chatgpt.com`. |
 
 **Updating a last-run date is a claim that you actually ran the task** — set it to the *real* current
 date only after completing that task's checklist, never in advance (the same self-verifying discipline

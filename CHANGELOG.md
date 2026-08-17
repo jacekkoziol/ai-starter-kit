@@ -9,6 +9,37 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.5.0] — 2026-08-17
+
+> Runtime-wiring re-verification run (`maintenance/verify-runtime-wiring`) — every claimed root file,
+> skills directory, alias, and symlink fact re-checked against the runtimes' current official docs.
+
+### Added
+
+- **Windsurf named as a supported runtime.** It ships the same `SKILL.md` standard and scans the
+  `.agents/skills` alias the kit already recommends, so it needed no new mechanism — just a row in
+  `AGENT-INIT.md`'s §1 runtime table (root file `AGENTS.md`, skills dir `.windsurf/skills`) and in the
+  README's Setup step 3 table, plus a mention in the README intro list. Previously it fell under the
+  generic "Other, has a skills dir" row.
+
+### Changed
+
+- **`.agents/skills` is now the single shared symlink for every non-Claude runtime.** Cursor's docs now
+  list `.agents/skills` among its project skill locations, so all five named runtimes (Codex, Gemini
+  CLI, Cursor, Copilot, Windsurf) accept the alias. `AGENT-INIT.md` §3 drops its separate
+  `.cursor/skills` command — setup is two symlinks instead of three — and the README's step 3 lead-in
+  now says a single symlink serves every tool in the table.
+
+### Fixed
+
+- **The symlink caveat named the wrong runtime set.** Both surfaces claimed *"only Codex documents
+  symlink-following"*; Claude Code's skills docs now document it too ("A `<skill-name>` entry … can be a
+  symlink to a directory elsewhere on disk"). Corrected in `AGENT-INIT.md` §3 and the README's step 3 —
+  and both now add the caveat's real teeth: Claude Code documents it for a **single skill entry**, not
+  for the whole folder the kit symlinks, which is why the confirm-they-resolve step still matters.
+- **README Setup step 2 listed the legacy `.cursorrules`** while `AGENT-INIT.md` §1 already said
+  `.cursor/rules` (Cursor's current form). The two surfaces now agree.
+
 ## [2.4.0] — 2026-07-03
 
 ### Added
