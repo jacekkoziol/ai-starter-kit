@@ -85,6 +85,24 @@ Row to `[!]`, effort `status: blocked`, and record in the phase file: what's blo
 Never invent a scope-changing, costly, security-sensitive, or irreversible workaround (§5.2). When
 cleared: row back to `[~]`, `status: active`, update the phase notes, log it, move the index entry back.
 
+### Handle an out-of-scope finding
+
+Full ladder, ID rules, taxonomy, and validation:
+[`references/findings-workflow.md`](references/findings-workflow.md).
+
+1. Apply §2.5's test: could the planned delivery be unsafe, incorrect, materially unverifiable, or
+   inconsistent with its done criteria? **Yes or uncertain** → surface it now and use the blocker or
+   re-scope procedure above. Never park it in the inbox.
+2. Otherwise capture one line in `FINDINGS.md` (from `assets/FINDINGS.template.md` on first use) —
+   `id · kind/confidence · location — observation`. Don't design a fix at capture time.
+3. Expand to `findings/{id}.md` (from `assets/finding.template.md`) **only** when evidence or prior
+   investigation must be preserved; then reduce the inbox line to a pointer. Substantial evidence goes to
+   the originating effort's `artifacts/`.
+4. Keep working within approved scope — never silently fix unrelated code.
+5. **Triage** a finding by dismissing it, resolving it via an approved re-scope, or promoting it to a
+   tracker issue or a `queued` effort. Durable dismissals become a Locked decision (project-wide →
+   `PROJECT.md`; effort-specific → that effort's `ROADMAP.md`).
+
 ### Re-scope
 
 Decide first whether the work still serves the **same outcome**. If yes: update the roadmap's scope,
@@ -101,7 +119,9 @@ row, and leave an explicit next action and blocker state.
 ### Close as done
 
 Confirm every required phase is `[x]` and the done-when criteria are met (or record accepted
-limitations). Run the applicable final verification. Set `status: done`, write `SUMMARY.md` from
+limitations). **Triage the findings this effort produced** — nothing meaningful may stay stranded in a
+completed phase file, a log line, or a closed roadmap (findings workflow §9). Run the applicable final
+verification. Set `status: done`, write `SUMMARY.md` from
 `assets/SUMMARY.template.md`, append the final log line, and move the `INDEX.md` row to `Recently
 closed` — archiving the oldest row when that list passes 10.
 

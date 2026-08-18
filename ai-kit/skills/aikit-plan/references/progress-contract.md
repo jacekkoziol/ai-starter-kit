@@ -183,6 +183,14 @@ automatically:** resume it in its existing shape, let `INDEX.md` link both forma
 `schema` as legacy. Migrate only on explicit request or when a material restructure justifies it,
 preserving old paths and references.
 
+## 9a. Out-of-scope findings
+
+Safely deferrable observations noticed during an effort don't belong to it. They use the promotion ladder
+in [`findings-workflow.md`](findings-workflow.md) — `FINDINGS.md` plus optional `findings/{id}.md` detail
+files. Findings are **candidates, not committed efforts**: they never appear as `queued` efforts in
+`INDEX.md`, they stay outside the cold-resume path, and `INDEX.md` doesn't link them. A roadmap's
+`Deferred / follow-ups` may *link* a significant finding, never copy it (§7).
+
 ## 10. Validation checklist
 
 - [ ] `INDEX.md` routes to the effort; `Recently closed` holds at most 10 rows.

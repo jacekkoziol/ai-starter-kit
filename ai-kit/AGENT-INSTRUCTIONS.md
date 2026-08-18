@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.6.0
+> **Kit version:** 2.7.0
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -174,8 +174,13 @@ Now write code. While building:
 - Match existing conventions (§6). Reuse helpers. Don't duplicate values that live in one source of
   truth.
 - Flip checklist items to done **as you complete them**, not in a batch at the end.
-- Keep changes scoped to the phase. Discovered new work → record it as a new phase, don't smuggle it
-  in.
+- **Discovered work (HARD RULE).** Never smuggle newly discovered work into an approved phase. Work that
+  serves this phase's goal → record it as a new phase. For anything **out of scope**, ask: *would a
+  reasonable reviewer, once informed, consider the planned delivery unsafe, incorrect, materially
+  unverifiable, or inconsistent with its done criteria?* **Yes — or materially uncertain — → stop and ask
+  (§5.2), or block / re-scope (§4.3).** Otherwise record it through the findings workflow (§4) and
+  continue within approved scope. "Out of scope" is never a reason to knowingly deliver unsafe or
+  incorrect work, and never a reason to silently fix unrelated code (§8).
 
 ### 2.6 Phase F — Verify & hand off
 
@@ -239,6 +244,7 @@ shape:**
 ```
 ai-progress/
   INDEX.md                     # router — links grouped by state. Read first.
+  FINDINGS.md                  # out-of-scope findings inbox (on demand) + findings/ detail files
   {id}-{slug}/
     ROADMAP.md                 # current state: frontmatter, scope, decisions, phase table
     LOG.md                     # append-only history
@@ -272,6 +278,9 @@ a **child effort**, not another phase.
 8. **Raw output never goes in Markdown.** Command output, diffs, and generated datasets go to
    `artifacts/`, linked — retention policy from `PROJECT.md` → Version control, with §1's secrets HARD
    RULE applying regardless.
+9. **Safely deferrable out-of-scope observations go to `ai-progress/FINDINGS.md`** (§2.5 decides
+   *deferrable*). They're **candidates, not committed work**, and stay outside the cold-resume path. The
+   ladder — capture, expand, triage, promote — lives in the skill's findings workflow.
 
 ### 4.3 Updating mid-work
 
@@ -413,7 +422,11 @@ A checklist to run before you say "done":
 - ❌ Claiming "done" without running the build/tests, or reporting success when a step failed.
 - ❌ Committing when the user didn't ask and no policy authorized it — or treating your summary as
   permission. Silence isn't approval (§2.6).
-- ❌ Reformatting or refactoring untouched code as an uninvited side effect.
+- ❌ Reformatting or refactoring untouched code as an uninvited side effect — or the opposite failure,
+  noticing something out of scope and silently dropping it instead of recording a finding (§2.5).
+- ❌ Parking a finding in `FINDINGS.md` when it makes the current delivery unsafe, wrong, or unverifiable
+  — that one escalates (§2.5). "Out of scope" is not a shield.
+- ❌ Listing an untriaged finding as a `queued` effort in `INDEX.md`; `queued` means committed.
 - ❌ Recording project-specific rules in this manual (`AGENT-INSTRUCTIONS.md`) — it's the portable layer,
   replaced on kit update; project rules belong in `PROJECT.md` ("Project-specific rules") or `reference/`.
 

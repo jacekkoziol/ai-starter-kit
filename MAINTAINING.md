@@ -73,7 +73,9 @@ ai-kit/                       # THE KIT — this is what gets copied into other 
   reference/              #   descriptive project facts (the "what") + index
   skills/                 #   repeatable procedures (folder-per-skill; kit-shipped: aikit-{name}/SKILL.md) + index
     aikit-plan/references/progress-contract.md  # the ai-progress/ file format (see "Progress-tracking layers")
-    aikit-plan/assets/*.template.md             #   the copy-me progress files (INDEX/ROADMAP/LOG/phase/SUMMARY)
+    aikit-plan/references/findings-workflow.md  #   out-of-scope findings ladder
+    aikit-plan/assets/*.template.md             #   the copy-me progress files (INDEX/ROADMAP/LOG/phase/
+                                                #     SUMMARY/FINDINGS/finding)
   templates/              #   literal copy-me scaffolds + index
 AGENTS.md                 # root pointer for agent sessions in this repo — imports MAINTAINING.md every session
 CLAUDE.md                 # symlink → AGENTS.md (the filename Claude Code auto-loads)
@@ -140,6 +142,7 @@ and don't restate one in another:
 | `AGENT-INSTRUCTIONS.md` §4 | Behavior an agent needs *before* it loads anything: when to track, the layout, the hard rules, the cold-resume path, phase ordering. | Always loaded. An agent that never invokes the skill still has to get this right. |
 | `skills/aikit-plan/SKILL.md` | The **procedures** — create, start/finish a phase, block, re-scope, end a session, close, reopen. | Loaded when doing the work. |
 | `skills/aikit-plan/references/progress-contract.md` | The **format** — frontmatter, required sections, naming, status consistency, validation checklist. | Loaded only when writing or amending a progress file. |
+| `skills/aikit-plan/references/findings-workflow.md` | **Out-of-scope findings** — the escalate/capture/expand/promote ladder, IDs, taxonomy, dismissal routing. | Loaded on a *different* trigger than the contract: capturing or triaging a finding, not writing a progress file. |
 | `skills/aikit-plan/assets/*.template.md` | The **copy-me files** themselves — one per progress file, normative for section names and order. | Read one at a time, only when creating that file. |
 | `PROJECT.md` → Version control | The project's **Progress artifacts** retention/commit policy. | A knob, and knobs live only in `PROJECT.md`. |
 

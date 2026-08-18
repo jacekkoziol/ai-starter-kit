@@ -9,6 +9,58 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.7.0] — 2026-08-18
+
+> **Out-of-scope findings** get a home. An agent that notices invalid markup, a practice violation, or a
+> missing test while doing something else now has a third option besides silently fixing it (scope creep)
+> or silently dropping it (lost knowledge) — with an escalation path for discoveries that make the current
+> delivery unsafe or wrong. Additive: projects that capture no findings gain no files.
+
+### Added
+
+- **`skills/aikit-plan/references/findings-workflow.md`** — the four-rung promotion ladder (**escalate →
+  capture → expand → accept**), kinds and confidence, finding IDs, authority transitions, dismissal
+  routing, and a validation checklist. Its own reference rather than part of the progress contract,
+  because the load trigger differs: capturing or triaging a finding, not writing a progress file (and the
+  contract had 25 lines of headroom).
+- **Rung 0 — escalate instead of deferring.** The gap this closes: without it, an agent could park a
+  security defect or correctness bug in the inbox, continue, and be technically compliant while shipping
+  known-broken work. §2.5's existing discovered-work bullet is now a **HARD RULE** carrying the test —
+  *would a reasonable reviewer, once informed, consider the planned delivery unsafe, incorrect, materially
+  unverifiable, or inconsistent with its done criteria?* Yes or uncertain → stop-and-ask (§5.2) or
+  block/re-scope (§4.3). It routes to the *existing* procedures rather than defining a parallel one, and
+  states that "out of scope" is never a shield for knowingly shipping unsafe or incorrect work.
+- **`ai-progress/FINDINGS.md`** (on demand) — a bounded, cold-path inbox of **candidates, not committed
+  work**: all open findings, plus at most 10 `Recently triaged` dispositions. Not linked from `INDEX.md`,
+  which stays an efforts-only router, and never in the cold-resume path.
+- **`ai-progress/findings/{finding-id}.md`** (earned, not default) — rung-2 detail files with YAML
+  frontmatter (`id`, `kind`, `confidence`, `created`) so `findings/` is greppable during triage.
+  Deliberately no `status:` (the inbox sections own lifecycle — a second surface would drift) and no
+  `schema:` (no legacy shape to discriminate).
+- **Source-derived finding IDs** — `FND-{effort}-{phase}-{slug}`, phase segment optional
+  (`FND-{effort}-{slug}`), date fallback outside any effort (`FND-{YYYYMMDD}-{slug}`). Provenance reads
+  off the ID, so no `source:` field is needed. Never renamed once linked; collisions take a stable suffix.
+- **Five kinds** (`defect · debt · risk · test-gap · docs`) with **orthogonal confidence** (`confirmed ·
+  likely · suspected`). Accessibility and performance aren't separate kinds — a confirmed failure is a
+  `defect`, a possible one a `risk`. Confidence carries the honesty rule: never present a preference or an
+  unverified hypothesis as a confirmed defect.
+- **Durable dismissals are promoted, ephemeral ones expire** — project-wide decisions to `PROJECT.md` →
+  Locked decisions, effort-specific ones to that effort's `ROADMAP.md` → Locked decisions, the rest scroll
+  out of `Recently triaged`. Prevents endless rediscovery without turning `PROJECT.md` into a dump of
+  every rejected finding.
+- **`assets/FINDINGS.template.md`** + **`assets/finding.template.md`** — inbox and detail scaffolds, named
+  by the existing cardinality convention (UPPERCASE = one per scope, lowercase = many, as with `phase`).
+- Close-out now **triages the effort's findings**: nothing meaningful may stay stranded in a completed
+  phase file, a log line, or a closed roadmap.
+
+### Changed
+
+- §4 gained hard rule 9 (findings destination + cold-path behavior) and `FINDINGS.md` in its layout;
+  §8 gained three anti-patterns — dropping an out-of-scope observation, parking an escalation-worthy
+  finding in the inbox, and listing an untriaged finding as a `queued` effort.
+- `progress-contract.md` §9a points at the findings workflow and fixes the boundary: a roadmap's
+  `Deferred / follow-ups` may *link* a finding, never copy it.
+
 ## [2.6.0] — 2026-08-18
 
 > **`ai-progress/v2`** — one uniform effort folder for tasks and epics alike, current state split from

@@ -43,7 +43,8 @@ ai-kit/
       SKILL.md            #   create/maintain ai-progress/ (procedure for §4)
       references/
         progress-contract.md #  the ai-progress/ file format: frontmatter, sections, status rules
-      assets/             #   copy-me progress files (INDEX/ROADMAP/LOG/phase/SUMMARY templates)
+        findings-workflow.md #  out-of-scope findings: escalate/capture/expand/promote ladder
+      assets/             #   copy-me progress files (INDEX/ROADMAP/LOG/phase/SUMMARY/FINDINGS/finding)
     aikit-implement-from-design/
       SKILL.md            #   tool-agnostic design → code (procedure for §3/§4.5/§7)
     aikit-update-kit/
@@ -136,6 +137,14 @@ linked by a `parent:` field — nothing nests.
 **Commit this folder** — it's how work hands off between sessions and people. Generated output under
 `artifacts/` follows its own policy, since it can be large or hold client data: set it in
 [`PROJECT.md`](PROJECT.md) → Version control → **Progress artifacts**.
+
+**Findings — the things it notices but shouldn't fix.** While working, an agent spots problems outside the
+approved scope: invalid markup, a practice violation, a missing test. Those don't get silently fixed
+(scope creep) or silently dropped (lost knowledge) — they land as one line in `ai-progress/FINDINGS.md`,
+a cold inbox of **candidates**, not committed work. A finding earns its own `findings/{id}.md` file only
+when evidence needs preserving, and becomes real work only when you promote it to a ticket or a queued
+effort. The exception that matters: if the discovery means the current delivery would be unsafe, wrong, or
+unverifiable, the agent **stops and tells you** instead of filing it away.
 
 Already have progress files from an older kit version? They keep working — the agent resumes them in
 place and never migrates them without being asked.
