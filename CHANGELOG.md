@@ -9,6 +9,75 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.6.0] — 2026-08-18
+
+> **`ai-progress/v2`** — one uniform effort folder for tasks and epics alike, current state split from
+> history, and the file format moved out of the always-loaded manual into a cold-loaded contract.
+> Backward-compatible: existing progress files keep working and are **never migrated automatically**.
+
+### Added
+
+- **`skills/aikit-plan/references/progress-contract.md`** — the canonical **format** contract:
+  frontmatter schema, naming, status consistency, per-file contracts, bounded `INDEX.md` rules, legacy
+  compatibility, and a validation checklist. Loaded only when writing a progress file, which is what lets
+  it be thorough without costing every session.
+- **`skills/aikit-plan/assets/*.template.md`** — five copy-me progress files (`INDEX`, `ROADMAP`, `LOG`,
+  `phase`, `SUMMARY`), co-located with the skill that consumes them per the Agent-Skills supporting-file
+  pattern. The agent **copies** a template instead of retyping a skeleton, and each is normative for its
+  section names and order. Consequences: the contract stays ~226 lines, only the one template being used
+  is read, and check #10 skips them (their links target the copy destination, as with `templates/`).
+- **One folder per effort** — `{id}-{slug}/` holding `ROADMAP.md` + `LOG.md` + `phases/` (+ `SUMMARY.md`,
+  `artifacts/`, `scripts/` as needed). Tasks and epics now share **one shape**, so §4's rules no longer
+  branch per shape, and an effort's files no longer straddle two locations.
+- **`LOG.md`** — append-only history, split out of the roadmap. The roadmap grew unboundedly with session
+  lines that §4.4's resume path never reads; bounded record (a phase's one-line outcome) stays in the
+  spine, unbounded record moves out.
+- **`SUMMARY.md`** — the close-out digest for a ticket or PR, written only when an effort closes. The kit
+  previously had no outbound, human-facing artifact.
+- **`artifacts/` + `scripts/`** — homes for generated evidence and effort-local helpers. §4.6's phase
+  template already said "Artifacts produced" with nowhere to put them.
+- **`Outcome` with explicit "Done when"** criteria, and **`cancelled`** as a first-class final status
+  (with a summary explaining what was retained or reverted).
+- **Child efforts** — an epic links children through `parent:` in their frontmatter while folders stay
+  physically flat, capped at `epic → child effort`. Hierarchy without nesting, so no long paths and no
+  broken links; §3.3-style criteria (independent gate, owner, blocker, PR, or summary) decide phase vs
+  child.
+- **`PROJECT.md` → Version control → "Progress artifacts"** (`fill:user`) — per-project retention/commit
+  policy for generated output, since it can be large or hold client data. Wired through
+  `aikit-project-profile-bootstrap` (7.7 ask-step, Verify item, frontmatter description);
+  `aikit-project-profile-sync` picks it up for free, being marker-driven.
+- **MAINTAINING:** a "Progress-tracking layers" section fixing which of the four surfaces owns what, plus
+  consistency checks **#11** (one progress-schema value) and **#12** (legacy shapes appear only as
+  compatibility notes).
+
+### Changed
+
+- **§4 shrank from ~160 to ~93 lines** and now holds only what an agent needs *before* invoking the
+  skill — layout, hard rules, the cold-resume path, phase ordering. Procedures moved to
+  `aikit-plan/SKILL.md`; the format moved to the contract. §4.6's inline templates are gone.
+- **Effort folders are named from a stable external ID** (`PROJ-142-checkout-rebuild/`), or the creation
+  date when there is none — never a repo-global `01-`/`02-` counter, which parallel branches allocate
+  identically and collide on merge. Folders are never renamed.
+- **Hot/cold reading is now explicit.** Resume reads `INDEX.md` → one `ROADMAP.md` → one phase file;
+  finished phases, `LOG.md`, `SUMMARY.md`, `artifacts/`, and `scripts/` stay cold. `INDEX.md` is a router
+  (links grouped by state, ≤10 recently-closed rows, older ones archived), not a dashboard.
+- **§4.2 rule 1 generalized** from "the roadmap is the spine" to **one authoritative location per fact**,
+  naming `INDEX.md`/`SUMMARY.md` as derived views that lose to the roadmap. The single phase-status
+  surface stays a HARD RULE, extended to forbid a status field in a phase file.
+- **§2.3** no longer branches task-vs-effort; **§8** gained anti-patterns for duplicate status, loading
+  cold files on resume, unbounded `INDEX.md`, unasked legacy migration, and pasting raw output into
+  Markdown.
+- **Consistency check #6 now walks `-maxdepth 4`** — at depth 3 a skill's co-located `references/` doc was
+  invisible to the folder-map check (verified: 18 files seen vs 19 present).
+- `aikit-update-kit` states explicitly that an upgrade **never migrates `ai-progress/`**.
+
+### Compatibility
+
+- Legacy shapes (`task-{slug}.md`, `{effort}-ROADMAP.md`, `{effort}/phase-NN-*.md`, or a roadmap with no
+  `schema:`) stay valid and are resumed in place. **No automatic migration** — on kit update or otherwise;
+  migrate only on explicit request. `INDEX.md` may link both formats meanwhile.
+- New efforts carry `schema: ai-progress/v2`, an axis independent of the Kit version.
+
 ## [2.5.0] — 2026-08-17
 
 > Runtime-wiring re-verification run (`maintenance/verify-runtime-wiring`) — every claimed root file,

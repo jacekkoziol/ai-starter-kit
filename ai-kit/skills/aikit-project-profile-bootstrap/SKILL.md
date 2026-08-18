@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, version-control policy, conventions, file locations, decision ladders, locked decisions, project-specific rules, glossary). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
+description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, version-control policy including the progress-artifact retention knob, conventions, file locations, decision ladders, locked decisions, project-specific rules, glossary). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
@@ -65,7 +65,7 @@ prose `TODO`s, not slots:
 grep -rn "TODO" ai-kit/PROJECT.md ai-kit/reference/
 ```
 
-(Optional, per AGENT-INSTRUCTIONS §4: log this as `ai-progress/task-bootstrap-profile.md`.)
+(Optional, per AGENT-INSTRUCTIONS §4: track this as an effort, e.g. `ai-progress/20260818-bootstrap-profile/`.)
 
 **Ask the response-economy mode** — a user preference, not inferable from code: which of `standard` |
 `concise` | `terse` (AGENT-INSTRUCTIONS §9) the user wants the agent to use in conversation. Record it
@@ -185,6 +185,11 @@ Both are `fill:user` — harvest hints first, then **ask; never infer silently**
 - **Version control (Branch / Commit / PR):** harvest hints from `CONTRIBUTING`, CI configs, and the
   repo's branch/PR history (naming patterns, protected branches), then ask the user to set the
   policy — branch naming, commit cadence, who opens PRs and against what.
+- **Progress artifacts:** ask whether generated output under `ai-progress/*/artifacts/` (exports,
+  audits, snapshots, tool logs) may be **kept and committed** for review/reproduction, or must stay
+  local/excluded because it can be large or hold client data. Harvest hints from `.gitignore` and any
+  existing excluded data/output paths, but the call is the user's — it's a sensitivity judgment, not a
+  repo fact. The secrets HARD RULE (AGENT-INSTRUCTIONS §1) holds regardless of the answer.
 - **Locked decisions:** propose candidates from the ADRs / instruction sources read in step 2 —
   settled choices the agent must not relitigate; the user confirms which to lock. Add none if there
   are none — never invent.
@@ -253,7 +258,7 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
 - [ ] Every managed slot still carries its `<!-- fill:user -->` / `<!-- fill:auto · «source» -->` marker
       (filling a slot does **not** remove it) — the inventory `aikit-project-profile-sync` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
-- [ ] Version control (Branch / Commit / PR) was **asked** and recorded (or annotated for confirmation) — not left silently `TODO`.
+- [ ] Version control (Branch / Commit / PR / Progress artifacts) was **asked** and recorded (or annotated for confirmation) — not left silently `TODO`.
 - [ ] Locked decisions: ADR-derived candidates were **proposed** at the gate; none invented.
 - [ ] Glossary filled from harvested terms, or the optional section deleted — not left as bare `TODO`s.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.

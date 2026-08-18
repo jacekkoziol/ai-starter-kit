@@ -49,7 +49,7 @@ command and a botched update.)
 
 | Skill | When to use |
 | --- | --- |
-| [aikit-plan](aikit-plan/SKILL.md) | Stand up / maintain `ai-progress/` (INDEX + per-effort roadmap + per-phase files) for non-trivial work — at the start of an effort, when starting/finishing a phase, hitting a blocker, or resuming cold. Walks the procedure for `AGENT-INSTRUCTIONS.md` §4. |
+| [aikit-plan](aikit-plan/SKILL.md) | Stand up / maintain `ai-progress/` for non-trivial work — one uniform effort folder per goal (ROADMAP + LOG + gate-authored phase files + close-out SUMMARY), for tasks and epics alike. Covers creating an effort, phase gates, cold resume, blockers, re-scoping, closing as done or cancelled, and legacy efforts (never auto-migrated). Walks `AGENT-INSTRUCTIONS.md` §4; the file format lives in its [progress contract](aikit-plan/references/progress-contract.md). |
 | [aikit-implement-from-design](aikit-implement-from-design/SKILL.md) | Translate a visual design source (mockup, screenshot, exported spec, design-tool reference) into code — tool-agnostic: extract decisions → reuse existing tokens/components (§3) → structure-before-style (§4.5) → verify parity (§7). Specialize per tool via `templates/design-tool-skill.md`. |
 | [aikit-update-kit](aikit-update-kit/SKILL.md) | Upgrade this project's vendored `ai-kit/` kit to a newer version — replace the methodology files while preserving the filled `PROJECT.md` + `reference/*.md`, then run `aikit-project-profile-sync`. |
 | [aikit-project-profile-bootstrap](aikit-project-profile-bootstrap/SKILL.md) | First adoption / refresh — analyze the codebase and fill the `TODO`s in `PROJECT.md` + `reference/*.md` with evidence-backed values. |

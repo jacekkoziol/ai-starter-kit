@@ -38,9 +38,13 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 > **Never delete project-owned content** (the whole point of this skill). Preserve, and carry across
 > the update untouched: the filled `PROJECT.md` and `reference/*.md`; **project-authored** (unprefixed)
 > skills and their co-located `scripts/`/`references/`/`assets/`; project-authored reference docs and
-> templates; project rows in the `skills`/`reference`/`templates` README indexes. `ai-progress/` lives
-> at the repo root, outside `ai-kit/` — the update never touches it. Everything else under `ai-kit/` is
-> kit-owned and safe to replace (steps 3–5 draw the exact line).
+> templates; project rows in the `skills`/`reference`/`templates` README indexes. Everything else under
+> `ai-kit/` is kit-owned and safe to replace (steps 3–5 draw the exact line).
+>
+> **Kit updates never migrate `ai-progress/`.** It lives at the repo root, outside `ai-kit/`, and the
+> update leaves it untouched: existing efforts stay in whatever format they were created in, and the
+> newly-installed progress schema applies only to **newly created** efforts. Never rewrite, renumber, or
+> restructure tracked work as part of an upgrade.
 
 1. **Snapshot first — how depends on config visibility** (`PROJECT.md` → "Config visibility"). Commit
    or stash any work-in-progress either way.

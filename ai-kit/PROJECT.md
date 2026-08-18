@@ -74,6 +74,7 @@ runs them itself or asks you to.
 - **Branch:** TODO — e.g. never commit to `{main}`; branch as `{prefix}/{ticket}-{slug}`.  <!-- fill:user -->
 - **Commit:** TODO — e.g. one commit per completed phase, after verify.  <!-- fill:user -->
 - **PR:** TODO — who opens it, target branch.  <!-- fill:user -->
+- **Progress artifacts:** TODO — which generated files under `ai-progress/*/artifacts/` may be kept and committed, vs. left local / excluded (large or sensitive output).  <!-- fill:user -->
 
 ## Config visibility
 
