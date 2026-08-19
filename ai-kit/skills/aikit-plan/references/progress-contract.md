@@ -103,6 +103,26 @@ A completed phase row **replaces its planned target with a concise actual outcom
 what lets a later session skip the finished phase file. Future rows read `Not authored yet` until their
 gate.
 
+### 5.1 Legal transitions
+
+Every status change is one of these; the destination's phase table must match §5 above.
+
+| From | To | Trigger |
+| --- | --- | --- |
+| — | `queued` · `active` | Create an effort — `active` only if its first phase starts immediately |
+| `queued` | `active` | Start a phase |
+| `queued` | `blocked` | Blocked before the first phase — effort-level, no `[!]` row |
+| `queued` | `cancelled` | Abandoned before any work |
+| `active` | `blocked` | Blocked — phase-level `[!]`, or effort-level with no `[!]` |
+| `active` | `done` · `cancelled` | Close |
+| `blocked` | `active` | Blocker cleared, with a phase to resume or start |
+| `blocked` | `queued` | Effort-level blocker cleared, no phase started yet |
+| `blocked` | `cancelled` | Closed while blocked |
+| `done` · `cancelled` | `active` · `blocked` | Reopen — a still-standing blocker returns at its original level |
+
+**No other transition is legal**, and a new status means new rows here. A state that can be entered but not
+left — or left but not entered — is exactly the defect this table exists to surface.
+
 ## 6. Source of truth
 
 | Information | Authoritative location |
@@ -214,6 +234,7 @@ files. Findings are **candidates, not committed efforts**: they never appear as 
 - [ ] All seven roadmap sections exist, empty ones reading `None.`; `Outcome` states Goal and Done when.
 - [ ] Effort status and the phase table agree (contract §5); **at most one phase is in flight — `[~]` or
       `[!]`, never both**, and a blocked effort may have neither.
+- [ ] Every status change since the last entry was a legal transition (contract §5.1).
 - [ ] Every authored phase file has exactly one roadmap row; no future phase was pre-authored.
 - [ ] Every `[x]` row carries an actual one-line outcome, not its original target.
 - [ ] The active phase file has plan and verification checklists, and no status field.

@@ -9,6 +9,31 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.10.0] — 2026-08-19
+
+> **The effort lifecycle becomes a closed graph.** Four consecutive validation rounds found the same
+> defect shape — a status made legal in one surface without every way into and out of it being defined.
+> `blocked` with no `[!]` row was legal from 2.6.0, got a creation path in 2.9.0, and a clearing path only
+> in 2.9.1. This adds the surface where that gap is visible instead of latent.
+
+### Added
+
+- **`progress-contract.md` §5.1 — legal transitions.** Every effort-status change is now one of ten
+  enumerated transitions with its triggering procedure: creation into `queued` or `active`; `queued` →
+  `active` / `blocked` / `cancelled`; `active` → `blocked` / `done` / `cancelled`; `blocked` → `active`
+  (a phase to resume or start) / `queued` (effort-level blocker cleared with no phase started) /
+  `cancelled`; and reopen from `done` / `cancelled`, restoring a still-standing blocker at its original
+  level. **No other transition is legal**, and the closing rule states the invariant the table exists for:
+  a state that can be entered but not left — or left but not entered — is the defect.
+- **A validation-checklist item** — every status change since the last entry was a legal transition.
+- **A maintenance rule tying it down** (home-only): adding an effort status or lifecycle state now
+  requires its rows in §5.1 in *both* directions, its phase-table expectation in §5, and the procedure
+  performing each transition in the skill. Adding a state without an exit is what the last four rounds
+  kept catching by hand.
+
+`ai-progress/v2` is unchanged — §5.1 documents transitions among statuses the schema already permits and
+forbids none that were previously in use.
+
 ## [2.9.1] — 2026-08-19
 
 > **Clearing an effort-level blocker.** 2.9.0 made effort-level blockers creatable and resumable but
