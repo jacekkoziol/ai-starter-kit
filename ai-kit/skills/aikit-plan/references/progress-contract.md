@@ -1,7 +1,9 @@
 # Progress contract — `ai-progress/v2`
 
 > The **persisted-file format** for progress tracking: layout, naming, frontmatter, the status model,
-> per-file contracts, and the templates to copy. Load this when creating, resuming, or closing an effort.
+> per-file contracts, and the templates to copy. Load this when **creating, structurally amending,
+> validating, closing, or reopening** an effort — **not** on an ordinary cold resume (§4.4 reads three
+> files and needs none of this), unless a file's format proves missing, invalid, or unclear.
 >
 > **Layer split.** [`AGENT-INSTRUCTIONS.md`](../../../AGENT-INSTRUCTIONS.md) §4 owns the always-loaded
 > behavior (when to track, the read path, the single-status-surface rule). [`SKILL.md`](../SKILL.md) owns
@@ -129,9 +131,11 @@ go to `artifacts/` and are linked, not pasted into a roadmap, log, or summary.
 **The §11 templates are normative for section names and order** — every heading they carry is required,
 and nothing here repeats that list. What follows is the rules a template can't express.
 
-**`ROADMAP.md`** — `Outcome` carries both a **Goal** and explicit **Done when** criteria; epics add
-`Child efforts`. No detailed checklists, no session history. Absolute `YYYY-MM-DD` dates only. A roadmap
-much past ~150 lines usually holds leaked phase detail or wants child efforts.
+**`ROADMAP.md`** — `Outcome` carries both a **Goal** and explicit **Done when** criteria. The seven
+sections are **always present**; one with no entries reads `None.` rather than being deleted, so the shape
+is predictable without conditional interpretation. `Child efforts` is the **only** optional section — epics
+add it, tasks don't. No detailed checklists, no session history. Absolute `YYYY-MM-DD` dates only. A
+roadmap much past ~150 lines usually holds leaked phase detail or wants child efforts.
 
 **Phase file** — links back to `ROADMAP.md`, carries no status field, uses checkboxes for plan and
 verification items, and is authored at its gate — never pre-written for future phases. Split a phase
@@ -171,9 +175,11 @@ content into it, and never move an effort folder (that breaks existing links).
 
 A router, not a dashboard: it stays in the default read path, so it carries only links grouped by state.
 Do not duplicate kind, current phase, dates, scope, or status commentary — all of that is in the
-roadmap. Show every `Active`, `Blocked`, and `Queued` effort; cap `Recently closed` at 10 and move older
-rows to the yearly archive. Use relative links. An effort's section is a projection of its roadmap
-`status`; when they disagree, the roadmap wins.
+roadmap. **One annotation is allowed**: a closed row's final state, `— done` or `— cancelled`, which never
+changes again (a reopened effort leaves `Recently closed` entirely). A blocked row gets **no** explanation
+— its roadmap owns that, and a second copy drifts. Show every `Active`, `Blocked`, and `Queued` effort;
+cap `Recently closed` at 10 and move older rows to the yearly archive. Use relative links. An effort's
+section is a projection of its roadmap `status`; when they disagree, the roadmap wins.
 
 ## 9. Legacy compatibility
 
@@ -193,10 +199,11 @@ files. Findings are **candidates, not committed efforts**: they never appear as 
 
 ## 10. Validation checklist
 
-- [ ] `INDEX.md` routes to the effort; `Recently closed` holds at most 10 rows.
+- [ ] `INDEX.md` routes to the effort; `Recently closed` holds at most 10 rows; no row carries commentary
+      beyond a closed row's `done` / `cancelled` (§8).
 - [ ] The effort folder has a stable ID and slug, and was not renamed.
 - [ ] `ROADMAP.md` frontmatter is valid `ai-progress/v2`, with no `updated:` field.
-- [ ] All seven required roadmap sections exist; `Outcome` states Goal and Done when.
+- [ ] All seven roadmap sections exist, empty ones reading `None.`; `Outcome` states Goal and Done when.
 - [ ] Effort status and the phase table agree (§5); at most one `[~]`.
 - [ ] Every authored phase file has exactly one roadmap row; no future phase was pre-authored.
 - [ ] Every `[x]` row carries an actual one-line outcome, not its original target.
@@ -220,13 +227,15 @@ Copy the file, then fill it in — don't retype a skeleton from memory. They liv
 | [`LOG.template.md`](../assets/LOG.template.md) | `{id}-{slug}/LOG.md` |
 | [`phase.template.md`](../assets/phase.template.md) | `{id}-{slug}/phases/phase-NN-{slug}.md` |
 | [`SUMMARY.template.md`](../assets/SUMMARY.template.md) | `{id}-{slug}/SUMMARY.md` (only at close) |
+| [`FINDINGS.template.md`](../assets/FINDINGS.template.md) | `ai-progress/FINDINGS.md` (on first capture) |
+| [`finding.template.md`](../assets/finding.template.md) | `ai-progress/findings/{finding-id}.md` (rung 2 only) |
 
 The templates are **normative for section names and order**. When you copy one:
 
 - Replace every `{placeholder}` — an unreplaced placeholder is an unfinished file.
-- Delete optional sections that don't apply (the `Child efforts` block for a task, an empty
-  `Dependencies`) rather than leaving empty boilerplate. Keep an empty `INDEX.md` state heading and write
-  `None.` under it — the router's four sections are fixed.
+- **`Child efforts` (epic-only) is the one deletable section.** Every other roadmap section, and every
+  `INDEX.md` state heading, stays and reads `None.` when empty — predictable shape beats conditional
+  interpretation.
 - Keep the guidance comments while the file is young; strip them once the file is established and the
   content speaks for itself.
 - `archive/closed-YYYY.md` has no template: it's a heading per month plus the router rows moved out of

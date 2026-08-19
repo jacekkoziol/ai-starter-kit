@@ -159,7 +159,7 @@ triaged, accepted follow-ups are linked from `SUMMARY.md`, and unresolved candid
 - [ ] Every finding has a stable, source-derived ID that was never renamed.
 - [ ] Kind and confidence are factual — no preference or hypothesis presented as `confirmed`.
 - [ ] Rung-1 findings fit one concise entry; rung-2 findings have exactly one pointer and one detail file.
-- [ ] Expanded detail is not duplicated in `FINDINGS.md`; the detail file says why it was out of scope.
+- [ ] Expanded detail is not duplicated in `FINDINGS.md`; the detail file says why it was deferred.
 - [ ] Large evidence is linked from `artifacts/`, not pasted.
 - [ ] No uncommitted candidate appears as a `queued` effort; promoted work links to its authority.
 - [ ] `Recently triaged` holds at most 10 entries; durable dismissals were promoted to a Locked decision.

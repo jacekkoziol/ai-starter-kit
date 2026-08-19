@@ -9,6 +9,9 @@ created: {YYYY-MM-DD}
 
 # {Effort name}
 
+<!-- All seven sections below stay, in this order — an empty one reads "None." rather than being deleted.
+     `Child efforts` is the single exception: epic-only, deleted for a task. -->
+
 ## Source
 - Ticket / spec: {link, or one line describing the authoritative request} · Owner: {names or "team"}
 
@@ -38,9 +41,10 @@ created: {YYYY-MM-DD}
 ## Deferred / follow-ups
 - {item} — {why deferred, what unblocks it}
 
-<!-- EPIC ONLY — delete this section for a task. Each child sets `parent:` to this effort's id. -->
+<!-- EPIC ONLY — delete this section for a task. Each child sets `parent:` to this effort's id.
+     No status column: the child's own ROADMAP.md frontmatter owns its status, and a copy here drifts. -->
 ## Child efforts
 
-| Effort | Status | Outcome |
-| --- | --- | --- |
-| [{TASK-31} — {name}](../{TASK-31-slug}/ROADMAP.md) | queued | {outcome} |
+| Child effort | Contribution to the epic |
+| --- | --- |
+| [{TASK-31} — {name}](../{TASK-31-slug}/ROADMAP.md) | {what it contributes to the outcome} |

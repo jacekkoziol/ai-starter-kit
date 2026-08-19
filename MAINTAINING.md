@@ -298,6 +298,12 @@ grep -rhoE "ai-progress/v[0-9]+" ai-kit/AGENT-INSTRUCTIONS.md ai-kit/skills/aiki
 # 12. Legacy progress shapes appear only as compatibility notes, never as instructions for new work.
 #     Review each hit: it must sit in a "legacy / still valid / never auto-migrate" sentence.
 grep -rnE 'task-\{slug\}\.md|\{effort(-slug)?\}-ROADMAP\.md|task-bootstrap-profile' ai-kit/
+
+# 13. Copy-me assets must not point back at kit-internal contracts. Check #10 skips them (their links
+#     are written for the copy destination), so a path naming the kit escapes every other check — and
+#     one did. A generated runtime file can't assume the vendored folder's name or depth: route the
+#     agent through the always-loaded manual and skill instead of linking the contract.
+grep -rnE '(\.\./)*ai-kit/|aikit-[a-z-]+/(references|assets)/' ai-kit/skills/*/assets/  # expect: none
 ```
 
 ## Anti-patterns (kit maintenance)

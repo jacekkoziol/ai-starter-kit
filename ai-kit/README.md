@@ -115,6 +115,8 @@ files:
 ```
 ai-progress/
   INDEX.md                     # router: links grouped by Active / Blocked / Queued / Recently closed
+  FINDINGS.md                  # cold inbox of out-of-scope candidates (on demand)
+  findings/{finding-id}.md     # a finding's evidence, once one line stops being enough (on demand)
   {id}-{slug}/                 # e.g. PROJ-142-checkout-rebuild/ (ticket ID, or the creation date)
     ROADMAP.md                 # current state: scope, locked decisions, done-when, the phase table
     LOG.md                     # append-only history — one line per session

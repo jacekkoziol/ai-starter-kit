@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.7.0
+> **Kit version:** 2.8.0
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -174,13 +174,14 @@ Now write code. While building:
 - Match existing conventions (§6). Reuse helpers. Don't duplicate values that live in one source of
   truth.
 - Flip checklist items to done **as you complete them**, not in a batch at the end.
-- **Discovered work (HARD RULE).** Never smuggle newly discovered work into an approved phase. Work that
-  serves this phase's goal → record it as a new phase. For anything **out of scope**, ask: *would a
-  reasonable reviewer, once informed, consider the planned delivery unsafe, incorrect, materially
-  unverifiable, or inconsistent with its done criteria?* **Yes — or materially uncertain — → stop and ask
-  (§5.2), or block / re-scope (§4.3).** Otherwise record it through the findings workflow (§4) and
-  continue within approved scope. "Out of scope" is never a reason to knowingly deliver unsafe or
-  incorrect work, and never a reason to silently fix unrelated code (§8).
+- **Discovered work (HARD RULE).** Never smuggle newly discovered work into an approved phase — sort it
+  first, in writing. **Inside** this phase's goal *and* approved scope → amend the phase plan, re-presenting
+  the gate (§2.4) when the change is material. **Serving this effort but separately reviewable** → a new
+  phase (§4.3). **Outside approved scope** → ask: *would a reasonable reviewer, once informed, consider the
+  planned delivery unsafe, incorrect, materially unverifiable, or inconsistent with its done criteria?*
+  **Yes — or materially uncertain — → stop and ask (§5.2), or block / re-scope (§4.3).** Otherwise record it
+  through the findings workflow (§4) and continue within approved scope. "Out of scope" is never a reason to
+  knowingly deliver unsafe or incorrect work, and never a reason to silently fix unrelated code (§8).
 
 ### 2.6 Phase F — Verify & hand off
 
@@ -292,8 +293,9 @@ not extra phases here. (Step-by-step, including closing and reopening: the skill
 
 ### 4.4 Resuming cold (session start)
 
-Read **only** `INDEX.md` → the chosen `ROADMAP.md` → the one `[~]` phase file (or the first `[ ]` you're
-about to start). Done rows' one-line outcomes mean you **don't reopen completed phase files**, and
+Read **only** `INDEX.md` → the chosen `ROADMAP.md` → the one `[~]` phase file. With no phase active, pick
+the next `[ ]` row and run the skill's *Start a phase* — that gate authors the file, so there is nothing
+to open yet. Done rows' one-line outcomes mean you **don't reopen completed phase files**, and
 `LOG.md`, `SUMMARY.md`, `artifacts/`, and `scripts/` stay **cold** — open `LOG.md` only when the current
 state doesn't explain *why* something happened. For **closed** work, read `SUMMARY.md` first. Files beat
 memory. Legacy efforts (a pre-v2 `task-{slug}.md` or `{effort}-ROADMAP.md`) stay valid — resume them in

@@ -1,6 +1,6 @@
 ---
 name: aikit-plan
-description: Stand up and maintain progress tracking — one ai-progress/ effort folder per goal (ROADMAP + LOG + gate-authored phase files, plus a close-out SUMMARY) at the repo root — so multi-step work survives context compaction, new sessions, and handoffs. Invoke when starting a non-trivial effort, starting/finishing a phase, hitting or clearing a blocker, re-scoping, resuming cold, or closing work as done or cancelled. Behavior lives in AGENT-INSTRUCTIONS.md §4; the file format lives in references/progress-contract.md with copy-me templates in assets/; this skill walks the doing.
+description: Stand up and maintain progress tracking — one ai-progress/ effort folder per goal (ROADMAP + LOG + gate-authored phase files, plus a close-out SUMMARY) at the repo root — so multi-step work survives context compaction, new sessions, and handoffs. Invoke when starting a non-trivial effort, starting/finishing a phase, hitting or clearing a blocker, re-scoping, resuming cold, or closing work as done or cancelled — and when capturing, expanding, triaging, dismissing, or promoting an out-of-scope finding. Behavior lives in AGENT-INSTRUCTIONS.md §4; the file format lives in references/progress-contract.md, the findings ladder in references/findings-workflow.md, with copy-me templates in assets/; this skill walks the doing.
 ---
 
 # Plan + progress
@@ -10,16 +10,18 @@ description: Stand up and maintain progress tracking — one ai-progress/ effort
 > owns the **format** (frontmatter, sections, naming, status consistency, validation). Open the contract
 > when you write or amend a file — don't restate it, don't guess a section name.
 >
-> **Every progress file starts as a copy** of its template in [`assets/`](assets/) — `INDEX`, `ROADMAP`,
-> `LOG`, `phase`, `SUMMARY` (contract §11 maps each to its destination). Copy, fill in, delete what
-> doesn't apply; never retype one from memory.
+> **Every templated tracking file starts as a copy** of its asset in [`assets/`](assets/) — effort files
+> `INDEX`, `ROADMAP`, `LOG`, `phase`, `SUMMARY`, plus findings files `FINDINGS` and `finding` (contract §11
+> maps each to its destination). `archive/closed-YYYY.md` is the deliberate exception — it has no template.
+> Copy and fill in; never retype one from memory.
 
 ## When to use
 
 Before building anything **non-trivial** (§0 "Scale ceremony"); when starting a phase, finishing an item
 or phase, hitting or clearing a blocker, re-scoping, or discovering a new goal; at session start (cold
-resume, §4.4 — the §0 check routes here when an effort is in flight) and session end; and when closing an
-effort as `done` or `cancelled`.
+resume, §4.4 — the §0 check routes here when an effort is in flight) and session end; when closing an
+effort as `done` or `cancelled` or reopening one; and when **capturing, expanding, triaging, dismissing,
+or promoting an out-of-scope finding** (§2.5 decides escalate-versus-record).
 
 Also read [`PROJECT.md`](../../PROJECT.md) — the **Role** (whose judgment frames scope), the
 build/test/lint commands a verification phase runs, and **Version control → Progress artifacts**.
@@ -40,8 +42,8 @@ build/test/lint commands a verification phase runs, and **Version control → Pr
    first effort).
 7. Write **ordered phase rows only** — do not pre-author phase files. Order them to prevent rework (§4.5).
 8. Append the first `LOG.md` line.
-9. Starting immediately? Author only the first phase file and go to **Start a phase**. Otherwise leave
-   `status: queued` with every row `[ ]`.
+9. Starting immediately? Go to **Start a phase** — that procedure marks the row `[~]`, authors the phase
+   file, and presents the gate. Otherwise leave `status: queued` with every row `[ ]`.
 
 ### Resume (cold start)
 
@@ -127,15 +129,22 @@ closed` — archiving the oldest row when that list passes 10.
 
 ### Close as cancelled
 
-Set `status: cancelled`, leave incomplete phase statuses **accurate** (don't fake completion), and write
-`SUMMARY.md` (same template) explaining why it stopped and what was retained, reverted, or left
-incomplete. Log it and move the index row to `Recently closed`.
+Set `status: cancelled` and leave incomplete phase statuses **accurate** — never fake completion. Then run
+**Close as done**'s close-out steps: triage the findings this effort produced, write `SUMMARY.md`, append
+the final log line, and move the `INDEX.md` row to `Recently closed` — archiving the oldest when that list
+passes 10. The summary explains why it stopped and what was retained, reverted, or left incomplete.
 
 ### Reopen
 
 Prefer a **new related effort** when the goal is new. Reopen the original only when closure was premature
-or its done-when criteria were never met: `status: active`, add a new phase without renumbering old ones,
-log the reason, move the index row back to `Active`, and regenerate `SUMMARY.md` only when it closes again.
+or its done-when criteria were never met:
+
+1. **Delete `SUMMARY.md`** — it exists only for closed work (contract §7); git history keeps the old
+   close-out.
+2. **Normalize the phase table** to exactly one `[~]` — resume an incomplete phase where it still
+   represents the work, otherwise insert `phase-NNa` rather than renumbering.
+3. Set `status: active` — or, if the original blocker still stands, one `[!]` and `status: blocked`.
+4. Log the reason and move the index row out of `Recently closed` to `Active` or `Blocked`.
 
 ## Verify
 

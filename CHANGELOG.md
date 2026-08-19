@@ -9,6 +9,76 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.8.0] — 2026-08-19
+
+> **Correction release for the `ai-progress/v2` refactor.** An external validation pass against 2.6.0 +
+> 2.7.0 found twelve places where two surfaces disagreed — the contract said one thing, a template or a
+> procedure another. No architecture changed: the layer split, the hot/cold read path, the uniform effort
+> folder, and the findings ladder all stand. What changed is that the surfaces now agree.
+
+### Changed
+
+- **The progress contract no longer loads on an ordinary cold resume.** Its trigger said "creating,
+  *resuming*, or closing" — pulling 233 lines of format detail into every resume and undoing one of the
+  refactor's main reasons for existing. It now loads when **creating, structurally amending, validating,
+  closing, or reopening**, and explicitly *not* on a resume unless a file's format proves broken.
+- **§2.5's discovered-work HARD RULE gains a middle branch.** It read "work that serves this phase's goal
+  → record it as a **new phase**," which was self-contradictory (work serving *this* phase becoming a
+  *different* one) and fought the skill's own "update the plan before continuing." Now a three-way sort:
+  inside the phase's goal *and* approved scope → **amend the phase plan**, re-presenting the gate when
+  material; separately reviewable but serving this effort → **a new phase**; outside approved scope → the
+  existing escalate-or-record test, unchanged. The child-effort test stays in §4.3 and the contract rather
+  than being restated here. The anti-smuggling clause is untouched — amending a written plan isn't silent.
+- **Roadmap sections are required, not conditional.** The contract demanded "all seven required sections"
+  while its template guidance invited deleting an empty `Dependencies`. Now: all seven always present, an
+  empty one reads `None.`, and `Child efforts` (epic-only) is the single deletable section.
+- **`INDEX.md` gets exactly one legal annotation.** The contract banned "status commentary"; the template
+  shipped `— {what it waits on}` on blocked rows. The mutable blocker note is gone (the roadmap owns it);
+  a closed row's immutable `— done` / `— cancelled` stays and is now documented as the sole exception.
+- **Cancelling an effort runs the same close-out as finishing one.** It previously skipped findings triage
+  and the `Recently closed` overflow — a cancelled effort often carries the *most* worth retaining. It now
+  reuses **Close as done**'s steps rather than restating them.
+- **Reopening cleans up after itself.** It left `SUMMARY.md` in place on a now-active effort — which the
+  contract says exists only for closed work, and which a later session could read as current truth. Reopen
+  now deletes it (git history keeps the close-out) and normalizes the phase table to exactly one `[~]`
+  (or `[!]`) before continuing.
+- **The epic child-effort table drops its `Status` column** — the child's own frontmatter owns that, and a
+  hand-maintained copy was a second status surface in a kit whose first hard rule forbids exactly that.
+  It now records each child's *contribution*, which the parent is genuinely authoritative for.
+- **`finding.template.md` supports all three origins** the workflow allows — during a phase, in an effort
+  outside any phase, and outside any tracked effort — instead of assuming every finding has both. Its
+  ambiguous `{id}-{slug}` placeholder (finding? source effort?) is now `{source-effort-folder}`,
+  `{source-phase-file}`, and `{artifact-file}`. `Why it was out of scope` → **`Why it was deferred`**,
+  which is true for a finding with no effort to be out of scope *of*; Observation / Why it was deferred /
+  Why it matters are marked **required**. For evidence with no originating effort: link an approved
+  location or stand up an investigation effort — never invent a global evidence directory.
+- **`FINDINGS.template.md` no longer links the workflow.** It pointed at a bare
+  `aikit-plan/references/…` path that resolves from nowhere inside `ai-progress/`, and any repaired
+  version would have to assume the vendored folder's name and depth. A generated runtime file doesn't need
+  its implementation contract — the always-loaded manual and skill discovery already route there.
+- **`aikit-plan` is discoverable for findings work.** Its frontmatter `description` and *When to use*
+  covered only efforts and phases, so "record this finding" could fail to select the skill that owns the
+  ladder. Both now name capture, expand, triage, dismiss, and promote.
+- **The skill's template rule covers all seven assets.** It claimed "every progress file starts as a copy"
+  while listing five, silently excluding the two findings templates; `archive/closed-YYYY.md` is now named
+  as the deliberate non-template exception. Contract §11's table gained the two missing rows.
+- **Creating an effort no longer authors the first phase file twice** — *Create* wrote it and then handed
+  off to *Start a phase*, which wrote it again. *Create* now simply defers to that procedure.
+- **Cold resume tells the truth about queued efforts.** §4.4 said to open "the first `[ ]` you're about to
+  start" — a file that by design doesn't exist until its gate. It now routes to *Start a phase*, which
+  authors it.
+- **`README.md`'s runtime tree shows `FINDINGS.md` and `findings/`**, which 2.7.0 added to the manual's
+  tree but not the human-facing one.
+
+### Notes
+
+- Rejected from the same validation pass: **quoting YAML ids** (no parser consumes the frontmatter — the
+  schema can state string semantics when one exists) and an **extra rung-3 fallback** (§5 already offers a
+  tracker *or* a `queued` effort, gated on explicit acceptance). A **template smoke-test harness** stays
+  deferred; the narrow failure it would have caught is now consistency-check #13 instead.
+- `ai-progress/v2` is **unchanged** — no persisted file changes shape incompatibly, so nothing downstream
+  needs migrating.
+
 ## [2.7.0] — 2026-08-18
 
 > **Out-of-scope findings** get a home. An agent that notices invalid markup, a practice violation, or a
