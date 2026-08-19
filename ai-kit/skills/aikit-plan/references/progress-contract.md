@@ -128,7 +128,7 @@ go to `artifacts/` and are linked, not pasted into a roadmap, log, or summary.
 
 ## 7. File contracts
 
-**The §11 templates are normative for section names and order** — every heading they carry is required,
+**The templates (contract §11) are normative for section names and order** — every heading they carry is required,
 and nothing here repeats that list. What follows is the rules a template can't express.
 
 **`ROADMAP.md`** — `Outcome` carries both a **Goal** and explicit **Done when** criteria. The seven
@@ -195,16 +195,16 @@ Safely deferrable observations noticed during an effort don't belong to it. They
 in [`findings-workflow.md`](findings-workflow.md) — `FINDINGS.md` plus optional `findings/{id}.md` detail
 files. Findings are **candidates, not committed efforts**: they never appear as `queued` efforts in
 `INDEX.md`, they stay outside the cold-resume path, and `INDEX.md` doesn't link them. A roadmap's
-`Deferred / follow-ups` may *link* a significant finding, never copy it (§7).
+`Deferred / follow-ups` may *link* a significant finding, never copy it (contract §7).
 
 ## 10. Validation checklist
 
 - [ ] `INDEX.md` routes to the effort; `Recently closed` holds at most 10 rows; no row carries commentary
-      beyond a closed row's `done` / `cancelled` (§8).
+      beyond a closed row's `done` / `cancelled` (contract §8).
 - [ ] The effort folder has a stable ID and slug, and was not renamed.
 - [ ] `ROADMAP.md` frontmatter is valid `ai-progress/v2`, with no `updated:` field.
 - [ ] All seven roadmap sections exist, empty ones reading `None.`; `Outcome` states Goal and Done when.
-- [ ] Effort status and the phase table agree (§5); at most one `[~]`.
+- [ ] Effort status and the phase table agree (contract §5); at most one `[~]`.
 - [ ] Every authored phase file has exactly one roadmap row; no future phase was pre-authored.
 - [ ] Every `[x]` row carries an actual one-line outcome, not its original target.
 - [ ] The active phase file has plan and verification checklists, and no status field.
@@ -239,4 +239,4 @@ The templates are **normative for section names and order**. When you copy one:
 - Keep the guidance comments while the file is young; strip them once the file is established and the
   content speaks for itself.
 - `archive/closed-YYYY.md` has no template: it's a heading per month plus the router rows moved out of
-  `INDEX.md` (§8).
+  `INDEX.md` (contract §8).

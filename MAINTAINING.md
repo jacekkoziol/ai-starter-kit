@@ -245,8 +245,13 @@ find ai-kit -name '*.md' -exec sed '/^<!-- To Remove: START/,/^<!-- To Remove: E
 # 2. Manual sections sequential, none renumbered
 grep -nE "^## [0-9]" ai-kit/AGENT-INSTRUCTIONS.md                                     # expect: 0..9 in order
 
-# 3. Every cross-reference still resolves (eyeball the §N you touched)
+# 3. Every cross-reference still resolves (eyeball the §N you touched). Convention: a BARE §N means a
+#    section of AGENT-INSTRUCTIONS.md (§0–§9); one QUALIFIED by its document (`contract §11`, `findings
+#    workflow §9`) means that document's own section. aikit-project-profile-sync's §N health check reads
+#    it the same way, so an unqualified self-reference resolves to the WRONG manual section downstream.
+#    The second grep catches the loud case — a bare §N too high to be a manual heading.
 grep -rn "§[0-9]" ai-kit/
+grep -rnE '§(1[0-9]|[0-9]{2,})' ai-kit/ | grep -viE 'contract §|workflow §'           # expect: none
 
 # 4. Response-economy mode names consistent — (a) locate the legal names to eyeball context; (b) on
 #    any line where a legal name appears, every backticked token must be legal — a drifted sibling

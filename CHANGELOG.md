@@ -9,6 +9,43 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.8.1] — 2026-08-19
+
+> **`aikit-project-profile-sync`'s health check told the truth about the wrong things.** A skills audit
+> after 2.8.0 found that two of its checks now misfire against the `ai-progress/v2` file layout — one
+> producing 17 false failures, the other silently resolving references to the wrong section. Both are
+> corrections to existing check definitions; no structure changes.
+
+### Fixed
+
+- **The internal-link health check no longer flags copy-me scaffolds.** It required every relative link
+  inside `ai-kit/` to resolve from where the file sits — but template links are written for the **copy
+  destination**, so they can't. 2.6.0–2.8.0 grew `aikit-plan/assets/` from nothing to seven templates,
+  taking the check from 3 unresolved links to **20**, all false. That collided with the skill's own
+  contract rule 5 (*"never suppress a failed health check"*): an agent was obliged to report 20 broken
+  links, and "fixing" any of them would have broken the template. The check now excludes `templates/`,
+  any skill's `assets/*.template.md`, and `_SKILL-TEMPLATE.md` — the same exclusion the kit's own
+  maintenance link check has always carried, and it now says why.
+- **`§N` cross-references have one stated convention.** A **bare** `§N` means a section of
+  `AGENT-INSTRUCTIONS.md`; one **qualified by its document** (`contract §11`, `findings workflow §9`)
+  means that document's own section. `SKILL.md` already wrote it that way; `progress-contract.md` did not,
+  leaving five bare self-references. Four resolved to a real but *wrong* manual section — `§5` to
+  Decision-making instead of the contract's Status model, `§7` to Before-completing instead of File
+  contracts, `§8` (twice) to Anti-patterns instead of `INDEX.md` — which fails silently rather than
+  loudly. The fifth, `§11`, pointed at a manual section that doesn't exist. All five are now qualified,
+  as is the one bare `§10` in `SKILL.md`, and the sync check states the rule it applies.
+
+### Notes
+
+- Verified clean in the same audit and unchanged here: `aikit-update-kit` (its "replace every
+  `skills/aikit-*/`" step already carries the new `references/` and `assets/` subfolders, and its
+  never-migrate-`ai-progress/` note covers the schema question), `aikit-switch-visibility` (path-level
+  only — the v2 restructure is invisible to it), skills and templates index↔folder parity, and the new
+  **Progress artifacts** knob's pickup by sync's marker inventory.
+- Deliberately not changed: `aikit-switch-visibility` says nothing about the Progress-artifacts policy
+  when it stages `ai-progress/`. `.gitignore` enforces that policy and `git add` respects it, so there is
+  no live defect to fix.
+
 ## [2.8.0] — 2026-08-19
 
 > **Correction release for the `ai-progress/v2` refactor.** An external validation pass against 2.6.0 +

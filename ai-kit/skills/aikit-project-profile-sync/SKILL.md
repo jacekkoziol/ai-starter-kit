@@ -103,9 +103,13 @@ Run all checks; **collect every failure with its specifics — don't stop at the
 - **References resolve — file paths:** every path named in `file-locations.md` (and any path cited as a
   `fill:auto` evidence source) exists in the repo.
 - **References resolve — internal links:** every relative Markdown link and `@import` inside `ai-kit/`
-  resolves relative to its linking file's directory.
-- **References resolve — `§N` cross-refs:** every `§N` inside `ai-kit/` maps to a real heading in
-  `AGENT-INSTRUCTIONS.md`.
+  resolves relative to its linking file's directory — **excluding copy-me scaffolds** (`templates/`, any
+  skill's `assets/*.template.md`, `_SKILL-TEMPLATE.md`), whose links are written for the **copy
+  destination** and by design don't resolve where the file sits. Flagging those is a false failure, and
+  "fixing" one breaks the scaffold.
+- **References resolve — `§N` cross-refs:** every **unqualified** `§N` inside `ai-kit/` maps to a real
+  heading in `AGENT-INSTRUCTIONS.md`. A ref **qualified by its document** (`contract §11`, `findings
+  workflow §9`) points at that document's own section instead — resolve it against that file.
 - **Index ↔ folder parity (skills):** bidirectionally set-compare `ai-kit/skills/*/SKILL.md` against the rows
   in `ai-kit/skills/README.md` — every SKILL.md has a row and every row points at a real SKILL.md.
 - **Index ↔ folder parity (reference):** same, `ai-kit/reference/*.md` (excluding `README.md`) against

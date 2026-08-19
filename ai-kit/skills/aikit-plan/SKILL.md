@@ -148,7 +148,7 @@ or its done-when criteria were never met:
 
 ## Verify
 
-Walk the contract's **validation checklist** (§10) — it's the full gate. The failures this skill most
+Walk the contract's **validation checklist** (contract §10) — it's the full gate. The failures this skill most
 often catches:
 
 - [ ] Effort `status:` and the phase table agree (contract §5); at most one `[~]`.
