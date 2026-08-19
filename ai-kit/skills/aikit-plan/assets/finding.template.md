@@ -1,5 +1,5 @@
 ---
-id: FND-{effort-id}-{phase-id}-{slug}   # phase segment optional; FND-{YYYYMMDD}-{slug} outside any effort
+id: FND-{effort-id}-{phase-id}-{slug}   # drop the phase segment when there was none; use a date-based id outside any effort
 kind: defect            # defect | debt | risk | test-gap | docs
 confidence: confirmed   # confirmed | likely | suspected
 created: {YYYY-MM-DD}

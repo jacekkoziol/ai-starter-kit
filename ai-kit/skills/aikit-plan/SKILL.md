@@ -105,8 +105,16 @@ Row to `[!]`, effort `status: blocked`, and record in the phase file: what's blo
 **exact unblock condition**, and any safe parallel work. **With no phase in flight** — blocked between
 phases, or before the first one — set `status: blocked` with **no** `[!]` row and record the same four
 things in the roadmap's `Dependencies` instead. Log it; move the `INDEX.md` entry to `Blocked`.
-Never invent a scope-changing, costly, security-sensitive, or irreversible workaround (§5.2). When
-cleared: row back to `[~]`, `status: active`, update the phase notes, log it, move the index entry back.
+Never invent a scope-changing, costly, security-sensitive, or irreversible workaround (§5.2).
+
+**Clear it at the level it was set:**
+
+- **Phase-level** — `[!]` back to `[~]`, `status: active`, update the phase notes.
+- **Effort-level** — resolve the blocker facts in `Dependencies`, then restore the open state: `queued`
+  when no phase has started yet, otherwise `active`. **Don't activate a phase just because the blocker
+  cleared** — starting one is still *Start a phase*, gate included.
+
+Either way: log the unblock and move the `INDEX.md` entry to the matching section.
 
 ### Handle an out-of-scope finding
 
@@ -164,7 +172,9 @@ or its done-when criteria were never met:
    close-out.
 2. **Normalize the phase table** to at most one phase in flight — resume an incomplete phase where it
    still represents the work, otherwise insert `phase-NNa` rather than renumbering.
-3. Set `status: active` — or, if the original blocker still stands, one `[!]` and `status: blocked`.
+3. Set `status: active` — or, if the original blocker still stands, restore it **at its original level**:
+   a phase blocker as one `[!]`, an effort-level one as `status: blocked` with no `[!]` row and the facts
+   back in `Dependencies`.
 4. Log the reason, then remove the closed router row from **whichever surface holds it** — `Recently
    closed` *or* `archive/closed-YYYY.md` — and add the effort to `Active` or `Blocked`.
 
@@ -173,7 +183,8 @@ or its done-when criteria were never met:
 Walk the contract's **validation checklist** (contract §10) — it's the full gate. The failures this skill most
 often catches:
 
-- [ ] Effort `status:` and the phase table agree (contract §5); at most one `[~]`.
+- [ ] Effort `status:` and the phase table agree (contract §5); at most one phase in flight — `[~]` or
+      `[!]`, never both.
 - [ ] Every `[x]` row carries an **actual** one-line outcome, not its original target.
 - [ ] No phase file carries a status field; no future phase was pre-authored.
 - [ ] Every `{placeholder}` from the template was replaced; dates absolute; no phase renumbered.

@@ -27,4 +27,5 @@
 {links into ../artifacts/, or "None."}
 
 ## Notes / blockers
-{when blocked: what's blocked, the cause, and the exact unblock condition. Otherwise "None."}
+{when blocked, all four: what's blocked, the cause, the exact unblock condition, and any safe parallel
+work. Otherwise "None."}

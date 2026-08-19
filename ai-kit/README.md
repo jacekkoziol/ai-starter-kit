@@ -126,8 +126,8 @@ ai-progress/
     artifacts/  scripts/       # generated output · effort-local helper scripts (only if needed)
 ```
 
-**Hot vs cold is the whole idea.** Resuming reads only three things — `INDEX.md`, one `ROADMAP.md`, and
-the one phase in flight. Everything else stays cold: finished phase files (their one-line outcomes in the
+**Hot vs cold is the whole idea.** Resuming reads at most three things — `INDEX.md`, one `ROADMAP.md`, and
+the one phase in flight (an effort blocked between phases has none, so it reads two). Everything else stays cold: finished phase files (their one-line outcomes in the
 roadmap say what happened), the log, the summary, and any generated output. So context cost stays flat as
 the project grows.
 

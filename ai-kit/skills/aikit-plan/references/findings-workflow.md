@@ -81,7 +81,8 @@ A detail file carries YAML frontmatter — `id`, `kind`, `confidence`, `created`
 greppable during triage (`kind: defect`). Deliberately **no `status:`** (the inbox's `Open` /
 `Recently triaged` sections own lifecycle state, and a second surface would drift) and **no `schema:`**
 (findings have no legacy shape; `ai-progress/v2` already versions the contract). No `source:` either — the
-ID encodes the effort and phase, and a blockquote carries the clickable backlink.
+ID encodes what provenance it has (the phase segment is optional, and a repo-level finding encodes a date
+instead), and the `Source` blockquote carries the clickable origin.
 
 **Authority transitions with the rung.** At rung 1 the inline entry *is* the finding. At rung 2 the
 detail file — frontmatter included — becomes authoritative, and the inbox line is a derived router entry

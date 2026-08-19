@@ -134,14 +134,14 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 
 ## Progress-tracking layers (where `ai-progress/` rules live)
 
-Progress tracking is split across four surfaces by **when the reader needs it** — don't collapse them,
+Progress tracking is split across these surfaces by **when the reader needs it** — don't collapse them,
 and don't restate one in another:
 
 | Surface | Owns | Why there |
 | --- | --- | --- |
 | `AGENT-INSTRUCTIONS.md` §4 | Behavior an agent needs *before* it loads anything: when to track, the layout, the hard rules, the cold-resume path, phase ordering. | Always loaded. An agent that never invokes the skill still has to get this right. |
 | `skills/aikit-plan/SKILL.md` | The **procedures** — create, start/finish a phase, block, re-scope, end a session, close, reopen. | Loaded when doing the work. |
-| `skills/aikit-plan/references/progress-contract.md` | The **format** — frontmatter, required sections, naming, status consistency, validation checklist. | Loaded only when writing or amending a progress file. |
+| `skills/aikit-plan/references/progress-contract.md` | The **format** — frontmatter, required sections, naming, status consistency, validation checklist. | Loaded only when **creating** a tracking file, **changing its structure**, **validating**, **closing**, or **reopening** — never on a cold resume or a routine content update. |
 | `skills/aikit-plan/references/findings-workflow.md` | **Out-of-scope findings** — the escalate/capture/expand/promote ladder, IDs, taxonomy, dismissal routing. | Loaded on a *different* trigger than the contract: capturing or triaging a finding, not writing a progress file. |
 | `skills/aikit-plan/assets/*.template.md` | The **copy-me files** themselves — one per progress file, normative for section names and order. | Read one at a time, only when creating that file. |
 | `PROJECT.md` → Version control | The project's **Progress artifacts** retention/commit policy. | A knob, and knobs live only in `PROJECT.md`. |

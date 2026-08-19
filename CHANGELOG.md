@@ -9,6 +9,39 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.9.1] — 2026-08-19
+
+> **Clearing an effort-level blocker.** 2.9.0 made effort-level blockers creatable and resumable but
+> defined *clearing* only for the phase-level case — the one lifecycle hole a fourth validation pass found,
+> plus five prose inconsistencies it left behind. No structural change.
+
+### Fixed
+
+- **Unblocking now branches by level.** 2.9.0 added `status: blocked` with no `[!]` row and the facts in
+  the roadmap's `Dependencies`, then told the agent to clear it by moving a row back to `[~]` and updating
+  "the phase notes" — neither of which exists in that case. Clearing now says: **phase-level** → `[!]` to
+  `[~]`, `status: active`, update the phase notes; **effort-level** → resolve the `Dependencies` facts and
+  restore `queued` (no phase started yet) or `active`, explicitly *without* activating a phase, since
+  starting one is still *Start a phase* with its gate.
+- **Reopen restores a blocker at its original level.** It said "one `[!]` and `status: blocked`", which
+  silently converts a preserved effort-level blocker into a phase-level one — and a reopened effort may
+  have no phase to attach it to.
+- **The skill's abbreviated Verify matched the old rule.** It still read "at most one `[~]`" after the
+  contract moved to "at most one phase in flight — `[~]` or `[!]`, never both." The full contract gate
+  caught the bad state either way, so this was a stale summary rather than an escape.
+- **`phase.template.md` asked for three of the four blocker facts** — what's blocked, cause, unblock
+  condition — omitting *safe parallel work*, which the procedure requires and the roadmap template already
+  carried for the effort-level case.
+- **One placeholder survived in a guidance comment.** 2.9.0's invariant reserves `{…}` for fill slots, but
+  `finding.template.md`'s `id:` line still carried `FND-{YYYYMMDD}-{slug}` in its inline comment — the very
+  pattern the invariant forbids. (It hid because the verification scan only inspected `<!-- -->` blocks,
+  not YAML `#` comments.) Now prose.
+- **A findings provenance claim was too strong.** *"The ID encodes the effort and phase"* justified having
+  no `source:` field — but the phase segment is optional and a repo-level finding encodes a date instead.
+  It now says the ID encodes what provenance it has, with the `Source` blockquote carrying the origin.
+- **The README's "reads only three things"** is now "at most three": an effort blocked between phases has
+  no phase in flight, so resume reads two. Matches §4.4 exactly.
+
 ## [2.9.0] — 2026-08-19
 
 > **Blocked efforts, and the seams around them.** A third validation pass against 2.8.1 found seven
