@@ -7,17 +7,12 @@ created: {YYYY-MM-DD}
 
 # {short label}
 
-<!-- Source — keep exactly ONE of the three forms below, matching how this was found (workflow §8).
-     Paths are relative to ai-progress/findings/.
+<!-- SOURCE — pick the form matching how this was found (workflow §8), fill it in below, then DELETE this
+     whole comment. Paths are relative to ai-progress/findings/.
 
-  a) during a phase:
-> Source: [{effort-id}](../{source-effort-folder}/ROADMAP.md) · [{phase-id}](../{source-effort-folder}/phases/{source-phase-file})
-
-  b) in an effort, outside a phase:
-> Source: [{effort-id}](../{source-effort-folder}/ROADMAP.md) · no phase — found during {scoping | roadmap authoring | close-out | review}
-
-  c) outside any tracked effort:
-> Source: {what you were doing} on {YYYY-MM-DD} · `{path/to/file.ext}`
+  a) during a phase        Source: [effort-id](../effort-folder/ROADMAP.md) · [phase-id](../effort-folder/phases/phase-file.md)
+  b) effort, but no phase  Source: [effort-id](../effort-folder/ROADMAP.md) · no phase — found during scoping / review / close-out
+  c) no tracked effort     Source: what you were doing, on a date · `path/to/file.ext`
 -->
 > Source: [{effort-id}](../{source-effort-folder}/ROADMAP.md) · [{phase-id}](../{source-effort-folder}/phases/{source-phase-file})
 

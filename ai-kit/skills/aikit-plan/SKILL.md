@@ -8,7 +8,9 @@ description: Stand up and maintain progress tracking — one ai-progress/ effort
 > The **procedures**. [`AGENT-INSTRUCTIONS.md`](../../AGENT-INSTRUCTIONS.md) §4 owns the behavior (layout,
 > hard rules, cold-resume path, phase ordering); [`progress-contract.md`](references/progress-contract.md)
 > owns the **format** (frontmatter, sections, naming, status consistency, validation). Open the contract
-> when you write or amend a file — don't restate it, don't guess a section name.
+> when **creating** a tracking file, **changing its structure**, **validating**, **closing**, or
+> **reopening** — not for a cold resume or a routine content update (a checkbox, a log line, a phase
+> outcome) that preserves the file's shape. Don't restate it, don't guess a section name.
 >
 > **Every templated tracking file starts as a copy** of its asset in [`assets/`](assets/) — effort files
 > `INDEX`, `ROADMAP`, `LOG`, `phase`, `SUMMARY`, plus findings files `FINDINGS` and `finding` (contract §11
@@ -47,9 +49,22 @@ build/test/lint commands a verification phase runs, and **Version control → Pr
 
 ### Resume (cold start)
 
-Follow §4.4 exactly: `INDEX.md` → the chosen `ROADMAP.md` → the **one** `[~]` phase file. Don't reopen
-completed phase files; leave `LOG.md`, `SUMMARY.md`, `artifacts/`, and `scripts/` cold unless the current
-state fails to explain *why* something happened. For closed work, read `SUMMARY.md` first.
+Follow §4.4: `INDEX.md` → the chosen `ROADMAP.md` → the one phase in flight. Which file that is depends on
+the effort's state:
+
+| Roadmap state | Open |
+| --- | --- |
+| `active`, one `[~]` | That phase file. |
+| `blocked`, one `[!]` | That phase file — and its unblock condition. **Don't start another phase.** |
+| `blocked`, no `[!]` | The roadmap's effort-level blocker. **Don't start another phase.** |
+| Nothing in flight, not blocked | Nothing yet — run **Start a phase** for the next `[ ]` row. |
+| `done` / `cancelled` | `SUMMARY.md` first. |
+
+Don't reopen completed phase files; leave `LOG.md`, `SUMMARY.md`, `artifacts/`, and `scripts/` cold unless
+the current state fails to explain *why* something happened.
+
+**`[~]` is not proof its gate was passed** — it covers both "awaiting approval" and "approved, building."
+If neither this session nor `LOG.md` records the approval, re-present the plan and wait (§2.4).
 
 **Legacy shapes** (`task-{slug}.md`, `{effort}-ROADMAP.md`, `{effort}/phase-NN-*.md`, or a roadmap with
 no `schema:`) are still valid. Resume them **in place, in their existing shape**; never migrate one
@@ -60,9 +75,13 @@ without being asked (contract §9).
 1. Confirm prerequisite phases are `[x]` or explicitly waived.
 2. Row to `[~]`; effort `status: active`.
 3. Author that phase file from `assets/phase.template.md` — and only that one.
-4. Append a `LOG.md` line.
-5. **Present the plan and stop for approval (§2.4).** Build only on an explicit go, or a standing
-   pre-authorization from the user.
+4. **Replace that row's `Not authored yet` with a relative link to the file** you just created.
+5. **Move the `INDEX.md` entry to `Active`** if the effort was `Queued` — the router is a projection of
+   roadmap status (contract §8).
+6. Append a `LOG.md` line.
+7. **Present the plan and stop for approval (§2.4).** Build only on an explicit go, or a standing
+   pre-authorization from the user. Record the approval in the next `LOG.md` line — a later cold resume
+   can't infer it from `[~]`.
 
 ### Implement an approved phase
 
@@ -83,7 +102,9 @@ off-script; record scope or decision changes in the roadmap and the log. Generat
 ### Blocker, and clearing it
 
 Row to `[!]`, effort `status: blocked`, and record in the phase file: what's blocked, the cause, the
-**exact unblock condition**, and any safe parallel work. Log it; move the `INDEX.md` entry to `Blocked`.
+**exact unblock condition**, and any safe parallel work. **With no phase in flight** — blocked between
+phases, or before the first one — set `status: blocked` with **no** `[!]` row and record the same four
+things in the roadmap's `Dependencies` instead. Log it; move the `INDEX.md` entry to `Blocked`.
 Never invent a scope-changing, costly, security-sensitive, or irreversible workaround (§5.2). When
 cleared: row back to `[~]`, `status: active`, update the phase notes, log it, move the index entry back.
 
@@ -141,10 +162,11 @@ or its done-when criteria were never met:
 
 1. **Delete `SUMMARY.md`** — it exists only for closed work (contract §7); git history keeps the old
    close-out.
-2. **Normalize the phase table** to exactly one `[~]` — resume an incomplete phase where it still
-   represents the work, otherwise insert `phase-NNa` rather than renumbering.
+2. **Normalize the phase table** to at most one phase in flight — resume an incomplete phase where it
+   still represents the work, otherwise insert `phase-NNa` rather than renumbering.
 3. Set `status: active` — or, if the original blocker still stands, one `[!]` and `status: blocked`.
-4. Log the reason and move the index row out of `Recently closed` to `Active` or `Blocked`.
+4. Log the reason, then remove the closed router row from **whichever surface holds it** — `Recently
+   closed` *or* `archive/closed-YYYY.md` — and add the effort to `Active` or `Blocked`.
 
 ## Verify
 

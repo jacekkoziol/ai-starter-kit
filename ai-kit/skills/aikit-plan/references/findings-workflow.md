@@ -115,10 +115,10 @@ every rejected finding.
 ## 7. `FINDINGS.md`
 
 A bounded, cold-path triage inbox — **not** an accepted backlog. Every unresolved candidate stays under
-`## Open`; dispositions go under `## Recently triaged`, capped at **10** (drop the oldest past the cap;
-git history keeps older ephemeral ones). No findings archive by default, no accepted work under `Open`,
-no finding counts, and **no link from `INDEX.md`** — the router stays efforts-only, and §4 already names
-this path. Scaffold: [`FINDINGS.template.md`](../assets/FINDINGS.template.md).
+`## Open`; dispositions go under `## Recently triaged`, capped at **10** and ordered **newest first**, so
+"the oldest" is the last row (drop it past the cap; git history keeps older ephemeral ones). No findings
+archive by default, no accepted work under `Open`, no finding counts, and **no link from `INDEX.md`** —
+the router stays efforts-only, and §4 already names this path. Scaffold: [`FINDINGS.template.md`](../assets/FINDINGS.template.md).
 
 A growing inbox is a triage problem, not a reason to build a deeper hierarchy.
 

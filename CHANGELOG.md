@@ -9,6 +9,73 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.9.0] — 2026-08-19
+
+> **Blocked efforts, and the seams around them.** A third validation pass against 2.8.1 found seven
+> cross-file inconsistencies. The important one: cold resume had no answer for a *blocked* effort, and
+> read as an instruction to start the next phase straight past the blocker. The rest are seams the v2
+> refactor left — a started phase that nothing links to, an archived row whose link breaks on the way
+> down, a log field that assumes a phase exists before one does. Additive; `ai-progress/v2` unchanged.
+
+### Fixed
+
+- **Cold resume is state-aware, and never walks past a blocker.** §4.4 said to open the `[~]` phase and,
+  "with no phase active," to start the next `[ ]` row. A blocked effort has `[!]`, not `[~]` — so the
+  literal reading was *start a new phase and leave the blocker behind*. (2.8.0 introduced that imperative
+  while fixing a different vagueness in the same sentence.) Resume now branches on roadmap state:
+  `[~]` → that file · `[!]` → that file **and its unblock condition** · `blocked` with no `[!]` → the
+  roadmap's effort-level blocker · nothing in flight **and not blocked** → *Start a phase* · closed →
+  `SUMMARY.md`. The skill carries it as a table. §0's "pick up the next phase" and the README's "resume
+  the next phase" are corrected to match — both could send an agent past an active or blocked phase.
+- **Effort-level blockers have a procedure.** The contract has always allowed a blocked effort with no
+  `[!]` row, but the blocker procedure only handled the phase-level case, so the allowed state had no way
+  to be created. Blocking between phases (or before the first) now records the same four facts — what's
+  blocked, cause, exact unblock condition, safe parallel work — in the roadmap's `Dependencies`.
+- **Starting a phase now links it and moves the router row.** Steps 1–5 set `[~]`, authored the file, and
+  logged — but never replaced that row's `Not authored yet` with a link, and never moved a queued effort's
+  `INDEX.md` entry to `Active`. The result was a phase in flight that the roadmap didn't link and the
+  router still called queued, contradicting contract §8's projection rule.
+- **Phase-versus-child-effort no longer contradicts the plan gate.** The contract defined a phase as work
+  needing "no separate review gate" while the manual gives *every* phase one, which read as making every
+  phase eligible to be a child effort. The distinction is now the **independent lifecycle** — own owner,
+  acceptance gate, blocked/cancelled state, pull request, release, or `SUMMARY.md` — with the ordinary
+  per-phase plan gate and a temporary phase blocker explicitly excluded, since every phase has both.
+- **One contract-load rule, stated identically in all three layers.** 2.8.1 fixed only the contract's own
+  header; the manual still said "load it when you write the files" and the skill "when you write **or
+  amend** a file" — and flipping a checkbox is an amendment, so the 240-line contract still rode along on
+  routine work. All three now name the same five triggers and exclude cold resume and content updates.
+- **`LOG.md`'s third field is `context`, not `phase`.** *Create an effort* appends the first log line
+  before any phase exists, so the format demanded a value the effort didn't have yet — likewise for
+  effort-level blockers, reopening, and close-out. `context` takes a phase ID when one is in flight and
+  `effort` or `close-out` otherwise. Backward compatible: a phase ID is a valid context, so entries
+  written under 2.6–2.8.1 stay correct and no schema bump is needed.
+- **Archiving a closed row rewrites its link.** Moving a row from `INDEX.md` into `archive/closed-YYYY.md`
+  puts it one directory deeper, so `effort/SUMMARY.md` must become `../effort/SUMMARY.md` — a literal move
+  left a broken link. The year file and month heading come from the effort's close date. Reopening now
+  removes the closed row from **whichever** surface holds it, including the archive, instead of assuming
+  `Recently closed`. `Recently closed` and `Recently triaged` are both stated to run **newest first**, so
+  "drop the oldest" names an unambiguous row.
+- **Guidance comments no longer collide with the placeholder rule.** The contract required every
+  `{placeholder}` be replaced *and* that guidance comments be kept — but those comments contained
+  placeholders, so a correctly finished file failed its own validation. `{…}` is now reserved for fill
+  slots, a retained comment must carry none, and `finding.template.md`'s source-selection block (which
+  necessarily leaves two unused forms behind) says to delete itself once a form is chosen.
+
+### Added
+
+- **`[~]` is not proof its gate was passed.** The marker covers both "awaiting approval" and "approved,
+  building," so after a compaction an agent could resume and build straight through the §2.4 plan gate.
+  Resume now says: if neither this session nor `LOG.md` records the approval, re-present the plan and
+  wait. *Start a phase* records the approval in its next log line so a later session can find it.
+
+### Changed
+
+- **README accuracy pass.** "Anything beyond a one-liner" → the manual's §0 ceremony test (a one-line
+  schema change can be non-trivial). "If one disagrees, the roadmap wins" → correct the derived file from
+  whichever file owns that fact (the phase file owns the active plan, not the roadmap). "Status is one set
+  of markers" now distinguishes the phase marker surface from effort status in frontmatter. "Commit this
+  folder" is qualified for `local-only` mode, where `ai-progress/` is excluded alongside `ai-kit/`.
+
 ## [2.8.1] — 2026-08-19
 
 > **`aikit-project-profile-sync`'s health check told the truth about the wrong things.** A skills audit

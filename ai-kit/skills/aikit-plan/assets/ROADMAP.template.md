@@ -36,6 +36,8 @@ created: {YYYY-MM-DD}
 | P02 | `[ ]` | {target} | Not authored yet |
 
 ## Dependencies
+<!-- Also the home for an effort-level blocker (blocked with no [!] phase): what's blocked, the cause,
+     the exact unblock condition, and any safe parallel work. -->
 - {external or cross-effort dependency, and what it blocks}
 
 ## Deferred / follow-ups

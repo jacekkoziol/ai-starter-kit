@@ -17,12 +17,13 @@
 coordination goal linking child efforts). **Tasks and epics use the same folder shape.**
 
 **Phase** — an ordered, reviewable part of one effort: same owner, same lifecycle, contributing to the
-same outcome, needing no separate review gate, pull request, release, or close-out summary.
+same outcome. It uses the effort's lifecycle and the **standard per-phase plan gate** (§2.4), and needs no
+*independent* acceptance gate, pull request, release, or close-out summary.
 
-**Child effort** — its own effort folder with `parent:` set. Create one *instead of* another phase when
-the work can proceed independently, has a different owner, has its own approval gate, can be blocked or
-cancelled on its own, is expected to produce its own pull request or release, or needs its own
-`SUMMARY.md`.
+**Child effort** — its own effort folder with `parent:` set. Create one *instead of* another phase when the
+work needs an **independent lifecycle**: its own owner, its own acceptance gate, its own blocked/cancelled
+state, its own pull request or release, or its own `SUMMARY.md`. The ordinary per-phase plan gate and a
+temporary phase blocker don't qualify — every phase has both.
 
 Effort folders stay **physically flat** under `ai-progress/`. Hierarchy is expressed only through
 `parent:`, at most two semantic levels (`epic → child effort`). Never nest effort folders.
@@ -94,7 +95,7 @@ consistency expectations:
 | --- | --- |
 | `queued` | No `[~]` or `[!]`; incomplete phases remain. |
 | `active` | Normally exactly one `[~]`. |
-| `blocked` | Normally one `[!]`, or an effort-level blocker documented in the roadmap. |
+| `blocked` | One `[!]`, or an effort-level blocker in the roadmap's `Dependencies` and no `[!]` row. |
 | `done` | Every required phase `[x]`. |
 | `cancelled` | Any accurate distribution; the reason is explained in `SUMMARY.md`. |
 
@@ -145,8 +146,12 @@ running much past ~250 lines.
 or meaningful checkpoint:
 
 ```text
-- YYYY-MM-DD | actor | phase | Done: … | Verified: … | Next: … | Blockers: …
+- YYYY-MM-DD | actor | context | Done: … | Verified: … | Next: … | Blockers: …
 ```
+
+**`context`** is the phase ID when one is in flight (`P02`, `P03a`), and otherwise what the entry is about
+— `effort` (creation, scoping, an effort-level blocker) or `close-out`. It was named `phase` in earlier
+kit versions; existing entries stay valid, since a phase ID is a valid context.
 
 Append-only (correct objective typos only). Absolute dates. Record only verification that actually
 occurred, name the next concrete action, and write `none` when there is no blocker. Not part of the
@@ -168,8 +173,10 @@ compare states, or automate one bounded operation. Document purpose, inputs, out
 Production application utilities do not belong here; a helper needed by several efforts graduates to the
 repository's shared script location or a skill.
 
-**`archive/closed-YYYY.md`** — old closed *router rows* only. Never copy roadmap, log, or summary
-content into it, and never move an effort folder (that breaks existing links).
+**`archive/closed-YYYY.md`** — old closed *router rows* only. Pick the year file and month heading from the
+effort's `SUMMARY.md` close date, and **rewrite the link for the extra directory level** —
+`effort/SUMMARY.md` becomes `../effort/SUMMARY.md`, or a literal move leaves a broken link. Never copy
+roadmap, log, or summary content into it, and never move an effort folder (that breaks existing links).
 
 ## 8. `INDEX.md`
 
@@ -178,8 +185,9 @@ Do not duplicate kind, current phase, dates, scope, or status commentary — all
 roadmap. **One annotation is allowed**: a closed row's final state, `— done` or `— cancelled`, which never
 changes again (a reopened effort leaves `Recently closed` entirely). A blocked row gets **no** explanation
 — its roadmap owns that, and a second copy drifts. Show every `Active`, `Blocked`, and `Queued` effort;
-cap `Recently closed` at 10 and move older rows to the yearly archive. Use relative links. An effort's
-section is a projection of its roadmap `status`; when they disagree, the roadmap wins.
+cap `Recently closed` at 10 and move older rows to the yearly archive — rows run **newest first**, so "the
+oldest" is the last one. Use relative links. An effort's section is a projection of its roadmap `status`;
+when they disagree, the roadmap wins.
 
 ## 9. Legacy compatibility
 
@@ -204,7 +212,8 @@ files. Findings are **candidates, not committed efforts**: they never appear as 
 - [ ] The effort folder has a stable ID and slug, and was not renamed.
 - [ ] `ROADMAP.md` frontmatter is valid `ai-progress/v2`, with no `updated:` field.
 - [ ] All seven roadmap sections exist, empty ones reading `None.`; `Outcome` states Goal and Done when.
-- [ ] Effort status and the phase table agree (contract §5); at most one `[~]`.
+- [ ] Effort status and the phase table agree (contract §5); **at most one phase is in flight — `[~]` or
+      `[!]`, never both**, and a blocked effort may have neither.
 - [ ] Every authored phase file has exactly one roadmap row; no future phase was pre-authored.
 - [ ] Every `[x]` row carries an actual one-line outcome, not its original target.
 - [ ] The active phase file has plan and verification checklists, and no status field.
@@ -232,7 +241,9 @@ Copy the file, then fill it in — don't retype a skeleton from memory. They liv
 
 The templates are **normative for section names and order**. When you copy one:
 
-- Replace every `{placeholder}` — an unreplaced placeholder is an unfinished file.
+- Replace every `{placeholder}` — an unreplaced placeholder is an unfinished file. `{…}` is reserved for
+  slots you must fill, so **a guidance comment you keep must contain none**: a comment that still shows one
+  is either stale or should have been deleted with the block it describes.
 - **`Child efforts` (epic-only) is the one deletable section.** Every other roadmap section, and every
   `INDEX.md` state heading, stays and reads `None.` when empty — predictable shape beats conditional
   interpretation.

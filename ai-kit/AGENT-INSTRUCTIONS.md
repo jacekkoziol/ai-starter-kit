@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.8.1
+> **Kit version:** 2.9.0
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -57,7 +57,7 @@ loaded — it doubles as proof both halves (manual + `PROJECT.md`) are live:
   outside this kit.)
 
 **Before scoping new work,** check `ai-progress/INDEX.md` (§4): if an effort is already in flight,
-resume it per §4.4 (open its roadmap, pick up the next phase) instead of scoping from scratch.
+resume it per §4.4 (open its roadmap and the phase in flight) instead of scoping from scratch.
 
 ---
 
@@ -148,8 +148,8 @@ multi-phase epic share the same shape; a small task simply has fewer phases and 
 Decompose the work into **phases** — ordered, each independently reviewable, each with a clear "done."
 Order phases to **prevent rework**: foundations before things that depend on them (see the canonical
 sequence in §4.5). The roadmap routes and holds current state; **only the phase you're starting gets
-expanded** (§4.2 rule 4). Work that can be independently blocked, gated, shipped, or summarized becomes
-a **child effort** rather than another phase (§4.1).
+expanded** (§4.2 rule 4). Work needing an **independent lifecycle** becomes a **child effort** rather than
+another phase (§4.1).
 
 ### 2.4 Phase D — Gate (plan review)
 
@@ -233,8 +233,10 @@ unless the user says to skip it; when in doubt, create it. Commit it under the s
 > **Two companions own the detail.** [`aikit-plan`](skills/aikit-plan/SKILL.md) walks the
 > **procedures** (create an effort, start/finish a phase, block, re-scope, close, reopen).
 > [`progress-contract.md`](skills/aikit-plan/references/progress-contract.md) is the **format contract**
-> (frontmatter, required sections, naming, skeletons, validation) — load it when you write the files.
-> This section stays canonical for the behavior below.
+> (frontmatter, required sections, naming, skeletons, validation) — load it when **creating** a tracking
+> file, **changing its structure**, **validating**, **closing**, or **reopening**; not for a cold resume or
+> a routine content update that preserves the file's shape. This section stays canonical for the behavior
+> below.
 
 ### 4.1 Layout
 
@@ -257,8 +259,10 @@ ai-progress/
 Name the folder from a **stable external ID** (`PROJ-142-checkout-rebuild/`) or, failing that, the
 creation date (`20260818-…`) — never a repo-global `01-` counter, which collides across branches. Never
 rename it. Folders stay **flat**: an epic links children via `parent:` in their frontmatter, at most two
-levels (`epic → child effort`). Work that can be independently blocked, gated, shipped, or summarized is
-a **child effort**, not another phase.
+levels (`epic → child effort`). Work needing an **independent lifecycle** — its own owner, acceptance
+gate, cancellation, pull request, release, or close-out summary — is a **child effort**, not another
+phase. The ordinary per-phase plan gate (§2.4) and a temporary phase blocker don't qualify: every phase
+has those.
 
 ### 4.2 Hard rules
 
@@ -288,16 +292,20 @@ a **child effort**, not another phase.
 Start a phase → row to `[~]`, effort `status: active`, author the phase file, pause for review (§2.4).
 Finish an item → flip it immediately, don't batch. Finish a phase → row to `[x]` **with its one-line
 actual outcome**, then log. Blocker → row to `[!]`, effort `status: blocked`, record the exact unblock
-condition. New work mid-flight → insert `phase-NNa`. A whole new goal → a new effort + `INDEX.md` row,
+condition — or, with no phase in flight, an effort-level blocker recorded in the roadmap and no `[!]` row.
+New work mid-flight → insert `phase-NNa`. A whole new goal → a new effort + `INDEX.md` row,
 not extra phases here. (Step-by-step, including closing and reopening: the skill.)
 
 ### 4.4 Resuming cold (session start)
 
-Read **only** `INDEX.md` → the chosen `ROADMAP.md` → the one `[~]` phase file. With no phase active, pick
-the next `[ ]` row and run the skill's *Start a phase* — that gate authors the file, so there is nothing
-to open yet. Done rows' one-line outcomes mean you **don't reopen completed phase files**, and
-`LOG.md`, `SUMMARY.md`, `artifacts/`, and `scripts/` stay **cold** — open `LOG.md` only when the current
-state doesn't explain *why* something happened. For **closed** work, read `SUMMARY.md` first. Files beat
+Read **only** `INDEX.md` → the chosen `ROADMAP.md` → the **one phase in flight**: the `[~]` row, or the
+`[!]` one when the effort is `blocked` — read its unblock condition and **never start another phase past a
+blocker**. A `blocked` effort may instead carry an effort-level blocker in the roadmap and no `[!]` row at
+all. Only when nothing is in flight **and** the effort isn't blocked, pick the next `[ ]` row and run the
+skill's *Start a phase* — that gate authors the file, so there is nothing to open yet. Done rows' one-line
+outcomes mean you **don't reopen completed phase files**, and `LOG.md`, `SUMMARY.md`, `artifacts/`, and
+`scripts/` stay **cold** — open `LOG.md` only when the current state doesn't explain *why* something
+happened. For **closed** work, read `SUMMARY.md` first. Files beat
 memory. Legacy efforts (a pre-v2 `task-{slug}.md` or `{effort}-ROADMAP.md`) stay valid — resume them in
 their existing shape and **never migrate automatically**.
 

@@ -108,7 +108,8 @@ Two supporting rules do a lot of the heavy lifting:
 
 ## How the progress files work
 
-For anything beyond a one-liner, the agent maintains an `ai-progress/` folder at the project root. **One
+For every **non-trivial** task — the manual's §0 ceremony test decides that, not line count — the agent
+maintains an `ai-progress/` folder at the project root. **One
 folder per effort — a small task and a multi-phase epic have the same shape**, the task just has fewer
 files:
 
@@ -131,14 +132,17 @@ roadmap say what happened), the log, the summary, and any generated output. So c
 the project grows.
 
 Each fact has exactly one home: the roadmap owns current state, the phase file owns the active plan, the
-log owns history, and `INDEX.md`/`SUMMARY.md` are derived views — if one disagrees, the roadmap wins.
-Status is one set of markers (`[ ] [~] [x] [!]`), dates are absolute, and re-scoping *inserts* phases
+log owns history, and `INDEX.md`/`SUMMARY.md` are derived views — when one disagrees, correct it from
+whichever file is authoritative for that fact. Phase status has a single marker surface
+(`[ ] [~] [!] [x]`) and effort status lives only in the roadmap's frontmatter; dates are absolute, and
+re-scoping *inserts* phases
 rather than renumbering, so links never break. An epic keeps its children as ordinary sibling folders
 linked by a `parent:` field — nothing nests.
 
-**Commit this folder** — it's how work hands off between sessions and people. Generated output under
-`artifacts/` follows its own policy, since it can be large or hold client data: set it in
-[`PROJECT.md`](PROJECT.md) → Version control → **Progress artifacts**.
+**Keep this folder with the kit.** In `shared` mode commit it under the project's normal version-control
+policy — that's how work hands off between sessions and people; in `local-only` mode it stays excluded
+alongside `ai-kit/`. Generated output under `artifacts/` follows its own policy either way, since it can be
+large or hold client data: set it in [`PROJECT.md`](PROJECT.md) → Version control → **Progress artifacts**.
 
 **Findings — the things it notices but shouldn't fix.** While working, an agent spots problems outside the
 approved scope: invalid markup, a practice violation, a missing test. Those don't get silently fixed
@@ -339,8 +343,9 @@ before asking for any work:
 > set up — say so and offer to run `aikit-project-profile-bootstrap` before real work.
 >
 > First check `ai-progress/INDEX.md` — if an effort is already in progress, open **only** its
-> `ROADMAP.md` and the one phase file in flight, and **resume the next phase** instead of scoping from
-> scratch. Leave finished phases, the log, and any generated output unopened unless you actually need them.
+> `ROADMAP.md` and the one phase file in flight, and **resume that phase** instead of scoping from
+> scratch. Start the next phase only when nothing is in flight and the effort isn't blocked. Leave
+> finished phases, the log, and any generated output unopened unless you actually need them.
 >
 > Otherwise, work the task in phases, one at a time, **never chaining**:
 >

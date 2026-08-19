@@ -21,6 +21,5 @@
 - [{PROJ-121} — {Effort name}]({PROJ-121-slug}/SUMMARY.md) — done
 - [{PROJ-109} — {Effort name}]({PROJ-109-slug}/SUMMARY.md) — cancelled
 
-<!-- Add once the first row is archived:
-Older closed efforts: [{YYYY} archive](archive/closed-{YYYY}.md).
--->
+<!-- Once the first row is archived, add a line below this comment linking the year's archive —
+     e.g. "Older closed efforts: [2026 archive](archive/closed-2026.md)." — then delete this comment. -->
