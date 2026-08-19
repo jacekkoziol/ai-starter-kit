@@ -9,6 +9,30 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.11.0] — 2026-08-19
+
+> **The date fallback can still collide.** `{date}-{slug}` effort folders were introduced as the
+> collision-safe alternative to `01-`/`02-` counters, but they only narrow the window rather than close
+> it — and unlike finding IDs, they had no resolution rule at all.
+
+### Added
+
+- **Contract §3 — colliding date fallbacks.** Two branches can independently create the same
+  `{date}-{slug}` (same day, same goal, same obvious slug), and neither branch's `INDEX.md` can see the
+  other, so *Create an effort*'s duplicate guard structurally cannot catch it — git surfaces it as an
+  **add/add conflict at merge**. The rule resolves by intent: **same goal** → consolidate into one effort,
+  keeping the earlier folder, merging the phase tables and interleaving both logs by date; **genuinely
+  different goals** → suffix the later folder (`20260818-checkout-rebuild-a/`) and update its `id:`, its
+  `INDEX.md` row, and every inbound link — before the merge lands, since renaming afterwards breaks
+  published links.
+- The rule resolves a latent conflict between two never-rename rules: a finding ID encodes its effort ID,
+  and finding IDs are never renamed. It keeps that rule intact — a finding ID **keeps its spelling** and
+  its `Source` link is fixed instead, since an ID is a stable label, not a path.
+- **`id:` for a date-named effort** is now stated explicitly (`20260818`) rather than only inferable from
+  §4's `PROJ-142` example.
+
+`ai-progress/v2` unchanged — this constrains how a name is chosen and repaired, not the persisted shape.
+
 ## [2.10.0] — 2026-08-19
 
 > **The effort lifecycle becomes a closed graph.** Four consecutive validation rounds found the same

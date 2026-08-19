@@ -48,9 +48,23 @@ reports are one kind of artifact, and executable helpers belong in `scripts/`.
 
 **Effort folder** — prefer a stable external identifier: `PROJ-142-checkout-rebuild/`,
 `GH-381-api-rate-limits/`, `EPIC-12-platform-modernization/`. With no stable ID, use the creation date:
-`20260818-checkout-rebuild/`. **Never use repository-global sequential prefixes** (`01-`, `02-`) —
-parallel branches allocate the same number and collide on merge. **Never rename an effort folder after
-creation** (it breaks every existing link).
+`20260818-checkout-rebuild/`, and set `id:` to that same date (`20260818`). **Never use repository-global
+sequential prefixes** (`01-`, `02-`) — parallel branches allocate the same number and collide on merge.
+**Never rename an effort folder after creation** (it breaks every existing link).
+
+**Colliding date fallbacks.** The date fallback narrows that collision window but doesn't close it: two
+branches can create the same `{date}-{slug}` independently — same day, same goal, same obvious slug — and
+neither branch's `INDEX.md` can see the other, so git surfaces it as an **add/add conflict at merge**, not
+at creation. Resolve by intent:
+
+- **Same goal** (the common case) — consolidate into one effort. Keep the earlier folder, merge the phase
+  tables, and interleave both `LOG.md` histories by date.
+- **Genuinely different goals** — suffix the later folder (`20260818-checkout-rebuild-a/`) and update its
+  `id:`, its `INDEX.md` row, and every inbound link. A finding ID that encodes the old effort ID **keeps
+  its spelling** — IDs are never renamed ([findings workflow §8](findings-workflow.md)) — so fix its
+  `Source` link instead.
+
+Do this before the merge lands. Renaming afterwards breaks links that have already been published.
 
 **Slugs** — lowercase ASCII kebab-case, concise and specific (`checkout-rebuild`, `auth-migration`).
 Avoid `fix`, `changes`, `update`, `misc`.
