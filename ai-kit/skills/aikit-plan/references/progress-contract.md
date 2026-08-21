@@ -77,14 +77,14 @@ conflict at merge**, not at creation. Resolve by intent:
   ID** — `parent:` is a field, not a link, so no link check catches it. **Re-key its findings too:** an ID
   embedding the old effort ID would otherwise name the *surviving* effort — the one it never came from — so
   `FND-20260818-checkout-rebuild-P01-…` becomes `FND-20260818-checkout-rebuild-a-P01-…`, with its inbox
-  entry, detail filename, `Source` link, and inbound references updated. This repair is the sole exception
-  to never renaming a linked finding ID ([findings workflow §8](findings-workflow.md)).
+  entry, detail filename, `Source` link, and inbound references updated. That is one of the authorized
+  finding-ID repairs — [findings workflow §8](findings-workflow.md) owns the complete set.
 
 Consolidation can also surface **duplicate finding IDs** — both branches minting `FND-{same-effort-id}-…`
 under the kept effort. Same observation: consolidate to one finding, keeping non-duplicate evidence and
-inbound references from both. Different observations: a true
-finding-ID collision rather than a rename, so suffix the later one (findings workflow §8) and update its
-inbox pointer, detail filename, and inbound references.
+inbound references from both. Different observations: a true finding-ID collision, so suffix the later one
+([findings workflow §8](findings-workflow.md)) and update its inbox pointer, detail filename, and inbound
+references.
 
 Do all of this before the merge lands. Renaming afterwards breaks links that have already been published.
 

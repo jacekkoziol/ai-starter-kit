@@ -133,13 +133,17 @@ Source-derived, so provenance reads off the ID. The phase segment is optional:
 | In an effort, outside a phase (scoping, roadmap authoring, close-out, review) | `FND-{effort-id}-{slug}` | `FND-PROJ-142-shared-service-coupling` |
 | Outside any tracked effort | `FND-{YYYYMMDD}-{slug}` | `FND-20260818-build-script-portability` |
 
-Uppercase `FND-` prefix, concise lowercase ASCII kebab-case slug. **Never rename an ID once linked**; no
-repo-global numeric counter; resolve a true collision with a stable suffix
-(`FND-PROJ-142-P03-invalid-markup-a`), never by renumbering.
+Uppercase `FND-` prefix, concise lowercase ASCII kebab-case slug. No repo-global numeric counter, and never
+renumber. **A linked ID is stable — rename one only through an authorized collision repair**, of which
+there are exactly two:
 
-**One exception:** the pre-merge effort-collision repair (contract §3). When a colliding effort is renamed
-there, its findings are re-keyed with it — otherwise the embedded effort ID names the *other* effort in the
-collision, and provenance reads off the ID as a falsehood rather than merely going stale.
+- **A true finding-ID collision** — suffix the later ID (`FND-PROJ-142-P03-invalid-markup-a`). Two branches
+  can each link this ID before either can see the other, so the suffix lands on an ID already in use.
+- **A contract §3 effort-collision repair** — re-key the finding with its repaired source effort ID.
+  Otherwise the embedded effort ID names the *other* effort in the collision, and provenance reads off the
+  ID as a falsehood rather than merely going stale.
+
+Outside those two repairs, never rename an ID once linked.
 
 ## 9. Relationship to effort follow-ups
 

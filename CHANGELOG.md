@@ -9,6 +9,30 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.14.3] — 2026-08-21
+
+> **"One exception" was two.** §8 forbade renaming a linked finding ID, named the effort-collision re-key as
+> its sole exception, and — in the sentence before it — resolved a true collision by suffixing the later ID.
+> At merge that suffix lands on an ID both branches already linked, so it is a second rename the rule
+> didn't admit. Same shape as 2.14.2, one layer down.
+
+### Fixed
+
+- **Findings workflow §8 now enumerates both authorized ID repairs** instead of asserting an absolute rule
+  and one exception: a true finding-ID collision → suffix the later ID; a contract §3 effort-collision
+  repair → re-key with the repaired source effort ID. *Outside those two repairs, never rename an ID once
+  linked.* Also states why the suffix case involves an already-linked ID — two branches each link it before
+  either can see the other.
+- **Contract §3 stops claiming ownership of the exception set.** *"the sole exception to never renaming a
+  linked finding ID"* becomes *"one of the authorized finding-ID repairs — findings workflow §8 owns the
+  complete set"*, which is also the correct layering: §8 owns finding-ID mutation, the contract only names
+  which repair an effort collision requires.
+- **The consolidation paragraph no longer calls the suffix "rather than a rename"** — §8 now classifies it
+  as precisely that, performed through an authorized repair. Found by applying this release's own
+  propagation rule to a third surface the reviewer hadn't named.
+
+`ai-progress/v2` unchanged — this clarifies an already-supported repair, not the persisted shape.
+
 ## [2.14.2] — 2026-08-21
 
 > **The absolute form of an invariant outlives the exception that qualifies it.** Third round in a row
