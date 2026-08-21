@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.12.0
+> **Kit version:** 2.13.0
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -57,7 +57,7 @@ loaded — it doubles as proof both halves (manual + `PROJECT.md`) are live:
   outside this kit.)
 
 **Before scoping new work,** check `ai-progress/INDEX.md` (§4): if an effort is already in flight,
-resume it per §4.4 (open its roadmap and the phase in flight) instead of scoping from scratch.
+resume it per §4.4 instead of scoping from scratch.
 
 ---
 
@@ -248,7 +248,7 @@ shape:**
 ai-progress/
   INDEX.md                     # router — links grouped by state. Read first.
   FINDINGS.md                  # out-of-scope findings inbox (on demand) + findings/ detail files
-  {id}-{slug}/
+  {effort-folder}/
     ROADMAP.md                 # current state: frontmatter, scope, decisions, phase table
     LOG.md                     # append-only history
     phases/phase-NN-{slug}.md  # the expanded plan, authored at its gate

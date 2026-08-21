@@ -57,13 +57,14 @@ without one, the ID is the **whole folder name** — date *and* slug (`id: 20260
 bare date isn't unique, and `id:` travels without its folder: `parent:` names a parent by ID alone and a
 finding ID embeds it (`FND-{effort-id}-…`), so two same-day efforts would be indistinguishable in both.
 Before creating an effort, confirm no existing `ROADMAP.md` carries that `id:`. Date-only IDs written
-under earlier kit versions stay valid — never rewrite one.
+under earlier kit versions stay valid — never rewrite one. Two *existing* efforts sharing one date-only ID
+is an **ambiguous** state, not a valid one: surface it and ask, because `parent:` and finding references
+may resolve to either. Never guess which, and never rewrite them unasked.
 
 **Colliding date fallbacks.** A date fallback narrows the sequential-prefix collision window but doesn't
-close it: two
-branches can create the same `{date}-{slug}` independently — same day, same goal, same obvious slug — and
-neither branch's `INDEX.md` can see the other, so git surfaces it as an **add/add conflict at merge**, not
-at creation. Resolve by intent:
+close it: two branches can create the same `{date}-{slug}` independently — same day, same goal, same
+obvious slug — and neither branch's `INDEX.md` can see the other, so git surfaces it as an **add/add
+conflict at merge**, not at creation. Resolve by intent:
 
 - **Same goal** (the common case) — consolidate into one effort. Keep the earlier folder and **reconcile**
   the two roadmaps into one valid phase sequence rather than concatenating their tables: preserve
@@ -72,11 +73,17 @@ at creation. Resolve by intent:
   artifact and script, then re-run contract §10. Concatenating produces duplicate phase IDs, two `[~]`
   rows, and two versions of one plan — each an invariant violation.
 - **Genuinely different goals** — suffix the later folder (`20260818-checkout-rebuild-a/`) and update its
-  `id:`, its `INDEX.md` row, and every inbound link. A finding ID that encodes the old effort ID **keeps
-  its spelling** — IDs are never renamed ([findings workflow §8](findings-workflow.md)) — so fix its
-  `Source` link instead.
+  `id:`, its `INDEX.md` row, every inbound link, and **every child effort whose `parent:` names the old
+  ID** — `parent:` is a field, not a link, so no link check catches it. A finding ID that encodes the old
+  effort ID **keeps its spelling** — IDs are never renamed ([findings workflow §8](findings-workflow.md)) —
+  so fix its `Source` link instead.
 
-Do this before the merge lands. Renaming afterwards breaks links that have already been published.
+Either intent can also surface **duplicate finding IDs**, both branches having minted
+`FND-{same-effort-id}-…` for different observations. That's a true finding-ID collision rather than a
+rename: suffix the later finding (findings workflow §8) and update its inbox pointer, detail filename, and
+inbound references.
+
+Do all of this before the merge lands. Renaming afterwards breaks links that have already been published.
 
 **Slugs** — lowercase ASCII kebab-case, concise and specific (`checkout-rebuild`, `auth-migration`).
 Avoid `fix`, `changes`, `update`, `misc`.
@@ -257,6 +264,8 @@ files. Findings are **candidates, not committed efforts**: they never appear as 
       beyond a closed row's `done` / `cancelled` (contract §8).
 - [ ] The effort folder has a stable ID and slug, no other effort's `id:` duplicates it, and no merged
       path was renamed (contract §3).
+- [ ] Any non-null `parent:` names exactly one existing epic, and no hierarchy runs deeper than two
+      levels (contract §1).
 - [ ] `ROADMAP.md` frontmatter is valid `ai-progress/v2`, with no `updated:` field.
 - [ ] All seven roadmap sections exist, empty ones reading `None.`; `Outcome` states Goal and Done when.
 - [ ] Effort status and the phase table agree (contract §5); **at most one phase is in flight — `[~]` or
@@ -280,10 +289,10 @@ Copy the file, then fill it in — don't retype a skeleton from memory. They liv
 | Template | Copy to |
 | --- | --- |
 | [`INDEX.template.md`](../assets/INDEX.template.md) | `ai-progress/INDEX.md` |
-| [`ROADMAP.template.md`](../assets/ROADMAP.template.md) | `{id}-{slug}/ROADMAP.md` |
-| [`LOG.template.md`](../assets/LOG.template.md) | `{id}-{slug}/LOG.md` |
-| [`phase.template.md`](../assets/phase.template.md) | `{id}-{slug}/phases/phase-NN-{slug}.md` |
-| [`SUMMARY.template.md`](../assets/SUMMARY.template.md) | `{id}-{slug}/SUMMARY.md` (only at close) |
+| [`ROADMAP.template.md`](../assets/ROADMAP.template.md) | `{effort-folder}/ROADMAP.md` |
+| [`LOG.template.md`](../assets/LOG.template.md) | `{effort-folder}/LOG.md` |
+| [`phase.template.md`](../assets/phase.template.md) | `{effort-folder}/phases/phase-NN-{slug}.md` |
+| [`SUMMARY.template.md`](../assets/SUMMARY.template.md) | `{effort-folder}/SUMMARY.md` (only at close) |
 | [`FINDINGS.template.md`](../assets/FINDINGS.template.md) | `ai-progress/FINDINGS.md` (on first capture) |
 | [`finding.template.md`](../assets/finding.template.md) | `ai-progress/findings/{finding-id}.md` (rung 2 only) |
 

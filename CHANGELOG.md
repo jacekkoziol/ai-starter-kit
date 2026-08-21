@@ -9,6 +9,49 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.13.0] — 2026-08-21
+
+> **An effort has an ID *and* a folder, and 2.12.0 stopped letting one be derived from the other.** Making
+> the fallback `id:` the whole folder name left the old `{id}-{slug}/` formula describing the directory —
+> which now double-counts the slug. A literal reading of *Create an effort* produced
+> `20260818-checkout-rebuild-checkout-rebuild/`.
+
+### Fixed
+
+- **`{id}-{slug}/` retired in favor of `{effort-folder}/`** across all five surfaces that named it — the
+  manual's §4.1 layout tree, the README folder map, contract §11's four template destinations, and
+  `FINDINGS.template.md`'s promotion example. The formula was only ever valid for externally identified
+  efforts (`PROJ-142` + `checkout-rebuild`); for a date fallback, folder **is** the ID. *Create an effort*
+  step 5 now states both explicitly — folder `{ticket-id}-{slug}` with `id:` the ticket alone, or folder
+  `{YYYYMMDD}-{slug}` with that same full name as `id:` — and step 6 creates "the chosen
+  `{effort-folder}/`" instead of recomputing a name. The neutral token matches the vocabulary
+  `finding.template.md` already used (`{source-effort-folder}`).
+- **Collision repair now updates `parent:`.** Suffixing a colliding folder updated its `id:`, its
+  `INDEX.md` row, and every inbound link — but `parent:` is a frontmatter field, not a Markdown link, so
+  renaming an epic silently orphaned its children onto the *other* colliding effort. The repair list now
+  names every child whose `parent:` carries the old ID, and says why no link check would have caught it.
+- **`§0` no longer restates the cold-resume algorithm.** Its parenthetical said "open its roadmap and the
+  phase in flight", which contradicts the effort-level blocker with no phase in flight that §4.4 has
+  supported since 2.9.0. It now just routes to §4.4 — one algorithm, one home.
+
+### Added
+
+- **Duplicate finding IDs are a finding-ID collision, not a rename.** Both branches in a folder collision
+  can mint the same `FND-{effort-id}-…` for different observations; contract §3's "a finding ID keeps its
+  spelling" then produced two identical IDs after the merge. Either intent now routes duplicates to
+  findings workflow §8's suffix rule, with its inbox pointer, detail filename, and inbound references
+  updated — kept inside the collision-recovery paragraph rather than promoted to the normal path.
+- **A shared legacy date-only `id:` is an ambiguous state, not a valid one.** "Date-only IDs stay valid"
+  and "effort IDs are unique" are both true per effort but not jointly true of a repo that already holds
+  two same-day efforts sharing one ID. §3 now says to surface it and ask — `parent:` and finding
+  references may resolve to either — while keeping the no-auto-migration promise: never guess, never
+  rewrite unasked. No migration machinery.
+- **Contract §10 checks `parent:` resolution** — any non-null `parent:` names exactly one existing epic,
+  and no hierarchy runs deeper than two levels. §1 stated that invariant with nothing validating it.
+
+`ai-progress/v2` unchanged — this fixes how a folder is *named* and how references are repaired, not the
+persisted fields or their interpretation.
+
 ## [2.12.0] — 2026-08-21
 
 > **The effort ID itself had to become unique.** 2.11.0 resolved colliding effort *folders*, but the

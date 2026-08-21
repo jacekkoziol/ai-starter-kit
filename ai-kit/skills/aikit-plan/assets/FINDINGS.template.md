@@ -28,6 +28,6 @@ Entry format:  finding-id · kind/confidence · location or source — observati
      effort-specific → that effort's ROADMAP.md) and noted here. -->
 
 - `FND-{effort-id}-{slug}` — promoted to `{TRACKER-ID} — {title}`.
-- `FND-{effort-id}-{slug}` — promoted to [{id}-{slug}]({id}-{slug}/ROADMAP.md).
+- `FND-{effort-id}-{slug}` — promoted to [{effort-folder}]({effort-folder}/ROADMAP.md).
 - `FND-{effort-id}-{slug}` — dismissed; {reason}. Durable rationale recorded in
   `PROJECT.md → Locked decisions`.

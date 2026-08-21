@@ -38,11 +38,13 @@ build/test/lint commands a verification phase runs, and **Version control → Pr
 3. Read the relevant code and `reference/` docs before scoping (§2.1).
 4. **Lock scope with the user** (§2.2): outcome, **done-when** criteria, in scope, out of scope, locked
    decisions, dependencies. Batch genuine open choices as questions; never invent answers.
-5. Pick a **stable ID and slug** (contract §3) — external ticket ID preferred, the full `{date}-{slug}`
-   folder name otherwise — and confirm no existing effort already carries that `id:`.
-6. Create `{id}-{slug}/` by copying `assets/ROADMAP.template.md` and `assets/LOG.template.md` into it,
-   plus an empty `phases/`; add a row to `INDEX.md` (copying `assets/INDEX.template.md` on a project's
-   first effort).
+5. Pick the **effort ID and folder name** (contract §3) — they are not the same string: with an external
+   ticket ID, the folder is `{ticket-id}-{slug}` and `id:` is the ticket ID alone; without one, the folder
+   is `{YYYYMMDD}-{slug}` and `id:` is that **same full folder name**. Confirm no existing effort already
+   carries that `id:`.
+6. Create the chosen `{effort-folder}/` by copying `assets/ROADMAP.template.md` and
+   `assets/LOG.template.md` into it, plus an empty `phases/`; add a row to `INDEX.md` (copying
+   `assets/INDEX.template.md` on a project's first effort).
 7. Write **ordered phase rows only** — do not pre-author phase files. Order them to prevent rework (§4.5).
 8. Append the first `LOG.md` line.
 9. Starting immediately? Go to **Start a phase** — that procedure marks the row `[~]`, authors the phase
