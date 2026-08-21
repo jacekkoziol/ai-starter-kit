@@ -9,6 +9,17 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.14.4] — 2026-08-21
+
+### Fixed
+
+- **The README's copy-paste session prompt matches §4.4.** It told the agent to open *"the one phase file in
+  flight"* and *"resume that phase"* — both presuming a phase exists, which an effort-level blocker
+  (`blocked` with no `[!]` row) legitimately doesn't have. Now: *"its in-flight phase file when one exists
+  … resume that work"*. Same drift 2.13.0 fixed in `§0`; it survived in the one place users paste verbatim,
+  and the prompt reaches an agent *before* the manual does. The README's own explanation above it was
+  already correct ("an effort blocked between phases has none, so it reads two"), as is §4.4.
+
 ## [2.14.3] — 2026-08-21
 
 > **"One exception" was two.** §8 forbade renaming a linked finding ID, named the effort-collision re-key as

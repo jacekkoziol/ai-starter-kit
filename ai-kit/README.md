@@ -343,8 +343,8 @@ before asking for any work:
 > set up — say so and offer to run `aikit-project-profile-bootstrap` before real work.
 >
 > First check `ai-progress/INDEX.md` — if an effort is already in progress, open **only** its
-> `ROADMAP.md` and the one phase file in flight, and **resume that phase** instead of scoping from
-> scratch. Start the next phase only when nothing is in flight and the effort isn't blocked. Leave
+> `ROADMAP.md` and its in-flight phase file when one exists, and **resume that work** instead of scoping
+> from scratch. Start the next phase only when nothing is in flight and the effort isn't blocked. Leave
 > finished phases, the log, and any generated output unopened unless you actually need them.
 >
 > Otherwise, work the task in phases, one at a time, **never chaining**:
