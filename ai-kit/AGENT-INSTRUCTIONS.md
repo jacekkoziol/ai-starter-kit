@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.5.0
+> **Kit version:** 2.14.3
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -57,7 +57,7 @@ loaded — it doubles as proof both halves (manual + `PROJECT.md`) are live:
   outside this kit.)
 
 **Before scoping new work,** check `ai-progress/INDEX.md` (§4): if an effort is already in flight,
-resume it per §4.4 (open its roadmap, pick up the next phase) instead of scoping from scratch.
+resume it per §4.4 instead of scoping from scratch.
 
 ---
 
@@ -142,14 +142,14 @@ shaped the approach).
 
 ### 2.3 Phase C — Plan (roadmap + progress files)
 
-Write the plan to a file (§4). Scale the structure to the work:
+Write the plan to a file (§4). **One effort = one folder, whatever its size** — a single-step task and a
+multi-phase epic share the same shape; a small task simply has fewer phases and fewer files.
 
-- **One-off / single-step task** → a single `task-{slug}.md` (plan + summary inline).
-- **Multi-step effort** → an `INDEX` + a `{effort}-ROADMAP.md` + per-phase files.
-
-Decompose the work into **phases** — ordered, each independently reviewable, each with a clear
-"done." Order phases to **prevent rework**: foundations before things that depend on them (see the
-canonical sequence in §4.5). The roadmap routes; the detail lives per-phase.
+Decompose the work into **phases** — ordered, each independently reviewable, each with a clear "done."
+Order phases to **prevent rework**: foundations before things that depend on them (see the canonical
+sequence in §4.5). The roadmap routes and holds current state; **only the phase you're starting gets
+expanded** (§4.2 rule 4). Work needing an **independent lifecycle** becomes a **child effort** rather than
+another phase (§4.1).
 
 ### 2.4 Phase D — Gate (plan review)
 
@@ -174,8 +174,14 @@ Now write code. While building:
 - Match existing conventions (§6). Reuse helpers. Don't duplicate values that live in one source of
   truth.
 - Flip checklist items to done **as you complete them**, not in a batch at the end.
-- Keep changes scoped to the phase. Discovered new work → record it as a new phase, don't smuggle it
-  in.
+- **Discovered work (HARD RULE).** Never smuggle newly discovered work into an approved phase — sort it
+  first, in writing. **Inside** this phase's goal *and* approved scope → amend the phase plan, re-presenting
+  the gate (§2.4) when the change is material. **Serving this effort but separately reviewable** → a new
+  phase (§4.3). **Outside approved scope** → ask: *would a reasonable reviewer, once informed, consider the
+  planned delivery unsafe, incorrect, materially unverifiable, or inconsistent with its done criteria?*
+  **Yes — or materially uncertain — → stop and ask (§5.2), or block / re-scope (§4.3).** Otherwise record it
+  through the findings workflow (§4) and continue within approved scope. "Out of scope" is never a reason to
+  knowingly deliver unsafe or incorrect work, and never a reason to silently fix unrelated code (§8).
 
 ### 2.6 Phase F — Verify & hand off
 
@@ -220,70 +226,88 @@ person knows it's shared and not safe to change blindly).
 ## 4. Planning & progress tracking
 
 The plan is the **source of truth** — it outlives context compaction, new sessions, and handoffs. Your
-recollection does not. Write it down; commit it under the same rules as any change (§2.6 —
-`PROJECT.md`'s Version-control policy may pre-authorize progress-file commits).
+recollection does not. Write it down for any **non-trivial** work (§0 "Scale ceremony" owns that test)
+unless the user says to skip it; when in doubt, create it. Commit it under the same rules as any change
+(§2.6 — `PROJECT.md`'s Version-control policy may pre-authorize progress-file commits).
 
-> The [`aikit-plan`](skills/aikit-plan/SKILL.md) skill walks this section's procedure — creating,
-> updating, and resuming the progress files; this section stays canonical for the layout, rules, and
-> templates.
-
-> **When to create:** always, for any **non-trivial** work (see "Scale ceremony" in §0) — unless the
-> user explicitly says to skip it, or the task is trivial / pure read-only (answer a question, explain
-> a file). When in doubt, create it: deleting an unneeded file is cheaper than reconstructing lost
-> context.
+> **Two companions own the detail.** [`aikit-plan`](skills/aikit-plan/SKILL.md) walks the
+> **procedures** (create an effort, start/finish a phase, block, re-scope, close, reopen).
+> [`progress-contract.md`](skills/aikit-plan/references/progress-contract.md) is the **format contract**
+> (frontmatter, required sections, naming, skeletons, validation) — load it when **creating** a tracking
+> file, **changing its structure**, **validating**, **closing**, or **reopening**; not for a cold resume or
+> a routine content update that preserves the file's shape. This section stays canonical for the behavior
+> below.
 
 ### 4.1 Layout
 
-Keep progress in `ai-progress/`, a dedicated, agent-maintained folder at the project root (the
-`ai-` prefix signals "agent-maintained" and keeps it grouped; the §0 session-start check relies on
-this exact path). **Never one monolithic file.**
+Keep progress in `ai-progress/` at the project root (the `ai-` prefix signals "agent-maintained"; the
+§0 session-start check relies on this exact path). **One folder per effort — tasks and epics share one
+shape:**
 
 ```
 ai-progress/
-  INDEX.md                     # router — every effort + task with status. Read first.
-  {effort-slug}-ROADMAP.md     # one per multi-step effort: Source + Scope + phase table + log
-  {effort-slug}/
-    phase-NN-{slug}.md         # one expanded phase plan each (NN zero-padded: 01, 02, …)
-  task-{slug}.md               # standalone single-step work — plan + summary inline
+  INDEX.md                     # router — links grouped by state. Read first.
+  FINDINGS.md                  # out-of-scope findings inbox (on demand) + findings/ detail files
+  {effort-folder}/
+    ROADMAP.md                 # current state: frontmatter, scope, decisions, phase table
+    LOG.md                     # append-only history
+    phases/phase-NN-{slug}.md  # the expanded plan, authored at its gate
+    SUMMARY.md                 # close-out digest — only once done/cancelled
+    artifacts/  scripts/       # generated evidence · effort-local helpers (on demand)
 ```
 
-- **Multi-phase effort** → roadmap + a folder of phase files + an INDEX row.
-- **Single-step task** → one `task-{slug}.md` + an INDEX row. No roadmap, no folder.
-- **One roadmap per goal**, never one giant file for the whole project. New goal → new roadmap/task.
+Name the folder from a **stable external ID** (`PROJ-142-checkout-rebuild/`) or, failing that, the
+creation date (`20260818-…`) — never a repo-global `01-` counter, which collides across branches. Never
+rename it (contract §3 owns the sole collision-repair exception). Folders stay **flat**: an epic links
+children via `parent:` in their frontmatter, at most two levels (`epic → child effort`). Work needing an
+**independent lifecycle** — its own owner, acceptance gate, cancellation, pull request, release, or
+close-out summary — is a **child effort**, not another phase. The ordinary per-phase plan gate (§2.4) and
+a temporary phase blocker don't qualify: every phase has those.
 
 ### 4.2 Hard rules
 
-1. **The roadmap is the spine; phase files are its expansions.** The roadmap's phase table is the
-   single status surface: one row per phase = status + a **one-line outcome** + a link to the phase
-   file. The expanded plan lives in the phase file. The one-line outcome is mandatory — it's what
-   lets a future session understand a done phase without opening its file.
-2. **One status per phase**: `[ ]` todo · `[~]` in-progress · `[x]` done · `[!]` blocked. Status
-   lives in the table, not in prose.
-3. **Re-scoping inserts, never renumbers.** New work mid-flight → insert `Phase 7a` between 7 and 8.
-   Never renumber phases already completed or referenced in the log (it breaks back-references).
-4. **Absolute dates only.** "Tuesday" → `2026-06-30`. Files are read across sessions; relative dates
-   rot.
-5. **Append to the session log every working session** — one line, even "no progress," biased toward
-   what's next.
-6. **Author each phase file at its gate** (when the phase starts), not all up front.
+1. **One authoritative location per fact.** `ROADMAP.md` owns current state; the phase file owns the
+   active plan; `LOG.md` owns history. `INDEX.md` and `SUMMARY.md` are **derived** — when a derived file
+   disagrees with an authoritative one, fix the derived file.
+2. **Phase status lives only in the roadmap's phase table (HARD RULE).** One row per phase = status +
+   a **one-line outcome** + a link. Never add a status field to a phase file. The one-line outcome on a
+   done row is mandatory — it's what lets a later session skip that phase file.
+3. **Status tokens:** `[ ]` todo · `[~]` in-progress (including its review gate) · `[!]` blocked ·
+   `[x]` done. The effort's own `status:` (`queued | active | blocked | done | cancelled`) lives in the
+   roadmap frontmatter and must stay consistent with the table.
+4. **Author each phase file at its gate** (when the phase starts), never all up front.
+5. **Re-scoping inserts, never renumbers.** New work mid-flight → `phase-03a-{slug}.md` between 03 and
+   04. Renumbering breaks every back-reference.
+6. **Absolute dates only.** "Tuesday" → `2026-08-18`. Files are read across sessions; relative dates rot.
+7. **Append to `LOG.md` every working session** — one line, even "no progress," biased toward what's next.
+8. **Raw output never goes in Markdown.** Command output, diffs, and generated datasets go to
+   `artifacts/`, linked — retention policy from `PROJECT.md` → Version control, with §1's secrets HARD
+   RULE applying regardless.
+9. **Safely deferrable out-of-scope observations go to `ai-progress/FINDINGS.md`** (§2.5 decides
+   *deferrable*). They're **candidates, not committed work**, and stay outside the cold-resume path. The
+   ladder — capture, expand, triage, promote — lives in the skill's findings workflow.
 
 ### 4.3 Updating mid-work
 
-- **Start a phase** → flip its row to `[~]`, author `phase-NN-{slug}.md`, pause for review (§2.4).
-- **Finish a checklist item** → flip `[ ]`→`[x]` in the phase file immediately; don't batch.
-- **Finish a phase** → flip the roadmap row to `[x]` + write its one-line outcome; set the phase
-  file's artifacts; append a session-log line.
-- **Hit a blocker** → row to `[!]`; note what's blocked and what unblocks it in the phase file.
-- **Discover new work** → insert `Phase Na` (new row + new phase file); note dependencies.
-- **A whole new goal appears** → new roadmap/task + INDEX row, not extra phases on this one.
+Start a phase → row to `[~]`, effort `status: active`, author the phase file, pause for review (§2.4).
+Finish an item → flip it immediately, don't batch. Finish a phase → row to `[x]` **with its one-line
+actual outcome**, then log. Blocker → row to `[!]`, effort `status: blocked`, record the exact unblock
+condition — or, with no phase in flight, an effort-level blocker recorded in the roadmap and no `[!]` row.
+New work mid-flight → insert `phase-NNa`. A whole new goal → a new effort + `INDEX.md` row,
+not extra phases here. (Step-by-step, including closing and reopening: the skill.)
 
 ### 4.4 Resuming cold (session start)
 
-1. Read `INDEX.md` → pick the active effort/task.
-2. Open its roadmap → read Source, Scope, the phase table. Done rows' one-line outcomes tell you
-   what's finished — **don't reopen completed phase files.**
-3. Open **only** the first `[~]` (or first `[ ]` after a `[x]`) phase file; read its checklist + notes.
-4. If files contradict memory: trust the files.
+Read **only** `INDEX.md` → the chosen `ROADMAP.md` → the **one phase in flight**: the `[~]` row, or the
+`[!]` one when the effort is `blocked` — read its unblock condition and **never start another phase past a
+blocker**. A `blocked` effort may instead carry an effort-level blocker in the roadmap and no `[!]` row at
+all. Only when nothing is in flight **and** the effort isn't blocked, pick the next `[ ]` row and run the
+skill's *Start a phase* — that gate authors the file, so there is nothing to open yet. Done rows' one-line
+outcomes mean you **don't reopen completed phase files**, and `LOG.md`, `SUMMARY.md`, `artifacts/`, and
+`scripts/` stay **cold** — open `LOG.md` only when the current state doesn't explain *why* something
+happened. For **closed** work, read `SUMMARY.md` first. Files beat
+memory. Legacy efforts (a pre-v2 `task-{slug}.md` or `{effort}-ROADMAP.md`) stay valid — resume them in
+their existing shape and **never migrate automatically**.
 
 ### 4.5 Phase ordering — the anti-rework sequence
 
@@ -301,81 +325,6 @@ default:
 Adapt the labels to the stack; keep the principle: **don't style before structure stabilizes; don't
 build UI before the data it shows exists.** (Rebuilds and large refactors have their own shapes —
 audit → migrate in batches → parity-check → cut over.)
-
-### 4.6 Templates
-
-**`INDEX.md`** (router — thin, stable):
-
-```markdown
-# Progress Index
-<!-- Router for all agent progress. Open the relevant roadmap/task; don't load everything. -->
-
-- `[~]` [Checkout rebuild](checkout-ROADMAP.md) — 6 phases · on Phase 3
-- `[x]` [Rate-limit middleware](task-rate-limit.md) — done 2026-06-20
-- `[ ]` [Search revamp](search-ROADMAP.md) — not started
-```
-
-**`{effort}-ROADMAP.md`** (multi-phase effort):
-
-```markdown
-# {Effort name} — Roadmap
-<!-- Source of truth across sessions. When in doubt, this file wins.
-     Per-phase detail lives in {effort}/phase-NN-*.md — open only the phase you're working. -->
-
-## Source
-- Spec source: {ticket / doc / screenshots / prompt in chat}
-- Started: {YYYY-MM-DD} · Owner(s): {names or "team"}
-
-## Scope
-- **In scope:** {what the work covers}
-- **Out of scope:** {explicit exclusions}
-- **Locked decisions:** {key answers that shaped the approach}
-
-## Phases
-<!-- One row per phase: status + one-line outcome + link. NO expanded plan here. -->
-- `[x]` **Phase 1 — Scope** — inventoried + decisions locked. → [phase-01-scope.md]({effort}/phase-01-scope.md)
-- `[~]` **Phase 2 — Data model** — _in progress_. → [phase-02-data-model.md]({effort}/phase-02-data-model.md)
-- `[ ]` **Phase 3 — API** — not started. → [phase-03-api.md]({effort}/phase-03-api.md)
-
-## Shared / cross-phase
-- {item used by multiple phases}
-
-## Deferred / follow-ups
-- {item} — {why deferred, what unblocks it}
-
-## Session log
-- {YYYY-MM-DD} — {dev or "agent"} — {what was accomplished, next step}
-```
-
-**`{effort}/phase-NN-{slug}.md`** (authored at the gate):
-
-```markdown
-# Phase NN — {title}
-> Roadmap: [{effort}-ROADMAP.md](../{effort}-ROADMAP.md) · Status: `[ ] | [~] | [x] | [!]`
-
-- **Goal:** one sentence.
-- **Touches:** files, modules, services, tokens, external tools.
-- **Plan / checklist:**
-  - [ ] sub-step
-  - [ ] sub-step
-- **Artifacts produced:** {what this phase leaves behind}
-- **Notes / blockers:** {only if non-empty}
-```
-
-**`task-{slug}.md`** (standalone single-step):
-
-```markdown
-# Task — {title}
-<!-- Standalone single-step task. Listed in INDEX.md. -->
-
-- **Started:** {YYYY-MM-DD} · **Status:** `[ ] | [~] | [x] | [!]`
-- **Goal / scope:** what this does, what's out of scope.
-- **Plan / checklist:**
-  - [ ] sub-step
-- **Artifacts produced:** {…}
-- **Session log:**
-  - {YYYY-MM-DD} — agent — {what happened, next step}
-```
 
 ---
 
@@ -470,13 +419,24 @@ A checklist to run before you say "done":
   in flight (§0, §4.4).
 - ❌ One monolithic progress file; or expanded phase plans crammed into the roadmap; or a done row
   with no one-line outcome.
+- ❌ Duplicating phase status outside the roadmap's phase table — a second status field in a phase file,
+  or an `INDEX.md`/`SUMMARY.md` row treated as authoritative (§4.2 rule 1).
+- ❌ Loading cold files by default on resume — completed phase files, `LOG.md`, `SUMMARY.md`,
+  `artifacts/`, `scripts/` (§4.4).
+- ❌ Letting `INDEX.md` grow unbounded instead of archiving old closed rows.
+- ❌ Migrating a legacy `ai-progress/` effort to the current shape without being asked.
+- ❌ Pasting raw command output, diffs, or datasets into a progress file instead of `artifacts/`.
 - ❌ Renumbering phases after a re-scope; relative dates in progress files.
 - ❌ Silently picking a costly or irreversible option that was the user's to decide.
 - ❌ Hiding unwanted output / swallowing errors instead of fixing the cause.
 - ❌ Claiming "done" without running the build/tests, or reporting success when a step failed.
 - ❌ Committing when the user didn't ask and no policy authorized it — or treating your summary as
   permission. Silence isn't approval (§2.6).
-- ❌ Reformatting or refactoring untouched code as an uninvited side effect.
+- ❌ Reformatting or refactoring untouched code as an uninvited side effect — or the opposite failure,
+  noticing something out of scope and silently dropping it instead of recording a finding (§2.5).
+- ❌ Parking a finding in `FINDINGS.md` when it makes the current delivery unsafe, wrong, or unverifiable
+  — that one escalates (§2.5). "Out of scope" is not a shield.
+- ❌ Listing an untriaged finding as a `queued` effort in `INDEX.md`; `queued` means committed.
 - ❌ Recording project-specific rules in this manual (`AGENT-INSTRUCTIONS.md`) — it's the portable layer,
   replaced on kit update; project rules belong in `PROJECT.md` ("Project-specific rules") or `reference/`.
 

@@ -41,6 +41,10 @@ ai-kit/
     _SKILL-TEMPLATE.md    #   copy → skills/{name}/SKILL.md
     aikit-plan/
       SKILL.md            #   create/maintain ai-progress/ (procedure for §4)
+      references/
+        progress-contract.md #  the ai-progress/ file format: frontmatter, sections, status rules
+        findings-workflow.md #  out-of-scope findings: escalate/capture/expand/promote ladder
+      assets/             #   copy-me progress files (INDEX/ROADMAP/LOG/phase/SUMMARY/FINDINGS/finding)
     aikit-implement-from-design/
       SKILL.md            #   tool-agnostic design → code (procedure for §3/§4.5/§7)
     aikit-update-kit/
@@ -56,7 +60,7 @@ ai-kit/
     design-tool-skill.md  #   scaffold a downstream design-tool → code skill (e.g. Figma)
 
 ai-progress/              # ← lives at the PROJECT ROOT, not here. Agent-maintained live work
-                          #   tracking (INDEX + roadmaps + phase files). See AGENT-INSTRUCTIONS.md §4.
+                          #   tracking (INDEX + one folder per effort). See AGENT-INSTRUCTIONS.md §4.
 ```
 
 > **Why `ai-progress/` is at the project root, not in `ai-kit/`:** `ai-kit/` is the *methodology* (stable,
@@ -104,21 +108,52 @@ Two supporting rules do a lot of the heavy lifting:
 
 ## How the progress files work
 
-For anything beyond a one-liner, the agent maintains an `ai-progress/` folder at the project root:
+For every **non-trivial** task — the manual's §0 ceremony test decides that, not line count — the agent
+maintains an `ai-progress/` folder at the project root. **One
+folder per effort — a small task and a multi-phase epic have the same shape**, the task just has fewer
+files:
 
 ```
 ai-progress/
-  INDEX.md                  # router: every effort/task + status. Read first.
-  {effort}-ROADMAP.md       # one per goal: scope, locked decisions, a phase table, a session log
-  {effort}/phase-NN-*.md    # the detailed plan for each phase (written when that phase starts)
-  task-{slug}.md            # tiny self-contained jobs
+  INDEX.md                     # router: links grouped by Active / Blocked / Queued / Recently closed
+  FINDINGS.md                  # cold inbox of out-of-scope candidates (on demand)
+  findings/{finding-id}.md     # a finding's evidence, once one line stops being enough (on demand)
+  {effort-folder}/             # e.g. PROJ-142-checkout-rebuild/ (ticket ID, or the creation date)
+    ROADMAP.md                 # current state: scope, locked decisions, done-when, the phase table
+    LOG.md                     # append-only history — one line per session
+    phases/phase-NN-*.md       # the detailed plan for a phase, written when that phase starts
+    SUMMARY.md                 # close-out digest for a ticket or PR — only once done/cancelled
+    artifacts/  scripts/       # generated output · effort-local helper scripts (only if needed)
 ```
 
-Why this shape: a new session reads the small `INDEX` + roadmap to learn what's done, and opens only
-the one phase it's resuming. Nothing is monolithic, so context stays cheap; the roadmap's one-line
-per-phase outcomes mean it rarely has to reopen finished work. Status is a single set of markers
-(`[ ] [~] [x] [!]`), dates are absolute, and re-scoping *inserts* phases rather than renumbering — so
-the trail never breaks. **Commit this folder** — it's how work hands off between sessions and people.
+**Hot vs cold is the whole idea.** Resuming reads at most three things — `INDEX.md`, one `ROADMAP.md`, and
+the one phase in flight (an effort blocked between phases has none, so it reads two). Everything else stays cold: finished phase files (their one-line outcomes in the
+roadmap say what happened), the log, the summary, and any generated output. So context cost stays flat as
+the project grows.
+
+Each fact has exactly one home: the roadmap owns current state, the phase file owns the active plan, the
+log owns history, and `INDEX.md`/`SUMMARY.md` are derived views — when one disagrees, correct it from
+whichever file is authoritative for that fact. Phase status has a single marker surface
+(`[ ] [~] [!] [x]`) and effort status lives only in the roadmap's frontmatter; dates are absolute, and
+re-scoping *inserts* phases
+rather than renumbering, so links never break. An epic keeps its children as ordinary sibling folders
+linked by a `parent:` field — nothing nests.
+
+**Keep this folder with the kit.** In `shared` mode commit it under the project's normal version-control
+policy — that's how work hands off between sessions and people; in `local-only` mode it stays excluded
+alongside `ai-kit/`. Generated output under `artifacts/` follows its own policy either way, since it can be
+large or hold client data: set it in [`PROJECT.md`](PROJECT.md) → Version control → **Progress artifacts**.
+
+**Findings — the things it notices but shouldn't fix.** While working, an agent spots problems outside the
+approved scope: invalid markup, a practice violation, a missing test. Those don't get silently fixed
+(scope creep) or silently dropped (lost knowledge) — they land as one line in `ai-progress/FINDINGS.md`,
+a cold inbox of **candidates**, not committed work. A finding earns its own `findings/{id}.md` file only
+when evidence needs preserving, and becomes real work only when you promote it to a ticket or a queued
+effort. The exception that matters: if the discovery means the current delivery would be unsafe, wrong, or
+unverifiable, the agent **stops and tells you** instead of filing it away.
+
+Already have progress files from an older kit version? They keep working — the agent resumes them in
+place and never migrates them without being asked.
 
 ## Setup
 
@@ -307,8 +342,10 @@ before asking for any work:
 > conventions, and build/test/lint commands. If `PROJECT.md` is still full of `TODO`s, the kit isn't
 > set up — say so and offer to run `aikit-project-profile-bootstrap` before real work.
 >
-> First check `ai-progress/INDEX.md` — if an effort is already in progress, open its roadmap and
-> **resume the next phase** instead of scoping from scratch.
+> First check `ai-progress/INDEX.md` — if an effort is already in progress, open **only** its
+> `ROADMAP.md` and the one phase file in flight, and **resume that phase** instead of scoping from
+> scratch. Start the next phase only when nothing is in flight and the effort isn't blocked. Leave
+> finished phases, the log, and any generated output unopened unless you actually need them.
 >
 > Otherwise, work the task in phases, one at a time, **never chaining**:
 >

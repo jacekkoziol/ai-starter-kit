@@ -9,6 +9,560 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.14.3] — 2026-08-21
+
+> **"One exception" was two.** §8 forbade renaming a linked finding ID, named the effort-collision re-key as
+> its sole exception, and — in the sentence before it — resolved a true collision by suffixing the later ID.
+> At merge that suffix lands on an ID both branches already linked, so it is a second rename the rule
+> didn't admit. Same shape as 2.14.2, one layer down.
+
+### Fixed
+
+- **Findings workflow §8 now enumerates both authorized ID repairs** instead of asserting an absolute rule
+  and one exception: a true finding-ID collision → suffix the later ID; a contract §3 effort-collision
+  repair → re-key with the repaired source effort ID. *Outside those two repairs, never rename an ID once
+  linked.* Also states why the suffix case involves an already-linked ID — two branches each link it before
+  either can see the other.
+- **Contract §3 stops claiming ownership of the exception set.** *"the sole exception to never renaming a
+  linked finding ID"* becomes *"one of the authorized finding-ID repairs — findings workflow §8 owns the
+  complete set"*, which is also the correct layering: §8 owns finding-ID mutation, the contract only names
+  which repair an effort collision requires.
+- **The consolidation paragraph no longer calls the suffix "rather than a rename"** — §8 now classifies it
+  as precisely that, performed through an authorized repair. Found by applying this release's own
+  propagation rule to a third surface the reviewer hadn't named.
+
+`ai-progress/v2` unchanged — this clarifies an already-supported repair, not the persisted shape.
+
+## [2.14.2] — 2026-08-21
+
+> **The absolute form of an invariant outlives the exception that qualifies it.** Third round in a row
+> finding the same shape: an exception added in its owning layer, with the surfaces that assert the
+> unqualified rule left untouched — so a *compliant* repair reads as a violation.
+
+### Fixed
+
+- **Findings workflow §10 no longer requires provenance a repo-level finding can't have.** §8 explicitly
+  allows `FND-{YYYYMMDD}-{slug}` for a finding outside any tracked effort, which cannot "truthfully name
+  the effort that produced it" because there is none. The item now conditions that clause on being
+  effort-derived, and accepts a rename through *any* authorized collision repair rather than naming one
+  circumstance — §8 has two (an ordinary finding-ID collision, and contract §3's effort re-key).
+- **The plan skill's anti-pattern no longer contradicts the contract it routes to.** `❌ renaming an effort
+  folder` sat in the same file an agent has open *while* contract §3 requires exactly that during collision
+  repair — a live same-context contradiction, unlike a summary-vs-detail split. Now scoped: `outside
+  contract §3's collision repair`.
+- **`AGENT-INSTRUCTIONS.md` §4.1 names the owner of the exception** — `Never rename it (contract §3 owns the
+  sole collision-repair exception)` — without restating the procedure in the always-loaded file.
+- **The contract header says "at most three" files** on a cold resume, matching the README. An effort-level
+  blocker (blocked, no `[!]`) resumes on two — `INDEX.md` and `ROADMAP.md` — so the flat "three" was wrong
+  for the state 2.9.0 added. The plan skill's *Resume* lead-in likewise now reads "the in-flight phase file
+  when one exists", which its own state table already handled correctly.
+
+## [2.14.1] — 2026-08-21
+
+> **The exception added in 2.14.0 didn't reach the checklist that forbids it.** Findings workflow §8 gained
+> a sanctioned rename; §10 still required an ID *"that was never renamed"* — so a correctly repaired
+> finding failed validation for having been repaired.
+
+### Fixed
+
+- **Findings workflow §10 now validates state, not history.** The two ID items collapse into one: *every
+  finding ID is stable, unique, source-derived, and truthfully names the effort that produced it — renamed
+  only by an explicit pre-merge collision repair (workflow §8, contract §3)*. Validation should ask whether
+  the repository is currently valid, not require knowledge of an object's whole mutation path — and the
+  absolute phrasing also condemned the *pre-existing* suffix rule whenever a true collision is resolved
+  after both findings were linked.
+- **Same-observation consolidation no longer reads as "pick one."** Contract §3 now says to consolidate to
+  one finding *keeping non-duplicate evidence and inbound references from both* — two branches can discover
+  one defect through different evidence, and the effort-level reconcile rule beside it already preserves
+  non-duplicate material.
+
+## [2.14.0] — 2026-08-21
+
+> **"Keeps its spelling" was safe until the old ID belonged to someone else.** Leaving a finding ID alone
+> through an effort rename assumed the old effort ID stopped identifying anything. In a *collision* repair
+> it identifies the effort that survived — so the finding advertises provenance from an effort it never
+> came from, while its `Source` link points elsewhere. A false ID is worse than a stale one.
+
+### Changed
+
+- **Collision repair now re-keys the renamed effort's findings.** `FND-20260818-checkout-rebuild-P01-…`
+  becomes `FND-20260818-checkout-rebuild-a-P01-…`, with its inbox entry, detail filename, `Source` link,
+  and inbound references updated. Contract §3 previously said such an ID **keeps its spelling** and only
+  its `Source` link is fixed — correct for an ordinary rename, wrong for the one case that can happen,
+  where the surviving effort still holds the old ID. Findings workflow §8 now carries the matching
+  exception to *never rename an ID once linked*, scoped to that one procedure — the same shape as the
+  effort-folder rule, and deliberately **not** hinged on "merged or published", which reads as blanket
+  permission on a single-branch project.
+- **Duplicate finding IDs are scoped to consolidation, and cover the identical-observation case.** Once the
+  different-goals path re-keys, only same-goal consolidation can still produce two identical IDs. Same
+  observation → consolidate to one finding; different observations → suffix the later one per findings
+  workflow §8.
+
+### Added
+
+- **Findings workflow §10 checks ID uniqueness and truthful provenance** — *finding IDs are unique, and an
+  effort-derived one names the effort that actually produced it*. §8's "source-derived, so provenance reads
+  off the ID" premise had no validation behind it.
+
+`ai-progress/v2` unchanged — this governs a repair procedure, not the persisted fields.
+
+## [2.13.0] — 2026-08-21
+
+> **An effort has an ID *and* a folder, and 2.12.0 stopped letting one be derived from the other.** Making
+> the fallback `id:` the whole folder name left the old `{id}-{slug}/` formula describing the directory —
+> which now double-counts the slug. A literal reading of *Create an effort* produced
+> `20260818-checkout-rebuild-checkout-rebuild/`.
+
+### Fixed
+
+- **`{id}-{slug}/` retired in favor of `{effort-folder}/`** across all five surfaces that named it — the
+  manual's §4.1 layout tree, the README folder map, contract §11's four template destinations, and
+  `FINDINGS.template.md`'s promotion example. The formula was only ever valid for externally identified
+  efforts (`PROJ-142` + `checkout-rebuild`); for a date fallback, folder **is** the ID. *Create an effort*
+  step 5 now states both explicitly — folder `{ticket-id}-{slug}` with `id:` the ticket alone, or folder
+  `{YYYYMMDD}-{slug}` with that same full name as `id:` — and step 6 creates "the chosen
+  `{effort-folder}/`" instead of recomputing a name. The neutral token matches the vocabulary
+  `finding.template.md` already used (`{source-effort-folder}`).
+- **Collision repair now updates `parent:`.** Suffixing a colliding folder updated its `id:`, its
+  `INDEX.md` row, and every inbound link — but `parent:` is a frontmatter field, not a Markdown link, so
+  renaming an epic silently orphaned its children onto the *other* colliding effort. The repair list now
+  names every child whose `parent:` carries the old ID, and says why no link check would have caught it.
+- **`§0` no longer restates the cold-resume algorithm.** Its parenthetical said "open its roadmap and the
+  phase in flight", which contradicts the effort-level blocker with no phase in flight that §4.4 has
+  supported since 2.9.0. It now just routes to §4.4 — one algorithm, one home.
+
+### Added
+
+- **Duplicate finding IDs are a finding-ID collision, not a rename.** Both branches in a folder collision
+  can mint the same `FND-{effort-id}-…` for different observations; contract §3's "a finding ID keeps its
+  spelling" then produced two identical IDs after the merge. Either intent now routes duplicates to
+  findings workflow §8's suffix rule, with its inbox pointer, detail filename, and inbound references
+  updated — kept inside the collision-recovery paragraph rather than promoted to the normal path.
+- **A shared legacy date-only `id:` is an ambiguous state, not a valid one.** "Date-only IDs stay valid"
+  and "effort IDs are unique" are both true per effort but not jointly true of a repo that already holds
+  two same-day efforts sharing one ID. §3 now says to surface it and ask — `parent:` and finding
+  references may resolve to either — while keeping the no-auto-migration promise: never guess, never
+  rewrite unasked. No migration machinery.
+- **Contract §10 checks `parent:` resolution** — any non-null `parent:` names exactly one existing epic,
+  and no hierarchy runs deeper than two levels. §1 stated that invariant with nothing validating it.
+
+`ai-progress/v2` unchanged — this fixes how a folder is *named* and how references are repaired, not the
+persisted fields or their interpretation.
+
+## [2.12.0] — 2026-08-21
+
+> **The effort ID itself had to become unique.** 2.11.0 resolved colliding effort *folders*, but the
+> deeper collision needed no git conflict at all: two same-day efforts get distinct folders
+> (`20260818-checkout-rebuild/`, `20260818-auth-cleanup/`) and — under 2.11.0's rule — the *same*
+> `id: 20260818`. Since `id:` travels without its folder, that broke both places the ID is the only
+> identifier available.
+
+### Changed
+
+- **Contract §3 — the date fallback `id:` is now the whole folder name**, date *and* slug
+  (`id: 20260818-checkout-rebuild`), stated as an invariant: **effort IDs are unique within
+  `ai-progress/`**. A bare date left `parent: 20260818` unable to name which same-day effort is the
+  parent, and let two unrelated efforts mint the same `FND-20260818-P01-…` finding ID — the slug that
+  distinguishes them lives in the folder name, which neither field carries. An external identifier is
+  still used as-is. Date-only IDs written under earlier versions stay valid and are never rewritten;
+  *Create an effort* (step 5) now confirms no existing `ROADMAP.md` carries the chosen `id:`, and
+  contract §10 checks it.
+- **Contract §3 — same-goal collisions *reconcile*, not "merge the phase tables."** Concatenating two
+  branches' tables produces duplicate phase IDs, two `[~]` rows, and two versions of one plan — each a
+  violation of the contract's own invariants, produced by following its own instruction. The procedure now
+  reconciles into one valid phase sequence: preserve completed outcomes, resolve duplicate IDs with the
+  `phase-NNa` suffix rule, leave at most one phase in flight, interleave both logs, keep non-duplicate
+  artifacts and scripts, then re-run §10.
+
+### Fixed
+
+- **Contract §3's two never-rename statements no longer contradict each other.** "Never rename an effort
+  folder after creation" sat a few lines above a collision procedure that requires renaming the later
+  folder; the invariant now names that pre-merge repair as its **sole** exception, so the collision
+  procedure stops reading as a licence to rename.
+- `ROADMAP.template.md` annotates `id:` with where the fallback value comes from — brace-free, per the
+  contract §11 rule that a kept guidance comment carries no `{placeholder}`.
+
+`ai-progress/v2` unchanged — existing date-only IDs remain readable and valid; the new form applies to
+newly created fallback IDs, so no migration exists to be incompatible with.
+
+## [2.11.0] — 2026-08-19
+
+> **The date fallback can still collide.** `{date}-{slug}` effort folders were introduced as the
+> collision-safe alternative to `01-`/`02-` counters, but they only narrow the window rather than close
+> it — and unlike finding IDs, they had no resolution rule at all.
+
+### Added
+
+- **Contract §3 — colliding date fallbacks.** Two branches can independently create the same
+  `{date}-{slug}` (same day, same goal, same obvious slug), and neither branch's `INDEX.md` can see the
+  other, so *Create an effort*'s duplicate guard structurally cannot catch it — git surfaces it as an
+  **add/add conflict at merge**. The rule resolves by intent: **same goal** → consolidate into one effort,
+  keeping the earlier folder, merging the phase tables and interleaving both logs by date; **genuinely
+  different goals** → suffix the later folder (`20260818-checkout-rebuild-a/`) and update its `id:`, its
+  `INDEX.md` row, and every inbound link — before the merge lands, since renaming afterwards breaks
+  published links.
+- The rule resolves a latent conflict between two never-rename rules: a finding ID encodes its effort ID,
+  and finding IDs are never renamed. It keeps that rule intact — a finding ID **keeps its spelling** and
+  its `Source` link is fixed instead, since an ID is a stable label, not a path.
+- **`id:` for a date-named effort** is now stated explicitly (`20260818`) rather than only inferable from
+  §4's `PROJ-142` example.
+
+`ai-progress/v2` unchanged — this constrains how a name is chosen and repaired, not the persisted shape.
+
+## [2.10.0] — 2026-08-19
+
+> **The effort lifecycle becomes a closed graph.** Four consecutive validation rounds found the same
+> defect shape — a status made legal in one surface without every way into and out of it being defined.
+> `blocked` with no `[!]` row was legal from 2.6.0, got a creation path in 2.9.0, and a clearing path only
+> in 2.9.1. This adds the surface where that gap is visible instead of latent.
+
+### Added
+
+- **`progress-contract.md` §5.1 — legal transitions.** Every effort-status change is now one of ten
+  enumerated transitions with its triggering procedure: creation into `queued` or `active`; `queued` →
+  `active` / `blocked` / `cancelled`; `active` → `blocked` / `done` / `cancelled`; `blocked` → `active`
+  (a phase to resume or start) / `queued` (effort-level blocker cleared with no phase started) /
+  `cancelled`; and reopen from `done` / `cancelled`, restoring a still-standing blocker at its original
+  level. **No other transition is legal**, and the closing rule states the invariant the table exists for:
+  a state that can be entered but not left — or left but not entered — is the defect.
+- **A validation-checklist item** — every status change since the last entry was a legal transition.
+- **A maintenance rule tying it down** (home-only): adding an effort status or lifecycle state now
+  requires its rows in §5.1 in *both* directions, its phase-table expectation in §5, and the procedure
+  performing each transition in the skill. Adding a state without an exit is what the last four rounds
+  kept catching by hand.
+
+`ai-progress/v2` is unchanged — §5.1 documents transitions among statuses the schema already permits and
+forbids none that were previously in use.
+
+## [2.9.1] — 2026-08-19
+
+> **Clearing an effort-level blocker.** 2.9.0 made effort-level blockers creatable and resumable but
+> defined *clearing* only for the phase-level case — the one lifecycle hole a fourth validation pass found,
+> plus five prose inconsistencies it left behind. No structural change.
+
+### Fixed
+
+- **Unblocking now branches by level.** 2.9.0 added `status: blocked` with no `[!]` row and the facts in
+  the roadmap's `Dependencies`, then told the agent to clear it by moving a row back to `[~]` and updating
+  "the phase notes" — neither of which exists in that case. Clearing now says: **phase-level** → `[!]` to
+  `[~]`, `status: active`, update the phase notes; **effort-level** → resolve the `Dependencies` facts and
+  restore `queued` (no phase started yet) or `active`, explicitly *without* activating a phase, since
+  starting one is still *Start a phase* with its gate.
+- **Reopen restores a blocker at its original level.** It said "one `[!]` and `status: blocked`", which
+  silently converts a preserved effort-level blocker into a phase-level one — and a reopened effort may
+  have no phase to attach it to.
+- **The skill's abbreviated Verify matched the old rule.** It still read "at most one `[~]`" after the
+  contract moved to "at most one phase in flight — `[~]` or `[!]`, never both." The full contract gate
+  caught the bad state either way, so this was a stale summary rather than an escape.
+- **`phase.template.md` asked for three of the four blocker facts** — what's blocked, cause, unblock
+  condition — omitting *safe parallel work*, which the procedure requires and the roadmap template already
+  carried for the effort-level case.
+- **One placeholder survived in a guidance comment.** 2.9.0's invariant reserves `{…}` for fill slots, but
+  `finding.template.md`'s `id:` line still carried `FND-{YYYYMMDD}-{slug}` in its inline comment — the very
+  pattern the invariant forbids. (It hid because the verification scan only inspected `<!-- -->` blocks,
+  not YAML `#` comments.) Now prose.
+- **A findings provenance claim was too strong.** *"The ID encodes the effort and phase"* justified having
+  no `source:` field — but the phase segment is optional and a repo-level finding encodes a date instead.
+  It now says the ID encodes what provenance it has, with the `Source` blockquote carrying the origin.
+- **The README's "reads only three things"** is now "at most three": an effort blocked between phases has
+  no phase in flight, so resume reads two. Matches §4.4 exactly.
+
+## [2.9.0] — 2026-08-19
+
+> **Blocked efforts, and the seams around them.** A third validation pass against 2.8.1 found seven
+> cross-file inconsistencies. The important one: cold resume had no answer for a *blocked* effort, and
+> read as an instruction to start the next phase straight past the blocker. The rest are seams the v2
+> refactor left — a started phase that nothing links to, an archived row whose link breaks on the way
+> down, a log field that assumes a phase exists before one does. Additive; `ai-progress/v2` unchanged.
+
+### Fixed
+
+- **Cold resume is state-aware, and never walks past a blocker.** §4.4 said to open the `[~]` phase and,
+  "with no phase active," to start the next `[ ]` row. A blocked effort has `[!]`, not `[~]` — so the
+  literal reading was *start a new phase and leave the blocker behind*. (2.8.0 introduced that imperative
+  while fixing a different vagueness in the same sentence.) Resume now branches on roadmap state:
+  `[~]` → that file · `[!]` → that file **and its unblock condition** · `blocked` with no `[!]` → the
+  roadmap's effort-level blocker · nothing in flight **and not blocked** → *Start a phase* · closed →
+  `SUMMARY.md`. The skill carries it as a table. §0's "pick up the next phase" and the README's "resume
+  the next phase" are corrected to match — both could send an agent past an active or blocked phase.
+- **Effort-level blockers have a procedure.** The contract has always allowed a blocked effort with no
+  `[!]` row, but the blocker procedure only handled the phase-level case, so the allowed state had no way
+  to be created. Blocking between phases (or before the first) now records the same four facts — what's
+  blocked, cause, exact unblock condition, safe parallel work — in the roadmap's `Dependencies`.
+- **Starting a phase now links it and moves the router row.** Steps 1–5 set `[~]`, authored the file, and
+  logged — but never replaced that row's `Not authored yet` with a link, and never moved a queued effort's
+  `INDEX.md` entry to `Active`. The result was a phase in flight that the roadmap didn't link and the
+  router still called queued, contradicting contract §8's projection rule.
+- **Phase-versus-child-effort no longer contradicts the plan gate.** The contract defined a phase as work
+  needing "no separate review gate" while the manual gives *every* phase one, which read as making every
+  phase eligible to be a child effort. The distinction is now the **independent lifecycle** — own owner,
+  acceptance gate, blocked/cancelled state, pull request, release, or `SUMMARY.md` — with the ordinary
+  per-phase plan gate and a temporary phase blocker explicitly excluded, since every phase has both.
+- **One contract-load rule, stated identically in all three layers.** 2.8.1 fixed only the contract's own
+  header; the manual still said "load it when you write the files" and the skill "when you write **or
+  amend** a file" — and flipping a checkbox is an amendment, so the 240-line contract still rode along on
+  routine work. All three now name the same five triggers and exclude cold resume and content updates.
+- **`LOG.md`'s third field is `context`, not `phase`.** *Create an effort* appends the first log line
+  before any phase exists, so the format demanded a value the effort didn't have yet — likewise for
+  effort-level blockers, reopening, and close-out. `context` takes a phase ID when one is in flight and
+  `effort` or `close-out` otherwise. Backward compatible: a phase ID is a valid context, so entries
+  written under 2.6–2.8.1 stay correct and no schema bump is needed.
+- **Archiving a closed row rewrites its link.** Moving a row from `INDEX.md` into `archive/closed-YYYY.md`
+  puts it one directory deeper, so `effort/SUMMARY.md` must become `../effort/SUMMARY.md` — a literal move
+  left a broken link. The year file and month heading come from the effort's close date. Reopening now
+  removes the closed row from **whichever** surface holds it, including the archive, instead of assuming
+  `Recently closed`. `Recently closed` and `Recently triaged` are both stated to run **newest first**, so
+  "drop the oldest" names an unambiguous row.
+- **Guidance comments no longer collide with the placeholder rule.** The contract required every
+  `{placeholder}` be replaced *and* that guidance comments be kept — but those comments contained
+  placeholders, so a correctly finished file failed its own validation. `{…}` is now reserved for fill
+  slots, a retained comment must carry none, and `finding.template.md`'s source-selection block (which
+  necessarily leaves two unused forms behind) says to delete itself once a form is chosen.
+
+### Added
+
+- **`[~]` is not proof its gate was passed.** The marker covers both "awaiting approval" and "approved,
+  building," so after a compaction an agent could resume and build straight through the §2.4 plan gate.
+  Resume now says: if neither this session nor `LOG.md` records the approval, re-present the plan and
+  wait. *Start a phase* records the approval in its next log line so a later session can find it.
+
+### Changed
+
+- **README accuracy pass.** "Anything beyond a one-liner" → the manual's §0 ceremony test (a one-line
+  schema change can be non-trivial). "If one disagrees, the roadmap wins" → correct the derived file from
+  whichever file owns that fact (the phase file owns the active plan, not the roadmap). "Status is one set
+  of markers" now distinguishes the phase marker surface from effort status in frontmatter. "Commit this
+  folder" is qualified for `local-only` mode, where `ai-progress/` is excluded alongside `ai-kit/`.
+
+## [2.8.1] — 2026-08-19
+
+> **`aikit-project-profile-sync`'s health check told the truth about the wrong things.** A skills audit
+> after 2.8.0 found that two of its checks now misfire against the `ai-progress/v2` file layout — one
+> producing 17 false failures, the other silently resolving references to the wrong section. Both are
+> corrections to existing check definitions; no structure changes.
+
+### Fixed
+
+- **The internal-link health check no longer flags copy-me scaffolds.** It required every relative link
+  inside `ai-kit/` to resolve from where the file sits — but template links are written for the **copy
+  destination**, so they can't. 2.6.0–2.8.0 grew `aikit-plan/assets/` from nothing to seven templates,
+  taking the check from 3 unresolved links to **20**, all false. That collided with the skill's own
+  contract rule 5 (*"never suppress a failed health check"*): an agent was obliged to report 20 broken
+  links, and "fixing" any of them would have broken the template. The check now excludes `templates/`,
+  any skill's `assets/*.template.md`, and `_SKILL-TEMPLATE.md` — the same exclusion the kit's own
+  maintenance link check has always carried, and it now says why.
+- **`§N` cross-references have one stated convention.** A **bare** `§N` means a section of
+  `AGENT-INSTRUCTIONS.md`; one **qualified by its document** (`contract §11`, `findings workflow §9`)
+  means that document's own section. `SKILL.md` already wrote it that way; `progress-contract.md` did not,
+  leaving five bare self-references. Four resolved to a real but *wrong* manual section — `§5` to
+  Decision-making instead of the contract's Status model, `§7` to Before-completing instead of File
+  contracts, `§8` (twice) to Anti-patterns instead of `INDEX.md` — which fails silently rather than
+  loudly. The fifth, `§11`, pointed at a manual section that doesn't exist. All five are now qualified,
+  as is the one bare `§10` in `SKILL.md`, and the sync check states the rule it applies.
+
+### Notes
+
+- Verified clean in the same audit and unchanged here: `aikit-update-kit` (its "replace every
+  `skills/aikit-*/`" step already carries the new `references/` and `assets/` subfolders, and its
+  never-migrate-`ai-progress/` note covers the schema question), `aikit-switch-visibility` (path-level
+  only — the v2 restructure is invisible to it), skills and templates index↔folder parity, and the new
+  **Progress artifacts** knob's pickup by sync's marker inventory.
+- Deliberately not changed: `aikit-switch-visibility` says nothing about the Progress-artifacts policy
+  when it stages `ai-progress/`. `.gitignore` enforces that policy and `git add` respects it, so there is
+  no live defect to fix.
+
+## [2.8.0] — 2026-08-19
+
+> **Correction release for the `ai-progress/v2` refactor.** An external validation pass against 2.6.0 +
+> 2.7.0 found twelve places where two surfaces disagreed — the contract said one thing, a template or a
+> procedure another. No architecture changed: the layer split, the hot/cold read path, the uniform effort
+> folder, and the findings ladder all stand. What changed is that the surfaces now agree.
+
+### Changed
+
+- **The progress contract no longer loads on an ordinary cold resume.** Its trigger said "creating,
+  *resuming*, or closing" — pulling 233 lines of format detail into every resume and undoing one of the
+  refactor's main reasons for existing. It now loads when **creating, structurally amending, validating,
+  closing, or reopening**, and explicitly *not* on a resume unless a file's format proves broken.
+- **§2.5's discovered-work HARD RULE gains a middle branch.** It read "work that serves this phase's goal
+  → record it as a **new phase**," which was self-contradictory (work serving *this* phase becoming a
+  *different* one) and fought the skill's own "update the plan before continuing." Now a three-way sort:
+  inside the phase's goal *and* approved scope → **amend the phase plan**, re-presenting the gate when
+  material; separately reviewable but serving this effort → **a new phase**; outside approved scope → the
+  existing escalate-or-record test, unchanged. The child-effort test stays in §4.3 and the contract rather
+  than being restated here. The anti-smuggling clause is untouched — amending a written plan isn't silent.
+- **Roadmap sections are required, not conditional.** The contract demanded "all seven required sections"
+  while its template guidance invited deleting an empty `Dependencies`. Now: all seven always present, an
+  empty one reads `None.`, and `Child efforts` (epic-only) is the single deletable section.
+- **`INDEX.md` gets exactly one legal annotation.** The contract banned "status commentary"; the template
+  shipped `— {what it waits on}` on blocked rows. The mutable blocker note is gone (the roadmap owns it);
+  a closed row's immutable `— done` / `— cancelled` stays and is now documented as the sole exception.
+- **Cancelling an effort runs the same close-out as finishing one.** It previously skipped findings triage
+  and the `Recently closed` overflow — a cancelled effort often carries the *most* worth retaining. It now
+  reuses **Close as done**'s steps rather than restating them.
+- **Reopening cleans up after itself.** It left `SUMMARY.md` in place on a now-active effort — which the
+  contract says exists only for closed work, and which a later session could read as current truth. Reopen
+  now deletes it (git history keeps the close-out) and normalizes the phase table to exactly one `[~]`
+  (or `[!]`) before continuing.
+- **The epic child-effort table drops its `Status` column** — the child's own frontmatter owns that, and a
+  hand-maintained copy was a second status surface in a kit whose first hard rule forbids exactly that.
+  It now records each child's *contribution*, which the parent is genuinely authoritative for.
+- **`finding.template.md` supports all three origins** the workflow allows — during a phase, in an effort
+  outside any phase, and outside any tracked effort — instead of assuming every finding has both. Its
+  ambiguous `{id}-{slug}` placeholder (finding? source effort?) is now `{source-effort-folder}`,
+  `{source-phase-file}`, and `{artifact-file}`. `Why it was out of scope` → **`Why it was deferred`**,
+  which is true for a finding with no effort to be out of scope *of*; Observation / Why it was deferred /
+  Why it matters are marked **required**. For evidence with no originating effort: link an approved
+  location or stand up an investigation effort — never invent a global evidence directory.
+- **`FINDINGS.template.md` no longer links the workflow.** It pointed at a bare
+  `aikit-plan/references/…` path that resolves from nowhere inside `ai-progress/`, and any repaired
+  version would have to assume the vendored folder's name and depth. A generated runtime file doesn't need
+  its implementation contract — the always-loaded manual and skill discovery already route there.
+- **`aikit-plan` is discoverable for findings work.** Its frontmatter `description` and *When to use*
+  covered only efforts and phases, so "record this finding" could fail to select the skill that owns the
+  ladder. Both now name capture, expand, triage, dismiss, and promote.
+- **The skill's template rule covers all seven assets.** It claimed "every progress file starts as a copy"
+  while listing five, silently excluding the two findings templates; `archive/closed-YYYY.md` is now named
+  as the deliberate non-template exception. Contract §11's table gained the two missing rows.
+- **Creating an effort no longer authors the first phase file twice** — *Create* wrote it and then handed
+  off to *Start a phase*, which wrote it again. *Create* now simply defers to that procedure.
+- **Cold resume tells the truth about queued efforts.** §4.4 said to open "the first `[ ]` you're about to
+  start" — a file that by design doesn't exist until its gate. It now routes to *Start a phase*, which
+  authors it.
+- **`README.md`'s runtime tree shows `FINDINGS.md` and `findings/`**, which 2.7.0 added to the manual's
+  tree but not the human-facing one.
+
+### Notes
+
+- Rejected from the same validation pass: **quoting YAML ids** (no parser consumes the frontmatter — the
+  schema can state string semantics when one exists) and an **extra rung-3 fallback** (§5 already offers a
+  tracker *or* a `queued` effort, gated on explicit acceptance). A **template smoke-test harness** stays
+  deferred; the narrow failure it would have caught is now consistency-check #13 instead.
+- `ai-progress/v2` is **unchanged** — no persisted file changes shape incompatibly, so nothing downstream
+  needs migrating.
+
+## [2.7.0] — 2026-08-18
+
+> **Out-of-scope findings** get a home. An agent that notices invalid markup, a practice violation, or a
+> missing test while doing something else now has a third option besides silently fixing it (scope creep)
+> or silently dropping it (lost knowledge) — with an escalation path for discoveries that make the current
+> delivery unsafe or wrong. Additive: projects that capture no findings gain no files.
+
+### Added
+
+- **`skills/aikit-plan/references/findings-workflow.md`** — the four-rung promotion ladder (**escalate →
+  capture → expand → accept**), kinds and confidence, finding IDs, authority transitions, dismissal
+  routing, and a validation checklist. Its own reference rather than part of the progress contract,
+  because the load trigger differs: capturing or triaging a finding, not writing a progress file (and the
+  contract had 25 lines of headroom).
+- **Rung 0 — escalate instead of deferring.** The gap this closes: without it, an agent could park a
+  security defect or correctness bug in the inbox, continue, and be technically compliant while shipping
+  known-broken work. §2.5's existing discovered-work bullet is now a **HARD RULE** carrying the test —
+  *would a reasonable reviewer, once informed, consider the planned delivery unsafe, incorrect, materially
+  unverifiable, or inconsistent with its done criteria?* Yes or uncertain → stop-and-ask (§5.2) or
+  block/re-scope (§4.3). It routes to the *existing* procedures rather than defining a parallel one, and
+  states that "out of scope" is never a shield for knowingly shipping unsafe or incorrect work.
+- **`ai-progress/FINDINGS.md`** (on demand) — a bounded, cold-path inbox of **candidates, not committed
+  work**: all open findings, plus at most 10 `Recently triaged` dispositions. Not linked from `INDEX.md`,
+  which stays an efforts-only router, and never in the cold-resume path.
+- **`ai-progress/findings/{finding-id}.md`** (earned, not default) — rung-2 detail files with YAML
+  frontmatter (`id`, `kind`, `confidence`, `created`) so `findings/` is greppable during triage.
+  Deliberately no `status:` (the inbox sections own lifecycle — a second surface would drift) and no
+  `schema:` (no legacy shape to discriminate).
+- **Source-derived finding IDs** — `FND-{effort}-{phase}-{slug}`, phase segment optional
+  (`FND-{effort}-{slug}`), date fallback outside any effort (`FND-{YYYYMMDD}-{slug}`). Provenance reads
+  off the ID, so no `source:` field is needed. Never renamed once linked; collisions take a stable suffix.
+- **Five kinds** (`defect · debt · risk · test-gap · docs`) with **orthogonal confidence** (`confirmed ·
+  likely · suspected`). Accessibility and performance aren't separate kinds — a confirmed failure is a
+  `defect`, a possible one a `risk`. Confidence carries the honesty rule: never present a preference or an
+  unverified hypothesis as a confirmed defect.
+- **Durable dismissals are promoted, ephemeral ones expire** — project-wide decisions to `PROJECT.md` →
+  Locked decisions, effort-specific ones to that effort's `ROADMAP.md` → Locked decisions, the rest scroll
+  out of `Recently triaged`. Prevents endless rediscovery without turning `PROJECT.md` into a dump of
+  every rejected finding.
+- **`assets/FINDINGS.template.md`** + **`assets/finding.template.md`** — inbox and detail scaffolds, named
+  by the existing cardinality convention (UPPERCASE = one per scope, lowercase = many, as with `phase`).
+- Close-out now **triages the effort's findings**: nothing meaningful may stay stranded in a completed
+  phase file, a log line, or a closed roadmap.
+
+### Changed
+
+- §4 gained hard rule 9 (findings destination + cold-path behavior) and `FINDINGS.md` in its layout;
+  §8 gained three anti-patterns — dropping an out-of-scope observation, parking an escalation-worthy
+  finding in the inbox, and listing an untriaged finding as a `queued` effort.
+- `progress-contract.md` §9a points at the findings workflow and fixes the boundary: a roadmap's
+  `Deferred / follow-ups` may *link* a finding, never copy it.
+
+## [2.6.0] — 2026-08-18
+
+> **`ai-progress/v2`** — one uniform effort folder for tasks and epics alike, current state split from
+> history, and the file format moved out of the always-loaded manual into a cold-loaded contract.
+> Backward-compatible: existing progress files keep working and are **never migrated automatically**.
+
+### Added
+
+- **`skills/aikit-plan/references/progress-contract.md`** — the canonical **format** contract:
+  frontmatter schema, naming, status consistency, per-file contracts, bounded `INDEX.md` rules, legacy
+  compatibility, and a validation checklist. Loaded only when writing a progress file, which is what lets
+  it be thorough without costing every session.
+- **`skills/aikit-plan/assets/*.template.md`** — five copy-me progress files (`INDEX`, `ROADMAP`, `LOG`,
+  `phase`, `SUMMARY`), co-located with the skill that consumes them per the Agent-Skills supporting-file
+  pattern. The agent **copies** a template instead of retyping a skeleton, and each is normative for its
+  section names and order. Consequences: the contract stays ~226 lines, only the one template being used
+  is read, and check #10 skips them (their links target the copy destination, as with `templates/`).
+- **One folder per effort** — `{id}-{slug}/` holding `ROADMAP.md` + `LOG.md` + `phases/` (+ `SUMMARY.md`,
+  `artifacts/`, `scripts/` as needed). Tasks and epics now share **one shape**, so §4's rules no longer
+  branch per shape, and an effort's files no longer straddle two locations.
+- **`LOG.md`** — append-only history, split out of the roadmap. The roadmap grew unboundedly with session
+  lines that §4.4's resume path never reads; bounded record (a phase's one-line outcome) stays in the
+  spine, unbounded record moves out.
+- **`SUMMARY.md`** — the close-out digest for a ticket or PR, written only when an effort closes. The kit
+  previously had no outbound, human-facing artifact.
+- **`artifacts/` + `scripts/`** — homes for generated evidence and effort-local helpers. §4.6's phase
+  template already said "Artifacts produced" with nowhere to put them.
+- **`Outcome` with explicit "Done when"** criteria, and **`cancelled`** as a first-class final status
+  (with a summary explaining what was retained or reverted).
+- **Child efforts** — an epic links children through `parent:` in their frontmatter while folders stay
+  physically flat, capped at `epic → child effort`. Hierarchy without nesting, so no long paths and no
+  broken links; §3.3-style criteria (independent gate, owner, blocker, PR, or summary) decide phase vs
+  child.
+- **`PROJECT.md` → Version control → "Progress artifacts"** (`fill:user`) — per-project retention/commit
+  policy for generated output, since it can be large or hold client data. Wired through
+  `aikit-project-profile-bootstrap` (7.7 ask-step, Verify item, frontmatter description);
+  `aikit-project-profile-sync` picks it up for free, being marker-driven.
+- **MAINTAINING:** a "Progress-tracking layers" section fixing which of the four surfaces owns what, plus
+  consistency checks **#11** (one progress-schema value) and **#12** (legacy shapes appear only as
+  compatibility notes).
+
+### Changed
+
+- **§4 shrank from ~160 to ~93 lines** and now holds only what an agent needs *before* invoking the
+  skill — layout, hard rules, the cold-resume path, phase ordering. Procedures moved to
+  `aikit-plan/SKILL.md`; the format moved to the contract. §4.6's inline templates are gone.
+- **Effort folders are named from a stable external ID** (`PROJ-142-checkout-rebuild/`), or the creation
+  date when there is none — never a repo-global `01-`/`02-` counter, which parallel branches allocate
+  identically and collide on merge. Folders are never renamed.
+- **Hot/cold reading is now explicit.** Resume reads `INDEX.md` → one `ROADMAP.md` → one phase file;
+  finished phases, `LOG.md`, `SUMMARY.md`, `artifacts/`, and `scripts/` stay cold. `INDEX.md` is a router
+  (links grouped by state, ≤10 recently-closed rows, older ones archived), not a dashboard.
+- **§4.2 rule 1 generalized** from "the roadmap is the spine" to **one authoritative location per fact**,
+  naming `INDEX.md`/`SUMMARY.md` as derived views that lose to the roadmap. The single phase-status
+  surface stays a HARD RULE, extended to forbid a status field in a phase file.
+- **§2.3** no longer branches task-vs-effort; **§8** gained anti-patterns for duplicate status, loading
+  cold files on resume, unbounded `INDEX.md`, unasked legacy migration, and pasting raw output into
+  Markdown.
+- **Consistency check #6 now walks `-maxdepth 4`** — at depth 3 a skill's co-located `references/` doc was
+  invisible to the folder-map check (verified: 18 files seen vs 19 present).
+- `aikit-update-kit` states explicitly that an upgrade **never migrates `ai-progress/`**.
+
+### Compatibility
+
+- Legacy shapes (`task-{slug}.md`, `{effort}-ROADMAP.md`, `{effort}/phase-NN-*.md`, or a roadmap with no
+  `schema:`) stay valid and are resumed in place. **No automatic migration** — on kit update or otherwise;
+  migrate only on explicit request. `INDEX.md` may link both formats meanwhile.
+- New efforts carry `schema: ai-progress/v2`, an axis independent of the Kit version.
+
 ## [2.5.0] — 2026-08-17
 
 > Runtime-wiring re-verification run (`maintenance/verify-runtime-wiring`) — every claimed root file,

@@ -72,6 +72,10 @@ ai-kit/                       # THE KIT — this is what gets copied into other 
   README.md               #   human guide (what it is, Setup, how to extend)
   reference/              #   descriptive project facts (the "what") + index
   skills/                 #   repeatable procedures (folder-per-skill; kit-shipped: aikit-{name}/SKILL.md) + index
+    aikit-plan/references/progress-contract.md  # the ai-progress/ file format (see "Progress-tracking layers")
+    aikit-plan/references/findings-workflow.md  #   out-of-scope findings ladder
+    aikit-plan/assets/*.template.md             #   the copy-me progress files (INDEX/ROADMAP/LOG/phase/
+                                                #     SUMMARY/FINDINGS/finding)
   templates/              #   literal copy-me scaffolds + index
 AGENTS.md                 # root pointer for agent sessions in this repo — imports MAINTAINING.md every session
 CLAUDE.md                 # symlink → AGENTS.md (the filename Claude Code auto-loads)
@@ -128,6 +132,31 @@ fixed facts, the fixed *"If a mandated tool is missing: STOP and ask"* line, or 
 examples. A thing is either a managed slot (gets `fill:`, persists) or a disposable example (gets
 `<!-- To Remove -->`, deleted at bootstrap) — never both.
 
+## Progress-tracking layers (where `ai-progress/` rules live)
+
+Progress tracking is split across these surfaces by **when the reader needs it** — don't collapse them,
+and don't restate one in another:
+
+| Surface | Owns | Why there |
+| --- | --- | --- |
+| `AGENT-INSTRUCTIONS.md` §4 | Behavior an agent needs *before* it loads anything: when to track, the layout, the hard rules, the cold-resume path, phase ordering. | Always loaded. An agent that never invokes the skill still has to get this right. |
+| `skills/aikit-plan/SKILL.md` | The **procedures** — create, start/finish a phase, block, re-scope, end a session, close, reopen. | Loaded when doing the work. |
+| `skills/aikit-plan/references/progress-contract.md` | The **format** — frontmatter, required sections, naming, status consistency, validation checklist. | Loaded only when **creating** a tracking file, **changing its structure**, **validating**, **closing**, or **reopening** — never on a cold resume or a routine content update. |
+| `skills/aikit-plan/references/findings-workflow.md` | **Out-of-scope findings** — the escalate/capture/expand/promote ladder, IDs, taxonomy, dismissal routing. | Loaded on a *different* trigger than the contract: capturing or triaging a finding, not writing a progress file. |
+| `skills/aikit-plan/assets/*.template.md` | The **copy-me files** themselves — one per progress file, normative for section names and order. | Read one at a time, only when creating that file. |
+| `PROJECT.md` → Version control | The project's **Progress artifacts** retention/commit policy. | A knob, and knobs live only in `PROJECT.md`. |
+
+Two deliberate consequences:
+
+- **The progress templates live in the skill's `assets/`, not the kit's `templates/`.** They're
+  co-located with the only skill that consumes them (the pattern the Agent-Skills spec sanctions for
+  supporting files) and they're part of one versioned data contract, not general project scaffolds — so
+  they get **no `templates/README.md` row**. This is the sanctioned exception to "copy-me scaffolds →
+  `templates/`". Their internal links are written for the **copy destination**, so check #10 skips them
+  exactly as it skips `ai-kit/templates/`.
+- **`ai-progress/v2` is its own version axis**, independent of the Kit version: it advances only when the
+  persisted data contract changes incompatibly, so a kit release does not bump it (check #11).
+
 ## When you change X, also touch Y (keep in sync)
 
 | Change | Also update |
@@ -137,6 +166,9 @@ examples. A thing is either a managed slot (gets `fill:`, persists) or a disposa
 | **New recurring procedure** (kit-shipped) | `skills/aikit-{name}/SKILL.md` (folder-per-skill; frontmatter `name:` matches the folder) **+** `skills/README.md` index. Kit-shipped skills carry the **`aikit-` prefix** so they can't collide with a host project's own skills once vendored; the generic `{name}` in `_SKILL-TEMPLATE.md` / `skills/README.md` is for *project-authored* skills downstream, which stay unprefixed. |
 | **New project-fact category** | `reference/{doc}.md` **+** `reference/README.md` index; route to its skill at the bottom. |
 | **New scaffold** | `templates/{file}` **+** `templates/README.md` index. |
+| **New effort status or lifecycle state** | Add its rows to the **legal-transition table** (`progress-contract.md` §5.1) — *both* directions, entry and exit — plus its phase-table expectation in §5, and the procedure that performs each transition in `aikit-plan/SKILL.md`. Four consecutive validation rounds found the same defect shape: a state made legal in one surface with no defined way into or out of it (`blocked` with no `[!]` was legal from 2.6.0, got a creation path in 2.9.0, and a clearing path only in 2.9.1). The transition table is where that becomes visible. |
+| **New exception to an existing invariant** | Find **every** surface that asserts the absolute form and point it at the owner — the always-loaded summary, the skill's anti-pattern list, and any validation-checklist item. State the exception once, in the owning layer; elsewhere name the owner (`contract §3 owns the sole collision-repair exception`) without restating the procedure. Three consecutive validation rounds found this shape: the pre-merge folder-rename exception (2.11.0) left `AGENT-INSTRUCTIONS.md` §4.1 and the plan skill's anti-pattern absolute, and the finding-ID re-key exception (2.14.0) left a checklist item requiring an ID "that was never renamed" — each making a *compliant* repair read as a violation. A checklist item is the easiest to miss and the most damaging: it fails valid work at the gate. |
+| **New progress-tracking rule** | Pick the owning layer from "Progress-tracking layers" *first* — always-loaded behavior → `AGENT-INSTRUCTIONS.md` §4; a procedure → `aikit-plan/SKILL.md`; a file-format rule → `progress-contract.md` (+ its validation checklist); a project policy → a `PROJECT.md` knob. State it once, in one layer. An incompatible change to the persisted format also bumps `ai-progress/vN`. |
 | **New manual section** | Append as the next `§N` — **never renumber** existing sections. |
 | **Renamed / added / removed file** | Kit-level: the README **folder map** and the **"What's in here"** table. Home-level: the **Layout** block in this guide. |
 | **Any change to vendored `ai-kit/` content** | Bump the **Kit version** in `AGENT-INSTRUCTIONS.md`'s header per semver **+** add a dated `CHANGELOG.md` entry (see §"Versioning & releases"). Changes touching only home-only files (this guide, `CHANGELOG.md`) don't bump. |
@@ -215,8 +247,13 @@ find ai-kit -name '*.md' -exec sed '/^<!-- To Remove: START/,/^<!-- To Remove: E
 # 2. Manual sections sequential, none renumbered
 grep -nE "^## [0-9]" ai-kit/AGENT-INSTRUCTIONS.md                                     # expect: 0..9 in order
 
-# 3. Every cross-reference still resolves (eyeball the §N you touched)
+# 3. Every cross-reference still resolves (eyeball the §N you touched). Convention: a BARE §N means a
+#    section of AGENT-INSTRUCTIONS.md (§0–§9); one QUALIFIED by its document (`contract §11`, `findings
+#    workflow §9`) means that document's own section. aikit-project-profile-sync's §N health check reads
+#    it the same way, so an unqualified self-reference resolves to the WRONG manual section downstream.
+#    The second grep catches the loud case — a bare §N too high to be a manual heading.
 grep -rn "§[0-9]" ai-kit/
+grep -rnE '§(1[0-9]|[0-9]{2,})' ai-kit/ | grep -viE 'contract §|workflow §'           # expect: none
 
 # 4. Response-economy mode names consistent — (a) locate the legal names to eyeball context; (b) on
 #    any line where a legal name appears, every backticked token must be legal — a drifted sibling
@@ -230,8 +267,9 @@ grep -rhE "\`(standard|concise|terse)\`" ai-kit/ | grep -oE "\`[a-z]+\`" | grep 
 #     is excluded: its §0 mentions `TODO` in prose describing the convention, not as a fill-in slot.)
 grep -rl "TODO" ai-kit/ | grep -vE "README|_SKILL-TEMPLATE|templates/|aikit-project-profile-bootstrap|aikit-project-profile-sync|AGENT-INSTRUCTIONS" # expect: PROJECT.md + reference/*
 
-# 6. Folder map matches reality (skills nest at depth 3 — maxdepth must reach them)
-find ai-kit -maxdepth 3 -type f | sort                                                # compare to README's folder map
+# 6. Folder map matches reality (a skill's co-located references/ nest at depth 4 — maxdepth must
+#    reach them, or a supporting doc is invisible to this check)
+find ai-kit -maxdepth 4 -type f | sort                                                # compare to README's folder map
 ls -1                                                                                  # compare to the Layout block in this guide
 
 # 7. fill: markers in the managed files are well-formed (see §"The `fill:` marker convention")
@@ -253,11 +291,60 @@ tag_v=$(git tag -l 'v*' | sort -V | tail -1 | sed 's/^v//')
 [ "$tag_v" = "$manual_v" ] && echo "tag in sync: v$tag_v" || echo "TAG DRIFT: latest tag=v$tag_v manual=$manual_v"  # expect: in sync (the tag rides each release commit)
 
 # 10. All relative markdown links resolve (invariant "All relative links resolve"). Fenced code
-#     blocks are stripped first (example links use placeholder names); templates/ and
-#     _SKILL-TEMPLATE are skipped — their links are written for the copy destination by design.
-for f in $(git ls-files '*.md' | grep -vE '^ai-kit/templates/|_SKILL-TEMPLATE'); do d=$(dirname "$f"); \
+#     blocks are stripped first (example links use placeholder names); templates/, any skill's
+#     assets/*.template.md, and _SKILL-TEMPLATE are skipped — their links are written for the copy
+#     destination by design, so they can't resolve from where the file sits.
+for f in $(git ls-files '*.md' | grep -vE '^ai-kit/templates/|/assets/.*\.template\.md$|_SKILL-TEMPLATE'); do d=$(dirname "$f"); \
   sed '/^```/,/^```/d' "$f" | grep -oE '\]\([^)#: ]+' | sed 's/^](//' | while read -r l; do \
   case "$l" in http*|mailto*|/*) continue;; esac; [ -e "$d/$l" ] || echo "BROKEN: $f -> $l"; done; done  # expect: none
+
+# 11. Progress schema referenced consistently (one value across the manual + the plan skill).
+#     Deliberately NOT tied to the Kit version — see "Progress-tracking layers".
+grep -rhoE "ai-progress/v[0-9]+" ai-kit/AGENT-INSTRUCTIONS.md ai-kit/skills/aikit-plan/ | sort -u   # expect: exactly one value
+
+# 12. Legacy progress shapes appear only as compatibility notes, never as instructions for new work.
+#     Review each hit: it must sit in a "legacy / still valid / never auto-migrate" sentence.
+grep -rnE 'task-\{slug\}\.md|\{effort(-slug)?\}-ROADMAP\.md|task-bootstrap-profile' ai-kit/
+
+# 13. Copy-me assets must not point back at kit-internal contracts. Check #10 skips them (their links
+#     are written for the copy destination), so a path naming the kit escapes every other check — and
+#     one did. A generated runtime file can't assume the vendored folder's name or depth: route the
+#     agent through the always-loaded manual and skill instead of linking the contract.
+grep -rnE '(\.\./)*ai-kit/|aikit-[a-z-]+/(references|assets)/' ai-kit/skills/*/assets/  # expect: none
+
+# 14. Skill frontmatter *structural* health check against the Agent Skills spec
+#     (https://agentskills.io/specification). It reads lines, not YAML — a malformed quoted scalar can
+#     still pass — so it is a health check, not a validator; the spec's own `skills-ref validate` is the
+#     real parser if a release ever needs one. Rules enforced here:
+#     `name` + `description` required, `license` / `compatibility` / `metadata` / `allowed-tools`
+#     optional, nothing else; `description` 1–1024 chars; a kit-shipped skill's `name` equals its
+#     folder. Malformed metadata is invisible to every check above (they read prose and links, not
+#     YAML) and a loader may silently skip the skill. It also settles the inverse claim: a long
+#     single-line `description:` soft-wraps in a viewer and *looks* like an unindented YAML
+#     continuation — this reads bytes, so wrapping can't fool it. Indented lines are legal (a nested
+#     `metadata:` map, a folded scalar); an unindented non-key line is not. Flags: stray unindented
+#     line · missing/empty/oversized description · unknown key · name≠folder · unclosed block · no
+#     frontmatter. `_SKILL-TEMPLATE.md` runs with B= (its `name` is a deliberate TODO placeholder).
+read -r -d '' CHK <<'AWK'
+NR==1{if($0!="---"){print F": !! no opening ---";d=1;exit};next}
+$0=="---"{ e=""
+  if(","k"," !~ /,name,/)        e=e" missing name"; else if(B!=""&&n!=B) e=e" name!=folder("B")"
+  if(","k"," !~ /,description,/) e=e" missing description"
+  else if(dl<1) e=e" empty description"; else if(dl>1024) e=e" description="dl"chars(max 1024)"
+  if(u) e=e" unknown key:"u
+  print F": " (e==""?"ok":"!!"e); d=1; exit }
+/^[ \t]/{next}
+/^[a-z][a-z0-9-]*:/{ s=substr($0,1,index($0,":")-1); k=k","s
+  if(s!~/^(name|description|license|compatibility|metadata|allowed-tools)$/) u=u" "s
+  if(s=="name"){n=$0;sub(/^name: */,"",n);sub(/ *$/,"",n)}
+  if(s=="description"){v=$0;sub(/^description: */,"",v);dl=length(v)}
+  next }
+{print F": !! L"NR": neither `key:` nor indented"; d=1; exit}
+END{if(!d)print F": !! frontmatter never closed"}
+AWK
+for f in ai-kit/skills/*/SKILL.md; do \
+  awk -v F="$f" -v B="$(basename "$(dirname "$f")")" "$CHK" "$f"; done                 # expect: all ok
+awk -v F=_SKILL-TEMPLATE.md -v B= "$CHK" ai-kit/skills/_SKILL-TEMPLATE.md              # expect: ok
 ```
 
 ## Anti-patterns (kit maintenance)
