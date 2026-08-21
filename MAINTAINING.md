@@ -311,7 +311,10 @@ grep -rnE 'task-\{slug\}\.md|\{effort(-slug)?\}-ROADMAP\.md|task-bootstrap-profi
 #     agent through the always-loaded manual and skill instead of linking the contract.
 grep -rnE '(\.\./)*ai-kit/|aikit-[a-z-]+/(references|assets)/' ai-kit/skills/*/assets/  # expect: none
 
-# 14. Skill frontmatter conforms to the Agent Skills spec (https://agentskills.io/specification):
+# 14. Skill frontmatter *structural* health check against the Agent Skills spec
+#     (https://agentskills.io/specification). It reads lines, not YAML — a malformed quoted scalar can
+#     still pass — so it is a health check, not a validator; the spec's own `skills-ref validate` is the
+#     real parser if a release ever needs one. Rules enforced here:
 #     `name` + `description` required, `license` / `compatibility` / `metadata` / `allowed-tools`
 #     optional, nothing else; `description` 1–1024 chars; a kit-shipped skill's `name` equals its
 #     folder. Malformed metadata is invisible to every check above (they read prose and links, not

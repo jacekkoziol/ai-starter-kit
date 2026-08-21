@@ -9,6 +9,25 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.14.1] — 2026-08-21
+
+> **The exception added in 2.14.0 didn't reach the checklist that forbids it.** Findings workflow §8 gained
+> a sanctioned rename; §10 still required an ID *"that was never renamed"* — so a correctly repaired
+> finding failed validation for having been repaired.
+
+### Fixed
+
+- **Findings workflow §10 now validates state, not history.** The two ID items collapse into one: *every
+  finding ID is stable, unique, source-derived, and truthfully names the effort that produced it — renamed
+  only by an explicit pre-merge collision repair (workflow §8, contract §3)*. Validation should ask whether
+  the repository is currently valid, not require knowledge of an object's whole mutation path — and the
+  absolute phrasing also condemned the *pre-existing* suffix rule whenever a true collision is resolved
+  after both findings were linked.
+- **Same-observation consolidation no longer reads as "pick one."** Contract §3 now says to consolidate to
+  one finding *keeping non-duplicate evidence and inbound references from both* — two branches can discover
+  one defect through different evidence, and the effort-level reconcile rule beside it already preserves
+  non-duplicate material.
+
 ## [2.14.0] — 2026-08-21
 
 > **"Keeps its spelling" was safe until the old ID belonged to someone else.** Leaving a finding ID alone

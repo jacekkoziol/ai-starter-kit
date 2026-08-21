@@ -81,7 +81,8 @@ conflict at merge**, not at creation. Resolve by intent:
   to never renaming a linked finding ID ([findings workflow §8](findings-workflow.md)).
 
 Consolidation can also surface **duplicate finding IDs** — both branches minting `FND-{same-effort-id}-…`
-under the kept effort. Same observation: consolidate to one finding. Different observations: a true
+under the kept effort. Same observation: consolidate to one finding, keeping non-duplicate evidence and
+inbound references from both. Different observations: a true
 finding-ID collision rather than a rename, so suffix the later one (findings workflow §8) and update its
 inbox pointer, detail filename, and inbound references.
 
