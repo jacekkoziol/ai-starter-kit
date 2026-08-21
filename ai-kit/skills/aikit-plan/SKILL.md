@@ -38,7 +38,8 @@ build/test/lint commands a verification phase runs, and **Version control → Pr
 3. Read the relevant code and `reference/` docs before scoping (§2.1).
 4. **Lock scope with the user** (§2.2): outcome, **done-when** criteria, in scope, out of scope, locked
    decisions, dependencies. Batch genuine open choices as questions; never invent answers.
-5. Pick a **stable ID and slug** (contract §3) — external ticket ID preferred, creation date otherwise.
+5. Pick a **stable ID and slug** (contract §3) — external ticket ID preferred, the full `{date}-{slug}`
+   folder name otherwise — and confirm no existing effort already carries that `id:`.
 6. Create `{id}-{slug}/` by copying `assets/ROADMAP.template.md` and `assets/LOG.template.md` into it,
    plus an empty `phases/`; add a row to `INDEX.md` (copying `assets/INDEX.template.md` on a project's
    first effort).

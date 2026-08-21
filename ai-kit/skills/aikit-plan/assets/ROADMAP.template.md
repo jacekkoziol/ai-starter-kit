@@ -1,6 +1,6 @@
 ---
 schema: ai-progress/v2
-id: {PROJ-142}
+id: {PROJ-142}        # ticket ID, or this folder's full date-and-slug name
 kind: task            # task | epic
 status: queued        # queued | active | blocked | done | cancelled
 parent: null          # null, or the parent effort's id

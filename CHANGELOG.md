@@ -9,6 +9,43 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.12.0] — 2026-08-21
+
+> **The effort ID itself had to become unique.** 2.11.0 resolved colliding effort *folders*, but the
+> deeper collision needed no git conflict at all: two same-day efforts get distinct folders
+> (`20260818-checkout-rebuild/`, `20260818-auth-cleanup/`) and — under 2.11.0's rule — the *same*
+> `id: 20260818`. Since `id:` travels without its folder, that broke both places the ID is the only
+> identifier available.
+
+### Changed
+
+- **Contract §3 — the date fallback `id:` is now the whole folder name**, date *and* slug
+  (`id: 20260818-checkout-rebuild`), stated as an invariant: **effort IDs are unique within
+  `ai-progress/`**. A bare date left `parent: 20260818` unable to name which same-day effort is the
+  parent, and let two unrelated efforts mint the same `FND-20260818-P01-…` finding ID — the slug that
+  distinguishes them lives in the folder name, which neither field carries. An external identifier is
+  still used as-is. Date-only IDs written under earlier versions stay valid and are never rewritten;
+  *Create an effort* (step 5) now confirms no existing `ROADMAP.md` carries the chosen `id:`, and
+  contract §10 checks it.
+- **Contract §3 — same-goal collisions *reconcile*, not "merge the phase tables."** Concatenating two
+  branches' tables produces duplicate phase IDs, two `[~]` rows, and two versions of one plan — each a
+  violation of the contract's own invariants, produced by following its own instruction. The procedure now
+  reconciles into one valid phase sequence: preserve completed outcomes, resolve duplicate IDs with the
+  `phase-NNa` suffix rule, leave at most one phase in flight, interleave both logs, keep non-duplicate
+  artifacts and scripts, then re-run §10.
+
+### Fixed
+
+- **Contract §3's two never-rename statements no longer contradict each other.** "Never rename an effort
+  folder after creation" sat a few lines above a collision procedure that requires renaming the later
+  folder; the invariant now names that pre-merge repair as its **sole** exception, so the collision
+  procedure stops reading as a licence to rename.
+- `ROADMAP.template.md` annotates `id:` with where the fallback value comes from — brace-free, per the
+  contract §11 rule that a kept guidance comment carries no `{placeholder}`.
+
+`ai-progress/v2` unchanged — existing date-only IDs remain readable and valid; the new form applies to
+newly created fallback IDs, so no migration exists to be incompatible with.
+
 ## [2.11.0] — 2026-08-19
 
 > **The date fallback can still collide.** `{date}-{slug}` effort folders were introduced as the

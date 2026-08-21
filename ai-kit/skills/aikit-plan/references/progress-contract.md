@@ -48,17 +48,29 @@ reports are one kind of artifact, and executable helpers belong in `scripts/`.
 
 **Effort folder** — prefer a stable external identifier: `PROJ-142-checkout-rebuild/`,
 `GH-381-api-rate-limits/`, `EPIC-12-platform-modernization/`. With no stable ID, use the creation date:
-`20260818-checkout-rebuild/`, and set `id:` to that same date (`20260818`). **Never use repository-global
-sequential prefixes** (`01-`, `02-`) — parallel branches allocate the same number and collide on merge.
-**Never rename an effort folder after creation** (it breaks every existing link).
+`20260818-checkout-rebuild/`. **Never use repository-global sequential prefixes** (`01-`, `02-`) —
+parallel branches allocate the same number and collide on merge. **Never rename an effort folder after
+creation** (it breaks every existing link) — the pre-merge collision repair below is the sole exception.
 
-**Colliding date fallbacks.** The date fallback narrows that collision window but doesn't close it: two
+**Effort IDs are unique within `ai-progress/`.** An external identifier is used as-is (`id: PROJ-142`);
+without one, the ID is the **whole folder name** — date *and* slug (`id: 20260818-checkout-rebuild`). A
+bare date isn't unique, and `id:` travels without its folder: `parent:` names a parent by ID alone and a
+finding ID embeds it (`FND-{effort-id}-…`), so two same-day efforts would be indistinguishable in both.
+Before creating an effort, confirm no existing `ROADMAP.md` carries that `id:`. Date-only IDs written
+under earlier kit versions stay valid — never rewrite one.
+
+**Colliding date fallbacks.** A date fallback narrows the sequential-prefix collision window but doesn't
+close it: two
 branches can create the same `{date}-{slug}` independently — same day, same goal, same obvious slug — and
 neither branch's `INDEX.md` can see the other, so git surfaces it as an **add/add conflict at merge**, not
 at creation. Resolve by intent:
 
-- **Same goal** (the common case) — consolidate into one effort. Keep the earlier folder, merge the phase
-  tables, and interleave both `LOG.md` histories by date.
+- **Same goal** (the common case) — consolidate into one effort. Keep the earlier folder and **reconcile**
+  the two roadmaps into one valid phase sequence rather than concatenating their tables: preserve
+  completed outcomes, resolve duplicate phase IDs with the `phase-NNa` suffix rule, leave at most one
+  phase in flight (contract §5), interleave both `LOG.md` histories by date, keep every non-duplicate
+  artifact and script, then re-run contract §10. Concatenating produces duplicate phase IDs, two `[~]`
+  rows, and two versions of one plan — each an invariant violation.
 - **Genuinely different goals** — suffix the later folder (`20260818-checkout-rebuild-a/`) and update its
   `id:`, its `INDEX.md` row, and every inbound link. A finding ID that encodes the old effort ID **keeps
   its spelling** — IDs are never renamed ([findings workflow §8](findings-workflow.md)) — so fix its
@@ -243,7 +255,8 @@ files. Findings are **candidates, not committed efforts**: they never appear as 
 
 - [ ] `INDEX.md` routes to the effort; `Recently closed` holds at most 10 rows; no row carries commentary
       beyond a closed row's `done` / `cancelled` (contract §8).
-- [ ] The effort folder has a stable ID and slug, and was not renamed.
+- [ ] The effort folder has a stable ID and slug, no other effort's `id:` duplicates it, and no merged
+      path was renamed (contract §3).
 - [ ] `ROADMAP.md` frontmatter is valid `ai-progress/v2`, with no `updated:` field.
 - [ ] All seven roadmap sections exist, empty ones reading `None.`; `Outcome` states Goal and Done when.
 - [ ] Effort status and the phase table agree (contract §5); **at most one phase is in flight — `[~]` or
