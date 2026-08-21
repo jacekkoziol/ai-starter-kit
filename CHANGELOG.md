@@ -9,6 +9,36 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.14.0] — 2026-08-21
+
+> **"Keeps its spelling" was safe until the old ID belonged to someone else.** Leaving a finding ID alone
+> through an effort rename assumed the old effort ID stopped identifying anything. In a *collision* repair
+> it identifies the effort that survived — so the finding advertises provenance from an effort it never
+> came from, while its `Source` link points elsewhere. A false ID is worse than a stale one.
+
+### Changed
+
+- **Collision repair now re-keys the renamed effort's findings.** `FND-20260818-checkout-rebuild-P01-…`
+  becomes `FND-20260818-checkout-rebuild-a-P01-…`, with its inbox entry, detail filename, `Source` link,
+  and inbound references updated. Contract §3 previously said such an ID **keeps its spelling** and only
+  its `Source` link is fixed — correct for an ordinary rename, wrong for the one case that can happen,
+  where the surviving effort still holds the old ID. Findings workflow §8 now carries the matching
+  exception to *never rename an ID once linked*, scoped to that one procedure — the same shape as the
+  effort-folder rule, and deliberately **not** hinged on "merged or published", which reads as blanket
+  permission on a single-branch project.
+- **Duplicate finding IDs are scoped to consolidation, and cover the identical-observation case.** Once the
+  different-goals path re-keys, only same-goal consolidation can still produce two identical IDs. Same
+  observation → consolidate to one finding; different observations → suffix the later one per findings
+  workflow §8.
+
+### Added
+
+- **Findings workflow §10 checks ID uniqueness and truthful provenance** — *finding IDs are unique, and an
+  effort-derived one names the effort that actually produced it*. §8's "source-derived, so provenance reads
+  off the ID" premise had no validation behind it.
+
+`ai-progress/v2` unchanged — this governs a repair procedure, not the persisted fields.
+
 ## [2.13.0] — 2026-08-21
 
 > **An effort has an ID *and* a folder, and 2.12.0 stopped letting one be derived from the other.** Making

@@ -40,11 +40,16 @@ like `.agents/skills`), whether it **follows symlinks**, and that it still reads
    - [`ai-kit/README.md`](../ai-kit/README.md) — the intro runtime list, Setup step 2's root-file list, and
      Setup step 3's skills table + symlink caveat.
    - Nothing else should hardcode these facts.
-4. **Check the canonical-home URL still resolves** — the callout at the top of
+4. **Re-check the `SKILL.md` frontmatter spec** — <https://agentskills.io/specification> — against what
+   [`MAINTAINING.md`](../MAINTAINING.md) consistency-check #14 hardcodes: the legal key set (`name` +
+   `description` required; `license`, `compatibility`, `metadata`, `allowed-tools` optional) and the
+   1024-char `description` cap. A newly added optional field turns that check into a false `unknown key`
+   failure, and a lowered cap turns a passing skill into an invalid one.
+5. **Check the canonical-home URL still resolves** — the callout at the top of
    [`ai-kit/skills/aikit-update-kit/SKILL.md`](../ai-kit/skills/aikit-update-kit/SKILL.md).
-5. **If anything drifted, fix it** in `AGENT-INIT.md` + `README.md` together, run the relevant
+6. **If anything drifted, fix it** in `AGENT-INIT.md` + `README.md` together, run the relevant
    [`MAINTAINING.md`](../MAINTAINING.md) consistency checks, and — because these edits touch vendored
    `ai-kit/` — **bump the Kit version** (MINOR for a new runtime/fact, PATCH for a correction) and add a
    `CHANGELOG.md` entry.
-6. **Record the run:** set this task's *Last run* in the [ledger](README.md#ledger) to today's real
+7. **Record the run:** set this task's *Last run* in the [ledger](README.md#ledger) to today's real
    date. Update it even if nothing changed — the facts were confirmed current.

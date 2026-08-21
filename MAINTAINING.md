@@ -310,6 +310,37 @@ grep -rnE 'task-\{slug\}\.md|\{effort(-slug)?\}-ROADMAP\.md|task-bootstrap-profi
 #     one did. A generated runtime file can't assume the vendored folder's name or depth: route the
 #     agent through the always-loaded manual and skill instead of linking the contract.
 grep -rnE '(\.\./)*ai-kit/|aikit-[a-z-]+/(references|assets)/' ai-kit/skills/*/assets/  # expect: none
+
+# 14. Skill frontmatter conforms to the Agent Skills spec (https://agentskills.io/specification):
+#     `name` + `description` required, `license` / `compatibility` / `metadata` / `allowed-tools`
+#     optional, nothing else; `description` 1–1024 chars; a kit-shipped skill's `name` equals its
+#     folder. Malformed metadata is invisible to every check above (they read prose and links, not
+#     YAML) and a loader may silently skip the skill. It also settles the inverse claim: a long
+#     single-line `description:` soft-wraps in a viewer and *looks* like an unindented YAML
+#     continuation — this reads bytes, so wrapping can't fool it. Indented lines are legal (a nested
+#     `metadata:` map, a folded scalar); an unindented non-key line is not. Flags: stray unindented
+#     line · missing/empty/oversized description · unknown key · name≠folder · unclosed block · no
+#     frontmatter. `_SKILL-TEMPLATE.md` runs with B= (its `name` is a deliberate TODO placeholder).
+read -r -d '' CHK <<'AWK'
+NR==1{if($0!="---"){print F": !! no opening ---";d=1;exit};next}
+$0=="---"{ e=""
+  if(","k"," !~ /,name,/)        e=e" missing name"; else if(B!=""&&n!=B) e=e" name!=folder("B")"
+  if(","k"," !~ /,description,/) e=e" missing description"
+  else if(dl<1) e=e" empty description"; else if(dl>1024) e=e" description="dl"chars(max 1024)"
+  if(u) e=e" unknown key:"u
+  print F": " (e==""?"ok":"!!"e); d=1; exit }
+/^[ \t]/{next}
+/^[a-z][a-z0-9-]*:/{ s=substr($0,1,index($0,":")-1); k=k","s
+  if(s!~/^(name|description|license|compatibility|metadata|allowed-tools)$/) u=u" "s
+  if(s=="name"){n=$0;sub(/^name: */,"",n);sub(/ *$/,"",n)}
+  if(s=="description"){v=$0;sub(/^description: */,"",v);dl=length(v)}
+  next }
+{print F": !! L"NR": neither `key:` nor indented"; d=1; exit}
+END{if(!d)print F": !! frontmatter never closed"}
+AWK
+for f in ai-kit/skills/*/SKILL.md; do \
+  awk -v F="$f" -v B="$(basename "$(dirname "$f")")" "$CHK" "$f"; done                 # expect: all ok
+awk -v F=_SKILL-TEMPLATE.md -v B= "$CHK" ai-kit/skills/_SKILL-TEMPLATE.md              # expect: ok
 ```
 
 ## Anti-patterns (kit maintenance)

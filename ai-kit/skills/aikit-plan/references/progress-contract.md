@@ -74,14 +74,16 @@ conflict at merge**, not at creation. Resolve by intent:
   rows, and two versions of one plan — each an invariant violation.
 - **Genuinely different goals** — suffix the later folder (`20260818-checkout-rebuild-a/`) and update its
   `id:`, its `INDEX.md` row, every inbound link, and **every child effort whose `parent:` names the old
-  ID** — `parent:` is a field, not a link, so no link check catches it. A finding ID that encodes the old
-  effort ID **keeps its spelling** — IDs are never renamed ([findings workflow §8](findings-workflow.md)) —
-  so fix its `Source` link instead.
+  ID** — `parent:` is a field, not a link, so no link check catches it. **Re-key its findings too:** an ID
+  embedding the old effort ID would otherwise name the *surviving* effort — the one it never came from — so
+  `FND-20260818-checkout-rebuild-P01-…` becomes `FND-20260818-checkout-rebuild-a-P01-…`, with its inbox
+  entry, detail filename, `Source` link, and inbound references updated. This repair is the sole exception
+  to never renaming a linked finding ID ([findings workflow §8](findings-workflow.md)).
 
-Either intent can also surface **duplicate finding IDs**, both branches having minted
-`FND-{same-effort-id}-…` for different observations. That's a true finding-ID collision rather than a
-rename: suffix the later finding (findings workflow §8) and update its inbox pointer, detail filename, and
-inbound references.
+Consolidation can also surface **duplicate finding IDs** — both branches minting `FND-{same-effort-id}-…`
+under the kept effort. Same observation: consolidate to one finding. Different observations: a true
+finding-ID collision rather than a rename, so suffix the later one (findings workflow §8) and update its
+inbox pointer, detail filename, and inbound references.
 
 Do all of this before the merge lands. Renaming afterwards breaks links that have already been published.
 

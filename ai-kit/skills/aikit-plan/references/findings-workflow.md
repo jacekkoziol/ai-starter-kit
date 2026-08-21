@@ -137,6 +137,10 @@ Uppercase `FND-` prefix, concise lowercase ASCII kebab-case slug. **Never rename
 repo-global numeric counter; resolve a true collision with a stable suffix
 (`FND-PROJ-142-P03-invalid-markup-a`), never by renumbering.
 
+**One exception:** the pre-merge effort-collision repair (contract §3). When a colliding effort is renamed
+there, its findings are re-keyed with it — otherwise the embedded effort ID names the *other* effort in the
+collision, and provenance reads off the ID as a falsehood rather than merely going stale.
+
 ## 9. Relationship to effort follow-ups
 
 | Destination | Holds |
@@ -158,6 +162,7 @@ triaged, accepted follow-ups are linked from `SUMMARY.md`, and unresolved candid
 - [ ] Critical findings were escalated (rung 0), not deferred.
 - [ ] Deferrable findings were captured without expanding approved scope, and nothing was silently fixed.
 - [ ] Every finding has a stable, source-derived ID that was never renamed.
+- [ ] Finding IDs are unique, and an effort-derived one names the effort that actually produced it.
 - [ ] Kind and confidence are factual — no preference or hypothesis presented as `confirmed`.
 - [ ] Rung-1 findings fit one concise entry; rung-2 findings have exactly one pointer and one detail file.
 - [ ] Expanded detail is not duplicated in `FINDINGS.md`; the detail file says why it was deferred.
