@@ -52,8 +52,8 @@ build/test/lint commands a verification phase runs, and **Version control → Pr
 
 ### Resume (cold start)
 
-Follow §4.4: `INDEX.md` → the chosen `ROADMAP.md` → the one phase in flight. Which file that is depends on
-the effort's state:
+Follow §4.4: `INDEX.md` → the chosen `ROADMAP.md` → the in-flight phase file when one exists. Which file
+that is depends on the effort's state:
 
 | Roadmap state | Open |
 | --- | --- |
@@ -200,5 +200,5 @@ Defer to §8 and §4; the ones this skill most often prevents:
   authoritative.
 - ❌ Pre-authoring every phase file instead of one per gate.
 - ❌ A `[x]` row still showing its planned target instead of what actually happened.
-- ❌ Migrating a legacy effort unasked, or renaming an effort folder.
+- ❌ Migrating a legacy effort unasked, or renaming an effort folder outside contract §3's collision repair.
 - ❌ Appending an unrelated goal as extra phases (new goal → new effort + index row).

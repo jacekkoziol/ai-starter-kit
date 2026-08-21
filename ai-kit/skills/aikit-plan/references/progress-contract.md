@@ -2,8 +2,8 @@
 
 > The **persisted-file format** for progress tracking: layout, naming, frontmatter, the status model,
 > per-file contracts, and the templates to copy. Load this when **creating, structurally amending,
-> validating, closing, or reopening** an effort — **not** on an ordinary cold resume (§4.4 reads three
-> files and needs none of this), unless a file's format proves missing, invalid, or unclear.
+> validating, closing, or reopening** an effort — **not** on an ordinary cold resume (§4.4 reads at most
+> three files and needs none of this), unless a file's format proves missing, invalid, or unclear.
 >
 > **Layer split.** [`AGENT-INSTRUCTIONS.md`](../../../AGENT-INSTRUCTIONS.md) §4 owns the always-loaded
 > behavior (when to track, the read path, the single-status-surface rule). [`SKILL.md`](../SKILL.md) owns

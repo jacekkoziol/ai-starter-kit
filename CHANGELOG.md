@@ -9,6 +9,30 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.14.2] — 2026-08-21
+
+> **The absolute form of an invariant outlives the exception that qualifies it.** Third round in a row
+> finding the same shape: an exception added in its owning layer, with the surfaces that assert the
+> unqualified rule left untouched — so a *compliant* repair reads as a violation.
+
+### Fixed
+
+- **Findings workflow §10 no longer requires provenance a repo-level finding can't have.** §8 explicitly
+  allows `FND-{YYYYMMDD}-{slug}` for a finding outside any tracked effort, which cannot "truthfully name
+  the effort that produced it" because there is none. The item now conditions that clause on being
+  effort-derived, and accepts a rename through *any* authorized collision repair rather than naming one
+  circumstance — §8 has two (an ordinary finding-ID collision, and contract §3's effort re-key).
+- **The plan skill's anti-pattern no longer contradicts the contract it routes to.** `❌ renaming an effort
+  folder` sat in the same file an agent has open *while* contract §3 requires exactly that during collision
+  repair — a live same-context contradiction, unlike a summary-vs-detail split. Now scoped: `outside
+  contract §3's collision repair`.
+- **`AGENT-INSTRUCTIONS.md` §4.1 names the owner of the exception** — `Never rename it (contract §3 owns the
+  sole collision-repair exception)` — without restating the procedure in the always-loaded file.
+- **The contract header says "at most three" files** on a cold resume, matching the README. An effort-level
+  blocker (blocked, no `[!]`) resumes on two — `INDEX.md` and `ROADMAP.md` — so the flat "three" was wrong
+  for the state 2.9.0 added. The plan skill's *Resume* lead-in likewise now reads "the in-flight phase file
+  when one exists", which its own state table already handled correctly.
+
 ## [2.14.1] — 2026-08-21
 
 > **The exception added in 2.14.0 didn't reach the checklist that forbids it.** Findings workflow §8 gained

@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.14.1
+> **Kit version:** 2.14.2
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -258,11 +258,11 @@ ai-progress/
 
 Name the folder from a **stable external ID** (`PROJ-142-checkout-rebuild/`) or, failing that, the
 creation date (`20260818-…`) — never a repo-global `01-` counter, which collides across branches. Never
-rename it. Folders stay **flat**: an epic links children via `parent:` in their frontmatter, at most two
-levels (`epic → child effort`). Work needing an **independent lifecycle** — its own owner, acceptance
-gate, cancellation, pull request, release, or close-out summary — is a **child effort**, not another
-phase. The ordinary per-phase plan gate (§2.4) and a temporary phase blocker don't qualify: every phase
-has those.
+rename it (contract §3 owns the sole collision-repair exception). Folders stay **flat**: an epic links
+children via `parent:` in their frontmatter, at most two levels (`epic → child effort`). Work needing an
+**independent lifecycle** — its own owner, acceptance gate, cancellation, pull request, release, or
+close-out summary — is a **child effort**, not another phase. The ordinary per-phase plan gate (§2.4) and
+a temporary phase blocker don't qualify: every phase has those.
 
 ### 4.2 Hard rules
 

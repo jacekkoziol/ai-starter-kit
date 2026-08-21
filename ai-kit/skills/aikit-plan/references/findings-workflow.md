@@ -161,8 +161,9 @@ triaged, accepted follow-ups are linked from `SUMMARY.md`, and unresolved candid
 
 - [ ] Critical findings were escalated (rung 0), not deferred.
 - [ ] Deferrable findings were captured without expanding approved scope, and nothing was silently fixed.
-- [ ] Every finding ID is stable, unique, source-derived, and truthfully names the effort that produced
-      it — renamed only by an explicit pre-merge collision repair (workflow §8, contract §3).
+- [ ] Every finding ID is stable, unique, and source-derived; an effort-derived one truthfully names its
+      current source effort, and any rename went through an authorized collision repair (workflow §8,
+      contract §3).
 - [ ] Kind and confidence are factual — no preference or hypothesis presented as `confirmed`.
 - [ ] Rung-1 findings fit one concise entry; rung-2 findings have exactly one pointer and one detail file.
 - [ ] Expanded detail is not duplicated in `FINDINGS.md`; the detail file says why it was deferred.
