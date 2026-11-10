@@ -9,6 +9,38 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.17.0] — 2026-11-10
+
+> **A child effort's folder said nothing about its parent.** Hierarchy lived only in a `parent:` field
+> inside the child's `ROADMAP.md`, so a person browsing `ai-progress/` couldn't tell which efforts belong
+> together. The kit also had no defined way to turn a task into an epic, though a task that grows parts
+> with their own lifecycles is exactly how epics usually start.
+
+### Added
+
+- **Child folders are prefixed with the parent's ID** (contract §3): `{parent-id}--{own name}`, e.g.
+  `PROJ-200--auth-migration/` or `20260818-platform-modernization--PROJ-142-checkout-rebuild/`.
+  - `--` is reserved for this; slugs now use single hyphens only.
+  - Any sorted listing keeps children beside their parent.
+  - A child without a ticket drops the date: the prefix already makes it unique, and `created:` keeps
+    the date.
+  - `parent:` stays authoritative, and the prefix is never parsed for parentage.
+  - The prefix is set only when a child is created. An effort placed under an epic later, or moved to
+    another epic, keeps its folder.
+  - Same-slug siblings from two branches collide and are repaired like colliding date fallbacks.
+  - Reflected in §4's naming summary, `aikit-plan` *Create an effort*, the `ROADMAP` template's
+    child-link example, and the README.
+- **`aikit-plan` → Re-scope → *Promote to epic*.** Gate it like a re-scope; set `kind: epic`; add the
+  `Child efforts` section; finish or re-scope any in-flight phase. Unstarted rows whose work moves to a
+  child leave the phase table: they have no phase file yet, so no link breaks, and the log names the
+  child that took each. The promoted folder is never renamed, which is what makes the prefix safe.
+
+### Compatibility
+
+- **Existing `ai-progress/` is untouched.** Children created without the prefix stay valid (contract
+  §9), and no tool or checklist requires the prefix. `ai-progress/v2` is unchanged, because both layouts
+  are valid v2.
+
 ## [2.16.0] — 2026-11-10
 
 > **An update compared only the new kit with your copy, so it couldn't tell "the kit removed this" from

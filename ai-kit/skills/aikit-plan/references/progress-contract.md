@@ -52,6 +52,15 @@ reports are one kind of artifact, and executable helpers belong in `scripts/`.
 parallel branches allocate the same number and collide on merge. **Never rename an effort folder after
 creation** (it breaks every existing link) — the pre-merge collision repair below is the sole exception.
 
+**Child effort folder** — the parent's ID, `--`, then the child's own name: its external ID and slug
+(`PROJ-200--PROJ-142-checkout-rebuild/`, `id: PROJ-142`) or, without one, a slug alone — no date; the
+parent prefix already scopes it and `created:` keeps the date
+(`20260818-platform-modernization--auth-migration/`, `id:` the whole folder name). `--` appears nowhere
+else in a name, so a reader sees the parent at a glance and any sorted listing keeps children beside it.
+The prefix is set **when the child is created** and is only a reading aid: `parent:` stays authoritative
+— never infer parentage from a folder name. An effort placed under an epic after creation, or moved to
+another epic, keeps its folder.
+
 **Effort IDs are unique within `ai-progress/`.** An external identifier is used as-is (`id: PROJ-142`);
 without one, the ID is the **whole folder name** — date *and* slug (`id: 20260818-checkout-rebuild`). A
 bare date isn't unique, and `id:` travels without its folder: `parent:` names a parent by ID alone and a
@@ -64,7 +73,8 @@ may resolve to either. Never guess which, and never rewrite them unasked.
 **Colliding date fallbacks.** A date fallback narrows the sequential-prefix collision window but doesn't
 close it: two branches can create the same `{date}-{slug}` independently — same day, same goal, same
 obvious slug — and neither branch's `INDEX.md` can see the other, so git surfaces it as an **add/add
-conflict at merge**, not at creation. Resolve by intent:
+conflict at merge**, not at creation. Two children given the same `{parent-id}--{slug}` collide the same
+way and are repaired the same way. Resolve by intent:
 
 - **Same goal** (the common case) — consolidate into one effort. Keep the earlier folder and **reconcile**
   the two roadmaps into one valid phase sequence rather than concatenating their tables: preserve
@@ -88,7 +98,8 @@ references.
 
 Do all of this before the merge lands. Renaming afterwards breaks links that have already been published.
 
-**Slugs** — lowercase ASCII kebab-case, concise and specific (`checkout-rebuild`, `auth-migration`).
+**Slugs** — lowercase ASCII kebab-case with single hyphens (`--` is reserved for the child prefix),
+concise and specific (`checkout-rebuild`, `auth-migration`).
 Avoid `fix`, `changes`, `update`, `misc`.
 
 **Phase files** — zero-padded and local to the effort: `phase-01-discovery.md`,
@@ -253,6 +264,9 @@ New efforts use `schema: ai-progress/v2`. Earlier shapes — `task-{slug}.md`, `
 automatically:** resume it in its existing shape, let `INDEX.md` link both formats, and treat a missing
 `schema` as legacy. Migrate only on explicit request or when a material restructure justifies it,
 preserving old paths and references.
+
+Child efforts created without the `{parent-id}--` folder prefix (contract §3) are valid as they stand —
+never rename one to add it.
 
 ## 9a. Out-of-scope findings
 

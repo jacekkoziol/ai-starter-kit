@@ -137,7 +137,9 @@ whichever file is authoritative for that fact. Phase status has a single marker 
 (`[ ] [~] [!] [x]`) and effort status lives only in the roadmap's frontmatter; dates are absolute, and
 re-scoping *inserts* phases
 rather than renumbering, so links never break. An epic keeps its children as ordinary sibling folders
-linked by a `parent:` field — nothing nests.
+linked by a `parent:` field — nothing nests — and each child's folder name starts with the epic's ID
+(`PROJ-200--auth-migration/`), so a sorted listing shows the family together. A task can be promoted to
+an epic later without renaming anything.
 
 **Keep this folder with the kit.** In `shared` mode commit it under the project's normal version-control
 policy — that's how work hands off between sessions and people; in `local-only` mode it stays excluded

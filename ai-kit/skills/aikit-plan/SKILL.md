@@ -40,8 +40,9 @@ build/test/lint commands a verification phase runs, and **Version control → Pr
    decisions, dependencies. Batch genuine open choices as questions; never invent answers.
 5. Pick the **effort ID and folder name** (contract §3) — they are not the same string: with an external
    ticket ID, the folder is `{ticket-id}-{slug}` and `id:` is the ticket ID alone; without one, the folder
-   is `{YYYYMMDD}-{slug}` and `id:` is that **same full folder name**. Confirm no existing effort already
-   carries that `id:`.
+   is `{YYYYMMDD}-{slug}` and `id:` is that **same full folder name**. A **child** effort's folder is
+   `{parent-id}--` plus its own name — `{ticket-id}-{slug}`, or just `{slug}` with no date — and sets
+   `parent:`. Confirm no existing effort already carries that `id:`.
 6. Create the chosen `{effort-folder}/` by copying `assets/ROADMAP.template.md` and
    `assets/LOG.template.md` into it, plus an empty `phases/`; add a row to `INDEX.md` (copying
    `assets/INDEX.template.md` on a project's first effort).
@@ -143,6 +144,13 @@ Decide first whether the work still serves the **same outcome**. If yes: update 
 decisions, dependencies, or follow-ups; log the change; amend affected phase plans; insert
 `phase-NNa-{slug}.md` if new work is needed — **never renumber** (§4.2 rule 5). If it has its own
 outcome or lifecycle, create a **new effort** (or a child effort with `parent:` set) instead.
+
+**Promote to epic** — when a task's remaining work splits into parts that each need their own lifecycle
+(contract §1). Gate it like a re-scope. Set `kind: epic`, add the `Child efforts` section from the
+template, and log the promotion. Finish or re-scope any in-flight phase first. Done phases stay as
+they are; work that moves into a child (**Create an effort**, with the `{parent-id}--` prefix) leaves
+the phase table — an unstarted row has no phase file yet, so removing it breaks no link — and the log
+names the child that took it. The promoted folder is **never renamed**.
 
 ### End a session
 

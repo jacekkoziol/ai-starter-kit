@@ -43,10 +43,11 @@ created: {YYYY-MM-DD}
 ## Deferred / follow-ups
 - {item} — {why deferred, what unblocks it}
 
-<!-- EPIC ONLY — delete this section for a task. Each child sets `parent:` to this effort's id.
+<!-- EPIC ONLY — delete this section for a task. Each child sets `parent:` to this effort's id, and a
+     child created as one names its folder `{this-id}--…`.
      No status column: the child's own ROADMAP.md frontmatter owns its status, and a copy here drifts. -->
 ## Child efforts
 
 | Child effort | Contribution to the epic |
 | --- | --- |
-| [{TASK-31} — {name}](../{TASK-31-slug}/ROADMAP.md) | {what it contributes to the outcome} |
+| [{TASK-31} — {name}](../{this-id}--{TASK-31-slug}/ROADMAP.md) | {what it contributes to the outcome} |
