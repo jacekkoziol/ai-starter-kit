@@ -10,7 +10,9 @@ description: Track multi-step work in ai-progress/ — one effort folder per goa
 > owns the **format** (frontmatter, sections, naming, status consistency, validation). Open the contract
 > when **creating** a tracking file, **changing its structure**, **validating**, **closing**, or
 > **reopening** — not for a cold resume or a routine content update (a checkbox, a log line, a phase
-> outcome) that preserves the file's shape. Don't restate it, don't guess a section name.
+> outcome) that preserves the file's shape. Don't restate it, don't guess a section name. A merge that
+> brings in a same-named effort folder is the one case for
+> [`merge-collisions.md`](references/merge-collisions.md) — load it only then.
 >
 > **Every templated tracking file starts as a copy** of its asset in [`assets/`](assets/) — effort files
 > `INDEX`, `ROADMAP`, `LOG`, `phase`, `SUMMARY`, plus findings files `FINDINGS` and `finding` (contract §11

@@ -50,7 +50,7 @@ reports are one kind of artifact, and executable helpers belong in `scripts/`.
 `GH-381-api-rate-limits/`, `EPIC-12-platform-modernization/`. With no stable ID, use the creation date:
 `20260818-checkout-rebuild/`. **Never use repository-global sequential prefixes** (`01-`, `02-`) —
 parallel branches allocate the same number and collide on merge. **Never rename an effort folder after
-creation** (it breaks every existing link) — the pre-merge collision repair below is the sole exception.
+creation** (it breaks every existing link) — the pre-merge collision repair (below) is the sole exception.
 
 **Child effort folder** — the parent's ID, `--`, then the child's own name: its external ID and slug
 (`PROJ-200--PROJ-142-checkout-rebuild/`, `id: PROJ-142`) or, without one, a slug alone — no date; the
@@ -70,33 +70,9 @@ under earlier kit versions stay valid — never rewrite one. Two *existing* effo
 is an **ambiguous** state, not a valid one: surface it and ask, because `parent:` and finding references
 may resolve to either. Never guess which, and never rewrite them unasked.
 
-**Colliding date fallbacks.** A date fallback narrows the sequential-prefix collision window but doesn't
-close it: two branches can create the same `{date}-{slug}` independently — same day, same goal, same
-obvious slug — and neither branch's `INDEX.md` can see the other, so git surfaces it as an **add/add
-conflict at merge**, not at creation. Two children given the same `{parent-id}--{slug}` collide the same
-way and are repaired the same way. Resolve by intent:
-
-- **Same goal** (the common case) — consolidate into one effort. Keep the earlier folder and **reconcile**
-  the two roadmaps into one valid phase sequence rather than concatenating their tables: preserve
-  completed outcomes, resolve duplicate phase IDs with the `phase-NNa` suffix rule, leave at most one
-  phase in flight (contract §5), interleave both `LOG.md` histories by date, keep every non-duplicate
-  artifact and script, then re-run contract §10. Concatenating produces duplicate phase IDs, two `[~]`
-  rows, and two versions of one plan — each an invariant violation.
-- **Genuinely different goals** — suffix the later folder (`20260818-checkout-rebuild-a/`) and update its
-  `id:`, its `INDEX.md` row, every inbound link, and **every child effort whose `parent:` names the old
-  ID** — `parent:` is a field, not a link, so no link check catches it. **Re-key its findings too:** an ID
-  embedding the old effort ID would otherwise name the *surviving* effort — the one it never came from — so
-  `FND-20260818-checkout-rebuild-P01-…` becomes `FND-20260818-checkout-rebuild-a-P01-…`, with its inbox
-  entry, detail filename, `Source` link, and inbound references updated. That is one of the authorized
-  finding-ID repairs — [findings workflow §8](findings-workflow.md) owns the complete set.
-
-Consolidation can also surface **duplicate finding IDs** — both branches minting `FND-{same-effort-id}-…`
-under the kept effort. Same observation: consolidate to one finding, keeping non-duplicate evidence and
-inbound references from both. Different observations: a true finding-ID collision, so suffix the later one
-([findings workflow §8](findings-workflow.md)) and update its inbox pointer, detail filename, and inbound
-references.
-
-Do all of this before the merge lands. Renaming afterwards breaks links that have already been published.
+**Colliding names at merge.** A date fallback, or a child's `{parent-id}--{slug}`, can still be created
+independently on two branches; git surfaces it as an **add/add conflict at merge**. The repair — and the
+sole exception to never renaming — lives in [merge-collisions.md](merge-collisions.md); load it only then.
 
 **Slugs** — lowercase ASCII kebab-case with single hyphens (`--` is reserved for the child prefix),
 concise and specific (`checkout-rebuild`, `auth-migration`).

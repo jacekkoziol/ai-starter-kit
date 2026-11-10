@@ -77,6 +77,7 @@ ai-kit/                       # THE KIT — this is what gets copied into other 
   skills/                 #   repeatable procedures (folder-per-skill; kit-shipped: aikit-{name}/SKILL.md) + index
     aikit-plan/references/progress-contract.md  # the ai-progress/ file format (see "Progress-tracking layers")
     aikit-plan/references/findings-workflow.md  #   out-of-scope findings ladder
+    aikit-plan/references/merge-collisions.md   #   same-named effort folders at merge: the repair
     aikit-plan/assets/*.template.md             #   the copy-me progress files (INDEX/ROADMAP/LOG/phase/
                                                 #     SUMMARY/FINDINGS/finding)
   templates/              #   literal copy-me scaffolds + index
@@ -146,6 +147,7 @@ and don't restate one in another:
 | `skills/aikit-plan/SKILL.md` | The **procedures** — create, start/finish a phase, block, re-scope, end a session, close, reopen. | Loaded when doing the work. |
 | `skills/aikit-plan/references/progress-contract.md` | The **format** — frontmatter, required sections, naming, status consistency, validation checklist. | Loaded only when **creating** a tracking file, **changing its structure**, **validating**, **closing**, or **reopening** — never on a cold resume or a routine content update. |
 | `skills/aikit-plan/references/findings-workflow.md` | **Out-of-scope findings** — the escalate/capture/expand/promote ladder, IDs, taxonomy, dismissal routing. | Loaded on a *different* trigger than the contract: capturing or triaging a finding, not writing a progress file. |
+| `skills/aikit-plan/references/merge-collisions.md` | The **merge-collision repair** — consolidating or suffixing two efforts created under one name on different branches; the sole folder-rename exception. | Loaded only when a merge surfaces that add/add conflict — rare, so it stays off the create path. Contract §3 names the exception and links here. |
 | `skills/aikit-plan/assets/*.template.md` | The **copy-me files** themselves — one per progress file, normative for section names and order. | Read one at a time, only when creating that file. |
 | `PROJECT.md` → Version control | The project's **Progress artifacts** retention/commit policy. | A knob, and knobs live only in `PROJECT.md`. |
 

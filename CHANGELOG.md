@@ -9,6 +9,19 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.17.2] — 2026-11-10
+
+### Changed
+
+- **The merge-collision repair moved out of the progress contract** into
+  `aikit-plan/references/merge-collisions.md`. The repair handles two branches creating the same effort
+  folder: consolidate if it's the same goal, suffix and re-key if not. The contract loads on every effort
+  creation, validation, close, and reopen, while this procedure is needed only when a merge actually
+  collides. The contract drops from 20,383 to 18,362 bytes, back under its 20 KB budget. Contract §3 still
+  names the sole folder-rename exception and links to the new file, so existing "contract §3" references
+  resolve. The findings workflow's two re-key references, the plan skill's load guidance, and the README
+  folder map point at the new file. The procedure text is unchanged.
+
 ## [2.17.1] — 2026-11-10
 
 > **What an agent pays for is what it loads, not the folder total.** Measuring per file and by when it

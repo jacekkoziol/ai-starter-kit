@@ -44,6 +44,7 @@ ai-kit/
       references/
         progress-contract.md #  the ai-progress/ file format: frontmatter, sections, status rules
         findings-workflow.md #  out-of-scope findings: escalate/capture/expand/promote ladder
+        merge-collisions.md  #  repair when two branches create the same effort folder
       assets/             #   copy-me progress files (INDEX/ROADMAP/LOG/phase/SUMMARY/FINDINGS/finding)
     aikit-implement-from-design/
       SKILL.md            #   tool-agnostic design → code (procedure for §3/§4.5/§7)

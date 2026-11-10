@@ -139,7 +139,7 @@ there are exactly two:
 
 - **A true finding-ID collision** — suffix the later ID (`FND-PROJ-142-P03-invalid-markup-a`). Two branches
   can each link this ID before either can see the other, so the suffix lands on an ID already in use.
-- **A contract §3 effort-collision repair** — re-key the finding with its repaired source effort ID.
+- **An effort-collision repair** ([merge-collisions.md](merge-collisions.md)) — re-key the finding with its repaired source effort ID.
   Otherwise the embedded effort ID names the *other* effort in the collision, and provenance reads off the
   ID as a falsehood rather than merely going stale.
 
@@ -167,7 +167,7 @@ triaged, accepted follow-ups are linked from `SUMMARY.md`, and unresolved candid
 - [ ] Deferrable findings were captured without expanding approved scope, and nothing was silently fixed.
 - [ ] Every finding ID is stable, unique, and source-derived; an effort-derived one truthfully names its
       current source effort, and any rename went through an authorized collision repair (workflow §8,
-      contract §3).
+      [merge-collisions.md](merge-collisions.md)).
 - [ ] Kind and confidence are factual — no preference or hypothesis presented as `confirmed`.
 - [ ] Rung-1 findings fit one concise entry; rung-2 findings have exactly one pointer and one detail file.
 - [ ] Expanded detail is not duplicated in `FINDINGS.md`; the detail file says why it was deferred.
