@@ -66,6 +66,19 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
    guess a URL. Obtain the target version's `ai-kit/` from the chosen source and note its Kit version so you
    can confirm the jump.
 
+   **Also obtain the base** — your *installed* version's kit, from the same source (every release is
+   tagged `v{MAJOR.MINOR.PATCH}`; compare the kit folder's contents whatever that version named it).
+   Diff base → new and base → your copy:
+   - **Removed or renamed upstream** (in the base, not in the new snapshot) — kit-owned: step 3 deletes
+     it and step 4 drops its index row. If your copy differs from the base, it was edited here — **ask**.
+   - **Kit-owned files edited locally** (your copy ≠ base) — step 3 would overwrite them. Surface each
+     before replacing; a project rule found in one belongs in `PROJECT.md`.
+   - **Profile scaffold changes** (`PROJECT.md`, `reference/*.md`, base → new) — the exact slots step 5
+     splices in.
+
+   No base available (an untagged fork, a local path without history)? Say so and run steps 3–5 without
+   it — never guess what the installed kit shipped.
+
    > **Folder rename in v2.0.0 (`AI/` → `ai-kit/`).** If your current install predates 2.0.0 its folder is
    > still named `AI/`. Rename it (`git mv AI ai-kit`), then re-point the root pointer's
    > `AI/AGENT-INSTRUCTIONS.md` reference, the skill symlinks (`→ ../ai-kit/skills`), and any local-only
@@ -74,7 +87,8 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 3. **Replace the purely kit-owned files** (safe to overwrite — no project content):
    `AGENT-INSTRUCTIONS.md`, `AGENT-INIT.md`, the top-level `README.md`, `skills/_SKILL-TEMPLATE.md`,
    every `skills/aikit-*/`, and the `templates/` scaffolds the new snapshot ships (project-authored
-   scaffolds aren't in it and stay) — plus any **new** files the version adds. Replace these **path by path**; **never
+   scaffolds aren't in it and stay) — plus any **new** files the version adds, and **minus** the files
+   step 2 found removed upstream. Replace (and delete) these **path by path**; **never
    wholesale-wipe a shared directory** (`skills/`, `reference/`, `templates/`) with `rm -rf` / `cp -r` /
    `rsync --delete` — each mixes kit and project files. If a new kit file would land on a path the
    project already authored, **stop and ask** (§5.2) — don't overwrite it. The `reference/`, `skills/`,
@@ -84,12 +98,14 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
    `reference/README.md`, or `templates/README.md`. Each `## Index` mixes **kit rows** (pointing at
    kit-shipped skills/docs/templates) with **project rows** (ones this project added). Take the new
    version's prose **and kit rows**, then **carry over every project row unchanged**. A row is
-   project-authored when the new snapshot **doesn't ship its target** — for skills, the quick tell is the
-   missing `aikit-` prefix. Dropping a project row silently deletes that skill/doc/template's only index
+   project-authored when **neither the base nor the new snapshot ships its target** — for skills, the
+   quick tell is the missing `aikit-` prefix; a row whose target only the base shipped is a removed kit
+   row — drop it. Dropping a project row silently deletes that skill/doc/template's only index
    entry and the description the project wrote for it.
 5. **Reconcile the filled profile — do NOT blanket-overwrite** `PROJECT.md` or `reference/*.md`. They
    hold this project's Role, commands, conventions, and `fill:`-marked answers. For each **new or
-   renamed managed slot / fillable field** the new version introduces, splice the new scaffolding
+   renamed managed slot / fillable field** the new version introduces (step 2's base → new diff lists
+   them), splice the new scaffolding
    (with its `fill:` marker) into your filled doc and leave existing answers intact. When unsure
    whether a block is kit scaffolding or a project answer, keep the project answer and flag it.
 6. **Run [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md).** It health-checks the
@@ -111,6 +127,7 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
 - [ ] `PROJECT.md` + `reference/*.md` keep every prior project answer; new slots added with markers.
 - [ ] The `skills`/`reference`/`templates` README indexes keep every **project-authored** row; only kit rows were replaced.
 - [ ] **Nothing project-owned vanished** — every project-authored skill, reference doc, template, and co-located resource that existed pre-update still exists (shared: `git diff main` shows deletions only of kit files; local-only: `diff -r` against the `ai-kit.bak` copy).
+- [ ] With a base (step 2): kit files removed upstream are gone here too, and every locally edited kit file was surfaced before it was overwritten. Without one, the report says so.
 - [ ] `aikit-project-profile-sync` reports healthy (no leftover placeholders, links resolve, markers valid).
 - [ ] The diff is reviewable and committed; nothing under `ai-kit/` references the kit's home-only files.
 

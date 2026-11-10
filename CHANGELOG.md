@@ -9,6 +9,27 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.16.0] — 2026-11-10
+
+> **An update compared only the new kit with your copy, so it couldn't tell "the kit removed this" from
+> "the project added this".** Step 4 classifies a file or index row as project-authored when the new
+> snapshot doesn't ship it, so a kit file removed or renamed upstream would be kept forever as the
+> project's own. Nothing has been removed since 2.0.0, so this hasn't happened yet. Every release is
+> tagged, so the installed version is always recoverable.
+
+### Added
+
+- **`aikit-update-kit` compares against the installed base.** Step 2 now also fetches the installed
+  version's kit (its `v{X.Y.Z}` tag) and compares it with the new release and with your copy. Steps 3–5
+  use the result:
+  - files the kit removed upstream are deleted, and their index rows dropped;
+  - kit files edited locally are surfaced before they're overwritten, so a project rule in one can move
+    to `PROJECT.md`;
+  - the base-to-new profile diff gives step 5 the exact slots to splice in.
+
+  A copy that differs from the base is asked about, never deleted. With no base available (an untagged
+  fork, a local path), the skill says so and falls back to the old behavior. New Verify item included.
+
 ## [2.15.1] — 2026-11-10
 
 ### Changed
