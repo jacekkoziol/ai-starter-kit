@@ -20,7 +20,7 @@ directory — from this table; everything else is identical.
 | Gemini CLI | `GEMINI.md` | `.gemini/skills` (or the `.agents/skills` alias) |
 | Cursor | `AGENTS.md` (or `.cursor/rules`) | `.cursor/skills` (or the `.agents/skills` alias) |
 | GitHub Copilot | `.github/copilot-instructions.md` (or `AGENTS.md`) | `.github/skills` (or `.agents/skills`) |
-| Windsurf | `AGENTS.md` | `.windsurf/skills` (or the `.agents/skills` alias) |
+| Windsurf | `AGENTS.md` | `.devin/skills` (or the `.agents/skills` alias) |
 | Other, has a skills dir | the file it auto-loads | that dir |
 | Other, no skills dir | the file it auto-loads | — (invoke skills by path) |
 

@@ -14,7 +14,7 @@ task is overdue.
 
 | Task | Cadence | Last run | Notes |
 | --- | --- | --- | --- |
-| [`verify-runtime-wiring`](verify-runtime-wiring.md) | 1 week | 2026-08-17 | Drift found & fixed at kit v2.5.0: Claude Code now documents symlink-following too, Cursor accepts `.agents/skills`, Windsurf added, Codex doc URLs moved to `learn.chatgpt.com`. |
+| [`verify-runtime-wiring`](verify-runtime-wiring.md) | 1 month | 2026-11-10 | Drift fixed at kit v2.15.0: Windsurf skills dir → `.devin/skills`; Windsurf, Copilot-skills and Cursor-rules doc URLs moved. Spec unchanged. Watch: Gemini CLI → Antigravity CLI for free tiers (uses `.agents/skills`); Claude Code reads `AGENTS.md` only when no `CLAUDE.md` exists. |
 
 **Updating a last-run date is a claim that you actually ran the task** — set it to the *real* current
 date only after completing that task's checklist, never in advance (the same self-verifying discipline

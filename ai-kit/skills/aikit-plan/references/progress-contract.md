@@ -243,7 +243,8 @@ changes again (a reopened effort leaves `Recently closed` entirely). A blocked r
 — its roadmap owns that, and a second copy drifts. Show every `Active`, `Blocked`, and `Queued` effort;
 cap `Recently closed` at 10 and move older rows to the yearly archive — rows run **newest first**, so "the
 oldest" is the last one. Use relative links. An effort's section is a projection of its roadmap `status`;
-when they disagree, the roadmap wins.
+when they disagree, the roadmap wins. A merge conflict in `INDEX.md` is that same disagreement: don't
+hand-merge the hunks — rebuild the conflicted sections from the merged roadmaps.
 
 ## 9. Legacy compatibility
 

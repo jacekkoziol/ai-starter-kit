@@ -9,6 +9,48 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.15.0] — 2026-11-10
+
+> **The blank profile shipped one filled-in opinion.** `PROJECT.md` → "Project-specific rules" came with
+> *"Use Conventional Commits for all commit messages"* already written — no `TODO`, no `fill:` marker — so
+> bootstrap never asked about it and sync never re-checked it. On a repo whose history uses another style
+> the agent was told to break with it, against §1 ("match the code that's already there") and against
+> bootstrap's own *"add none if there are none rather than inventing rules"*.
+
+### Added
+
+- **`PROJECT.md` → Version control → Commit messages** — a managed slot,
+  `<!-- fill:auto · commit history + harvested instruction sources -->`. `aikit-project-profile-bootstrap` gains step
+  7.6 (read the recent log plus any commit-lint config / `CONTRIBUTING` rule; record the style actually in
+  use; leave the `TODO` annotated when there is no history or no dominant style), a Verify item, and the
+  field in its frontmatter `description`. `aikit-project-profile-sync` re-validates it in the drift
+  dimension and proposes a change only when the dominant style has shifted — never against a stated
+  rule, which includes a style the owner set in the slot by hand (so sync can't keep proposing to revert
+  a deliberate switch).
+- **`INDEX.md` merge conflicts** (contract §8): don't hand-merge the hunks — rebuild the conflicted
+  sections from the merged roadmaps. `INDEX.md` was already a derived projection, but every branch that
+  touches an effort edits it, so teams hit this conflict routinely with no stated resolution.
+- **A Windows note in README Setup step 3** (pointed to from step 2). Without symlink support, Git checks
+  the committed `CLAUDE.md` and skills symlinks out as plain text files and the kit silently doesn't load;
+  the note gives the switch to flip and a symlink-free root file (a one-line `CLAUDE.md` containing
+  `@AGENTS.md`).
+
+### Changed
+
+- **The pre-filled Conventional Commits bullet is removed** from the blank `PROJECT.md`. A project that
+  uses the convention gets it recorded in the new slot — from evidence — instead of by default.
+- **Existing installs are unaffected until they choose.** `aikit-update-kit` step 5 reconciles a filled
+  `PROJECT.md` rather than overwriting it, so a bullet already in a project's rules stays there; the
+  update splices in the new slot and the follow-up sync proposes its value from history. If the two then
+  say the same thing, drop the bullet; if they disagree, the user decides (§5.2).
+
+### Fixed
+
+- **Windsurf's skills directory is now `.devin/skills`** (its docs moved to
+  `docs.devin.ai/desktop/devin-local/customizations`; `.agents/skills` and the legacy `.windsurf/skills`
+  are still read). Updated in the `AGENT-INIT.md` runtime table and README Setup step 3. The shared
+  `.agents/skills` link the kit recommends kept working throughout.
+
 ## [2.14.5] — 2026-11-10
 
 > **Three surfaces restated a fact another file owns, and each had drifted.** None is reachable by the

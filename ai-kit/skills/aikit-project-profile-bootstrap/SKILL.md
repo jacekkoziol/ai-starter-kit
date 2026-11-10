@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, version-control policy including the progress-artifact retention knob, conventions, file locations, decision ladders, locked decisions, project-specific rules, glossary). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
+description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, version-control policy including the detected commit-message style and the progress-artifact retention knob, conventions, file locations, decision ladders, locked decisions, project-specific rules, glossary). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
@@ -178,6 +178,15 @@ step 3), **propose** an accessibility rule for the user to confirm: conform to
 Practices ([APG](https://www.w3.org/WAI/ARIA/apg/patterns/)) patterns. On acceptance add it as a rule
 bullet; detail can grow into a project-authored `reference/accessibility.md`. Skip it for non-UI stacks.
 
+### 7.6 Detect the commit-message style → `PROJECT.md` Version control
+
+`fill:auto` — the repo's own history is the evidence. Read the recent log (`git log --oneline -30`) plus
+any commit-lint config or `CONTRIBUTING` rule, and record the style actually in use (e.g. Conventional
+Commits, a ticket-ID prefix, plain imperative subjects). A stated rule — commit-lint config, a
+`CONTRIBUTING` rule, or a style the owner set in this slot — beats an inferred pattern. With
+no history, or no dominant style, leave the `TODO` annotated `confirm with owner` — never impose a
+convention the repo doesn't show (§1: match what's already there).
+
 ### 7.7 Ask the user-owned policies → `PROJECT.md` Version control + Locked decisions
 
 Both are `fill:user` — harvest hints first, then **ask; never infer silently**:
@@ -259,6 +268,7 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
       (filling a slot does **not** remove it) — the inventory `aikit-project-profile-sync` and the health check rely on.
 - [ ] Response-economy mode in `PROJECT.md` was **asked**, not guessed.
 - [ ] Version control (Branch / Commit / PR / Progress artifacts) was **asked** and recorded (or annotated for confirmation) — not left silently `TODO`.
+- [ ] Commit-message style was **detected** from history / contributor docs (or left annotated `confirm with owner`) — never assumed.
 - [ ] Locked decisions: ADR-derived candidates were **proposed** at the gate; none invented.
 - [ ] Glossary filled from harvested terms, or the optional section deleted — not left as bare `TODO`s.
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.

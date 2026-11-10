@@ -183,7 +183,7 @@ Most AI coding tools auto-load one root instruction file at session start — `C
 `GEMINI.md`, `.cursor/rules`, or `.github/copilot-instructions.md`. **Starting fresh (no such file yet)? Prefer
 `AGENTS.md`** — it's the emerging cross-tool standard most agents read — and for Claude Code create
 `CLAUDE.md` as a **symlink** to it (`ln -s AGENTS.md CLAUDE.md`), so both load one file you maintain in
-a single place. Add this one line to that root file (create it if none exists):
+a single place (Windows teammates: see the step 3 note). Add this one line to that root file (create it if none exists):
 
 > For how to approach any coding task, follow `ai-kit/AGENT-INSTRUCTIONS.md`, and open each session with
 > the one-line load-confirmation it specifies.
@@ -244,7 +244,7 @@ standard the kit ships — wire each the same way, symlinking its skills directo
 | Gemini CLI | `.gemini/skills`, or the `.agents/skills` alias |
 | Cursor | `.cursor/skills`, or the `.agents/skills` alias (also reads `.claude/skills`) |
 | GitHub Copilot | `.github/skills`, or the `.agents/skills` alias |
-| Windsurf | `.windsurf/skills`, or the `.agents/skills` alias |
+| Windsurf | `.devin/skills`, or the `.agents/skills` alias (legacy `.windsurf/skills` still read) |
 
 `.agents/skills` is a shared alias **all** of them accept, so a single symlink serves every tool in this
 table:
@@ -261,6 +261,12 @@ Claude Code and Codex are the ones that document symlink-following — and Claud
 > **Other runtimes:** if your tool auto-discovers skills from a directory, link or point it at
 > `ai-kit/skills/` the same way; if it has **no** skill mechanism, skip this step — invoke a skill by
 > telling the agent to *follow `ai-kit/skills/<name>/SKILL.md`* by path.
+
+> **Windows:** unless symlink support is on (Developer Mode, plus `git config core.symlinks true`, then
+> re-checkout), Git checks each committed symlink out as a plain text file holding the target path — and
+> the kit fails to load **silently**. Turn it on for every Windows teammate, or avoid the link: for the
+> root file, a one-line `CLAUDE.md` containing `@AGENTS.md` (Claude Code's import syntax) does the
+> symlink's job. The skills links have no committed substitute — step 5's skills check is where it shows.
 
 ### 4. Fill the project profile
 

@@ -1,6 +1,6 @@
 # verify-runtime-wiring — are the kit's per-runtime setup facts still current?
 
-> **Home-only chore** (see [`README.md`](README.md)). Cadence: **~weekly**, or whenever you edit the
+> **Home-only chore** (see [`README.md`](README.md)). Cadence: **~monthly**, or whenever you edit the
 > wiring facts. Record the run in the [ledger](README.md#ledger) when done.
 
 ## Why this exists
@@ -23,9 +23,9 @@ like `.agents/skills`), whether it **follows symlinks**, and that it still reads
 | Claude Code | `CLAUDE.md` / `AGENTS.md` | `.claude/skills` (follows symlinks, **per skill entry**) | <https://code.claude.com/docs/en/skills> |
 | Codex | `AGENTS.md` | `.agents/skills` (follows symlinks) | <https://learn.chatgpt.com/docs/build-skills> · <https://learn.chatgpt.com/docs/agent-configuration/agents-md> |
 | Gemini CLI | `GEMINI.md` | `.gemini/skills` / `.agents/skills` | <https://geminicli.com/docs/cli/skills/> |
-| Cursor | `AGENTS.md` / `.cursor/rules` | `.cursor/skills` / `.agents/skills` | <https://cursor.com/docs/skills> · <https://cursor.com/docs/context/rules> |
-| GitHub Copilot | `.github/copilot-instructions.md` / `AGENTS.md` | `.github/skills` / `.agents/skills` | <https://docs.github.com/en/copilot/concepts/agents/about-agent-skills> · <https://code.visualstudio.com/docs/agent-customization/agent-skills> |
-| Windsurf | `AGENTS.md` | `.windsurf/skills` / `.agents/skills` | <https://docs.devin.ai/desktop/cascade/skills> (the `docs.windsurf.com` path redirects here) |
+| Cursor | `AGENTS.md` / `.cursor/rules` | `.cursor/skills` / `.agents/skills` | <https://cursor.com/docs/skills> · <https://cursor.com/docs/rules> |
+| GitHub Copilot | `.github/copilot-instructions.md` / `AGENTS.md` | `.github/skills` / `.agents/skills` | <https://docs.github.com/en/copilot/concepts/customizations/agent-skills> · <https://code.visualstudio.com/docs/agent-customization/agent-skills> |
+| Windsurf | `AGENTS.md` | `.devin/skills` / `.agents/skills` (legacy `.windsurf/skills`) | <https://docs.devin.ai/desktop/devin-local/customizations> (the old `cascade/skills` and `docs.windsurf.com` paths redirect here) |
 
 ## Checklist
 

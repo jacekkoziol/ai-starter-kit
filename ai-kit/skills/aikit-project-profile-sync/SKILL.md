@@ -36,7 +36,7 @@ This skill adds **no new behavioral rules**; it applies the manual's existing on
   (every reference resolves; verify honestly; never claim "verified" when nothing ran — the basis for the
   references-resolve checks and the no-suppression rule).
 - [`../aikit-project-profile-bootstrap/SKILL.md`](../aikit-project-profile-bootstrap/SKILL.md) — its detection
-  **steps** (3 stack, 4 commands, 4.5 integrations, 5 conventions, 6 file locations, 10 root-pointer) and
+  **steps** (3 stack, 4 commands, 4.5 integrations, 5 conventions, 6 file locations, 7.6 commit-message style, 10 root-pointer) and
   its **contract** (esp. rule 3 commands-are-sacred, rule 5 don't-overwrite-human-edits). This skill
   **cites** those steps for the per-field mechanics rather than duplicating them.
 - The `fill:` markers across [`../../PROJECT.md`](../../PROJECT.md) and
@@ -135,6 +135,9 @@ diff against the documented value; draft an evidence-backed **proposed** update:
   visible but undocumented → **ask**, one decision per server; a **`(runtime-only)`-tagged** entry is
   user-confirmed, per-machine evidence — **re-ask** its presence rather than flagging it against
   config (it may be personal, or another teammate's).
+- **Version control → Commit messages** → re-read recent commit history + any commit-lint config
+  (step 7.6); propose a change only when the dominant style has actually shifted — never against a
+  stated rule (step 7.6), including a style the owner set by hand.
 - **Conventions / `coding-conventions.md`** → re-locate the cited linter/formatter/style configs
   (step 5); confirm each still exists and any "deviates from stock" note still matches; re-confirm
   pre-commit/CI HARD-RULE enforcers exist. Propose which config IS the source of truth; **ask** before

@@ -73,6 +73,7 @@ runs them itself or asks you to.
 
 - **Branch:** TODO — e.g. never commit to `{main}`; branch as `{prefix}/{ticket}-{slug}`.  <!-- fill:user -->
 - **Commit:** TODO — e.g. one commit per completed phase, after verify.  <!-- fill:user -->
+- **Commit messages:** TODO — the style this repo's history already uses (e.g. Conventional Commits, a ticket-ID prefix, plain imperative subjects).  <!-- fill:auto · commit history + harvested instruction sources -->
 - **PR:** TODO — who opens it, target branch.  <!-- fill:user -->
 - **Progress artifacts:** TODO — which generated files under `ai-progress/*/artifacts/` may be kept and committed, vs. left local / excluded (large or sensitive output).  <!-- fill:user -->
 
@@ -129,7 +130,6 @@ Settled architectural choices the agent should treat as given (don't relitigate)
 
 <!-- Add each rule as its own bullet as it emerges; keep the placeholder bullet so there's always a spot. -->
 
-- Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages.
 - _Add project-specific rules here as they emerge._  <!-- fill:user -->
 
 ## Glossary (optional)
