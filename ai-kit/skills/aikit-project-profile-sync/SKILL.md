@@ -22,8 +22,6 @@ This skill adds **no new behavioral rules**; it applies the manual's existing on
   want the profile re-checked and re-aligned to the repo.
 - **Health audit** — confirm the kit is actually wired and internally consistent (pointer, no stray
   scaffolding, references resolve, indexes match folders).
-- Trigger phrases: "sync the project profile", "is the AI kit still accurate / still wired", "check the
-  kit for drift".
 - **Not** for first adoption or a full post-stack-change refresh — that's
   [`aikit-project-profile-bootstrap`](../aikit-project-profile-bootstrap/SKILL.md) (the *first* fill). This skill is
   the *keep-it-healthy + in-sync* counterpart.
@@ -77,7 +75,7 @@ against `«source»`). This list drives both dimensions below.
 
 Run all checks; **collect every failure with its specifics — don't stop at the first.**
 
-- **Root pointer wired / kit active** (mirrors bootstrap step 10, README Setup step 2): find the
+- **Root pointer wired / kit active** (mirrors bootstrap step 10, `AGENT-INIT.md` step 2): find the
   auto-loaded entry file — any root file the runtime table in
   [`AGENT-INIT.md`](../../AGENT-INIT.md) (step 1) lists, not a fixed shortlist (a rules *directory*
   counts: search the files in it), plus any subdirectory entry file the tool actually loads — grep it

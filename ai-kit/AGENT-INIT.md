@@ -25,14 +25,17 @@ directory — from this table; everything else is identical.
 | Other, no skills dir | the file it auto-loads | — (invoke skills by path) |
 
 Prefer `AGENTS.md` as the cross-tool standard; if several tools share this repo, point each tool's root
-file at the kit — see [`README.md` → Setup step 2](README.md).
+file at the kit — add the step 2 line to each, or symlink them to `AGENTS.md`.
 
 ## 2. Wire the root pointer
 
-Into that root file (create it if absent), add the one-line pointer that tells you to follow
-`ai-kit/AGENT-INSTRUCTIONS.md` and emit its load-confirmation every session — the exact line is in
-[`README.md` → Setup step 2](README.md). From a subdirectory whose own root file your tool loads, put the
-line there and make the relative path reach the kit; **a path that doesn't resolve fails silently.**
+Into that root file (create it if absent), add this exact line:
+
+> For how to approach any coding task, follow `ai-kit/AGENT-INSTRUCTIONS.md`, and open each session with
+> the one-line load-confirmation it specifies.
+
+From a subdirectory whose own root file your tool loads, put the line there and make the relative path
+reach the kit (e.g. `../../ai-kit/AGENT-INSTRUCTIONS.md`); **a path that doesn't resolve fails silently.**
 
 ## 3. Wire skill discovery
 
@@ -47,8 +50,15 @@ mkdir -p .agents && ln -s ../ai-kit/skills .agents/skills    # Codex, Gemini, Cu
 That exposes every current and future `ai-kit/skills/*` (`/aikit-plan`, `/aikit-project-profile-bootstrap`, …).
 Then **confirm they resolve** (e.g. `/skills` / `/skills list`) — Claude Code and Codex are the ones that
 document symlink-following, and Claude Code documents it for a *single skill entry* rather than the whole
-folder, so if the skills don't appear, or the directory already exists with other skills, **don't clobber it**:
-use the per-skill fallback in [`README.md` → Setup step 3](README.md). No skills mechanism? Skip this;
+folder, so if the skills don't appear, or the directory already exists with other skills, **don't clobber it** —
+link each kit skill individually instead (re-run when the kit adds a skill):
+
+```bash
+D=.claude/skills    # your row's directory
+mkdir -p "$D" && for d in ai-kit/skills/aikit-*/; do n=$(basename "$d"); [ -e "$D/$n" ] || ln -s "../../${d%/}" "$D/$n"; done
+```
+
+No skills mechanism? Skip this;
 invoke skills by path (`follow ai-kit/skills/<name>/SKILL.md`).
 
 ## 4. Report, then hand off

@@ -40,7 +40,10 @@ last-run date only *after* running one) live in [`maintenance/`](maintenance/REA
    live in `PROJECT.md`; the manual references them only generically.
 3. **Honor the "how vs what" split — decide the layer before you write.** Portable behavior →
    `AGENT-INSTRUCTIONS.md`. Per-project config/knobs → `PROJECT.md`. Descriptive project facts →
-   `reference/`. Repeatable procedures → `skills/`. Copy-me scaffolds → `templates/`.
+   `reference/`. Repeatable procedures → `skills/`. Copy-me scaffolds → `templates/`. **Then pick the
+   file by load cost:** put a rule in the cheapest file that is already loaded when the rule is needed,
+   and never make an agent open a human-facing file (`README.md`) to get something it must act on —
+   check #15 budgets each load tier.
 4. **Single source of truth — don't duplicate.** State each rule once, in its owning layer, and
    reference it elsewhere by `§N`. The manual is canonical for behavior; the README explains for
    humans; reference holds project facts. A rule restated in two places drifts.
@@ -161,7 +164,7 @@ Two deliberate consequences:
 
 | Change | Also update |
 | --- | --- |
-| **New per-project knob / fillable field** (PROJECT.md or reference) | `aikit-project-profile-bootstrap` (detect-or-ask step **+** a Verify item **+** the frontmatter `description`); **tag the new slot with a `fill:` marker** — `fill:user` if it's judgment/preference, `fill:auto · «source»` if it's evidence-backed (so `aikit-project-profile-sync` can re-validate it); and the relevant README surface (folder map / "What's in here" / "How to extend"). |
+| **New per-project knob / fillable field** (PROJECT.md or reference) | `aikit-project-profile-bootstrap` (detect-or-ask step **+** a Verify item — *not* the frontmatter `description`, which stays trigger-only because it sits in context every session, check #15); **tag the new slot with a `fill:` marker** — `fill:user` if it's judgment/preference, `fill:auto · «source»` if it's evidence-backed (so `aikit-project-profile-sync` can re-validate it); and the relevant README surface (folder map / "What's in here" / "How to extend"). |
 | **New behavioral rule** | The right `AGENT-INSTRUCTIONS.md` section; mark **HARD RULE** if it's a guardrail; add an §8 anti-pattern if it's a common mistake. |
 | **New recurring procedure** (kit-shipped) | `skills/aikit-{name}/SKILL.md` (folder-per-skill; frontmatter `name:` matches the folder) **+** `skills/README.md` index. Kit-shipped skills carry the **`aikit-` prefix** so they can't collide with a host project's own skills once vendored; the generic `{name}` in `_SKILL-TEMPLATE.md` / `skills/README.md` is for *project-authored* skills downstream, which stay unprefixed. |
 | **New project-fact category** | `reference/{doc}.md` **+** `reference/README.md` index; route to its skill at the bottom. |
@@ -346,13 +349,23 @@ for f in ai-kit/skills/*/SKILL.md; do \
   awk -v F="$f" -v B="$(basename "$(dirname "$f")")" "$CHK" "$f"; done                 # expect: all ok
 awk -v F=_SKILL-TEMPLATE.md -v B= "$CHK" ai-kit/skills/_SKILL-TEMPLATE.md              # expect: ok
 
-# 15. Size budget — directive #1 ("stay lean"), measured. Two numbers: the whole vendored kit, and the
-#     always-loaded pair (manual + PROJECT.md) every session pays for. A WARN goes in your report to the
-#     user before anything ships — never silently. Raising a budget is the user's call, never a way to
-#     make this check pass. (Set 2026-11-10 at kit 2.15.1: ~188 KB total, ~37 KB always-loaded.)
-kit=$(find ai-kit -type f -exec cat {} + | wc -c | tr -d ' '); hot=$(cat ai-kit/AGENT-INSTRUCTIONS.md ai-kit/PROJECT.md | wc -c | tr -d ' ')
-[ "$kit" -le 200000 ] && echo "kit ok: $kit / 200000 B" || echo "WARN kit over budget: $kit / 200000 B"
-[ "$hot" -le 40000 ] && echo "always-loaded ok: $hot / 40000 B" || echo "WARN always-loaded over budget: $hot / 40000 B"  # expect: both ok
+# 15. Load-tier budgets — directive #1 measured where it costs: per file, by WHEN it loads (see
+#     directive #3). A WARN goes in your report to the user before anything ships — never silently.
+#     Raising a budget is the user's call, never a way to make this check pass. The kit total is
+#     printed for information only. (Tiers set 2026-11-10 at kit 2.17.x.)
+b() { s=$(wc -c < "$2" | tr -d ' '); [ "$s" -le "$1" ] || echo "WARN $2: $s B > $1 B"; }
+b 32000 ai-kit/AGENT-INSTRUCTIONS.md                     # every session
+b 10000 ai-kit/PROJECT.md                                # every session (blank scaffold)
+b 15000 ai-kit/skills/aikit-plan/SKILL.md                # most tracked work
+for f in ai-kit/skills/*/SKILL.md ai-kit/skills/*/references/*.md; do                  # on trigger
+  [ "$f" = ai-kit/skills/aikit-plan/SKILL.md ] || b 20000 "$f"; done
+for f in ai-kit/skills/*/assets/* ai-kit/templates/*; do                               # copy-me
+  case "$f" in */README.md) ;; *) b 3000 "$f";; esac; done
+t=0; for f in ai-kit/skills/*/SKILL.md; do                  # descriptions sit in context every session
+  n=$(grep -m1 '^description:' "$f" | sed 's/^description: *//' | LC_ALL=en_US.UTF-8 wc -m | tr -d ' '); n=$((n-1))
+  [ "$n" -le 600 ] || echo "WARN $f description: $n chars > 600"; t=$((t+n)); done
+[ "$t" -le 3000 ] || echo "WARN skill descriptions total: $t chars > 3000"
+echo "info: ai-kit total $(find ai-kit -type f -exec cat {} + | wc -c | tr -d ' ') B"   # expect: no WARN lines
 ```
 
 ## Anti-patterns (kit maintenance)

@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Analyze the codebase and replace the TODO placeholders in ai-kit/PROJECT.md and ai-kit/reference/*.md with real, evidence-backed values (role, stack, commands, integrations, version-control policy including the detected commit-message style and the progress-artifact retention knob, conventions, file locations, decision ladders, locked decisions, project-specific rules, glossary). On first adoption it also wires skill discovery (links ai-kit/skills into the runtime's skill dir, per README step 3) so the kit's skills are invocable, and sets config visibility (shared, or local-only via .git/info/exclude). Use once when adopting this ai-kit/ kit in a project, or to refresh it after a major stack change.
+description: Fill the kit's project profile — replace the TODO slots in ai-kit/PROJECT.md and ai-kit/reference/*.md with evidence-backed values from the codebase, asking the user for the judgment calls (role, response mode, version-control policy). On first adoption it also wires skill discovery and sets config visibility (shared or local-only). Use once when adopting the kit, or to refresh it after a major stack change.
 ---
 
 # Bootstrap Project Profile
@@ -14,8 +14,6 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 - **First adoption** — you've dropped the `ai-kit/` kit into a project and the profile/reference docs are
   still full of `TODO`s.
 - **Refresh** — after a major stack, tooling, or layout change, to bring the docs back in sync.
-- Trigger phrases: "fill the TODOs", "bootstrap the project profile", "analyze the codebase and
-  populate the AI docs".
 - **Not for ongoing upkeep** — after adoption, use [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md)
   to keep filled values healthy and in sync; this skill is for the **first** fill or a full
   post-stack-change refresh.
@@ -223,7 +221,7 @@ proposed Locked decisions** (step 7.7). Apply the user's corrections to the docs
 Check the repo's root agent-entry file — whichever root file the runtime table in
 [`AGENT-INIT.md`](../../AGENT-INIT.md) (step 1) lists for the runtime(s) in use — for a pointer to
 `ai-kit/AGENT-INSTRUCTIONS.md`. If none exists or the pointer is missing, tell the user to add the exact
-line from [`README.md` → Setup step 2](../../README.md). Without it, no agent auto-loads the kit and the
+line from [`AGENT-INIT.md`](../../AGENT-INIT.md) step 2. Without it, no agent auto-loads the kit and the
 methodology is never used.
 
 ### 11. Wire skill discovery (so the kit's skills are invocable)
@@ -231,7 +229,7 @@ methodology is never used.
 Make `ai-kit/skills/` discoverable by the agent runtime. Most runtimes auto-discover skills only from
 **their own** directory (e.g. Claude Code from `.claude/skills/`), not from `ai-kit/skills/`, so the
 `/aikit-*` commands don't exist until it's wired in. Run (or offer to run) the symlink command in
-**README Setup step 3** — for Claude Code, one whole-folder link (`.claude/skills` → `ai-kit/skills`)
+[`AGENT-INIT.md`](../../AGENT-INIT.md) step 3 — for Claude Code, one whole-folder link (`.claude/skills` → `ai-kit/skills`)
 makes every current and future skill resolve — then have the user commit it. Mind the guard: if a real
 `.claude/skills/` already exists, use the per-skill fallback instead of clobbering it. For a runtime
 with **no** skill mechanism there's nothing to wire: a skill is invoked by pointing the agent at its
@@ -246,7 +244,7 @@ that's never committed) — `ai-kit/`, `ai-progress/`, the **skills symlinks fro
 pointer file **only if it was created solely for the kit** (leave it tracked if it also holds team
 content). This works only while those paths are **untracked**, so do it before the kit is committed
 (else `git rm --cached -r` them first). For a shared kit, do nothing here — it's committed normally in
-README step 6. **Switching modes later** is its own procedure:
+Setup step 6. **Switching modes later** is its own procedure:
 [`aikit-switch-visibility`](../aikit-switch-visibility/SKILL.md).
 
 **Update source:** confirm `PROJECT.md` → "Kit source" — leave `default` to update from the kit's

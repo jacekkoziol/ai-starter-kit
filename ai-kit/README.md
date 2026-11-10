@@ -185,12 +185,10 @@ Most AI coding tools auto-load one root instruction file at session start — `C
 `GEMINI.md`, `.cursor/rules`, or `.github/copilot-instructions.md`. **Starting fresh (no such file yet)? Prefer
 `AGENTS.md`** — it's the emerging cross-tool standard most agents read — and for Claude Code create
 `CLAUDE.md` as a **symlink** to it (`ln -s AGENTS.md CLAUDE.md`), so both load one file you maintain in
-a single place (Windows teammates: see the step 3 note). Add this one line to that root file (create it if none exists):
+a single place (Windows teammates: see the step 3 note). Add the one-line pointer — its exact text is in
+[`AGENT-INIT.md` → step 2](AGENT-INIT.md) — to that root file (create it if none exists).
 
-> For how to approach any coding task, follow `ai-kit/AGENT-INSTRUCTIONS.md`, and open each session with
-> the one-line load-confirmation it specifies.
-
-**If your agent's working directory is the repo root**, that's it — use the path exactly as above.
+**If your agent's working directory is the repo root**, that's it — use the path exactly as given.
 
 **If you work from a subdirectory** (a theme, package, or service whose own `CLAUDE.md`/`AGENTS.md` is
 the file your tool auto-loads), put the pointer line in *that* file and make the path reach the root
@@ -230,12 +228,8 @@ subdirectory whose own `.claude/` your tool loads? Create the link there and mat
 
 > **Fallback — you already have a real `.claude/skills/`** with non-kit skills: don't replace it. Either
 > move those skill folders into `ai-kit/skills/` (the kit's model — one home for all skills), or symlink the
-> kit's skills in individually:
-> ```bash
-> mkdir -p .claude/skills
-> for d in ai-kit/skills/aikit-*/; do n=$(basename "$d"); [ -e ".claude/skills/$n" ] || ln -s "../../${d%/}" ".claude/skills/$n"; done
-> ```
-> (Per-skill links need re-running whenever a new skill is added; the whole-folder symlink doesn't.)
+> kit's skills in individually with the loop in [`AGENT-INIT.md` → step 3](AGENT-INIT.md). (Per-skill links
+> need re-running whenever a new skill is added; the whole-folder symlink doesn't.)
 
 **Codex, Gemini CLI, Cursor, GitHub Copilot, and Windsurf** all support the same `SKILL.md` Agent-Skills
 standard the kit ships — wire each the same way, symlinking its skills directory to `ai-kit/skills`:

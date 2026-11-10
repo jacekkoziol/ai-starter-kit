@@ -1,6 +1,6 @@
 ---
 name: aikit-plan
-description: Stand up and maintain progress tracking — one ai-progress/ effort folder per goal (ROADMAP + LOG + gate-authored phase files, plus a close-out SUMMARY) at the repo root — so multi-step work survives context compaction, new sessions, and handoffs. Invoke when starting a non-trivial effort, starting/finishing a phase, hitting or clearing a blocker, re-scoping, resuming cold, or closing work as done or cancelled — and when capturing, expanding, triaging, dismissing, or promoting an out-of-scope finding. Behavior lives in AGENT-INSTRUCTIONS.md §4; the file format lives in references/progress-contract.md, the findings ladder in references/findings-workflow.md, with copy-me templates in assets/; this skill walks the doing.
+description: Track multi-step work in ai-progress/ — one effort folder per goal (ROADMAP, LOG, gate-authored phase files, close-out SUMMARY) — so it survives compaction, new sessions, and handoffs. Invoke when starting a non-trivial effort, starting or finishing a phase, hitting or clearing a blocker, re-scoping or promoting a task to an epic, resuming cold, closing or reopening work, and when capturing, triaging, or promoting an out-of-scope finding.
 ---
 
 # Plan + progress

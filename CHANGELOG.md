@@ -9,6 +9,27 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.17.1] — 2026-11-10
+
+> **What an agent pays for is what it loads, not the folder total.** Measuring per file and by when it
+> loads turned up three costs that a total-size check could never see.
+
+### Fixed
+
+- **Agents no longer need the people-facing README.** `AGENT-INIT.md` (3 places) and
+  `aikit-project-profile-bootstrap` (steps 10–11) sent the agent to `README.md` → Setup steps 2–3, which
+  meant loading 25 KB for one pointer line and one fallback loop. `AGENT-INIT.md` now holds both: the exact
+  pointer line (step 2) and the per-skill link loop, now runtime-neutral (step 3). The README, bootstrap,
+  and sync point there. The multi-tool advice in `AGENT-INIT.md` step 1 is now stated inline.
+- **Skill descriptions only say when to use the skill.** Runtimes keep every description in context every
+  session. `aikit-plan`'s was 747 characters, part of it describing the kit's file structure;
+  `aikit-project-profile-bootstrap`'s listed every profile field. They are now about 400 characters each,
+  and the descriptions total dropped from 3,170 to 2,589 characters. Bootstrap's description no
+  longer has to list each new field.
+- **Trigger-phrase bullets removed from skill bodies** (bootstrap, sync). The body loads only after the
+  skill is chosen, so trigger text there never helps choose it.
+- Naming: bootstrap's "README step 6" is now "Setup step 6".
+
 ## [2.17.0] — 2026-11-10
 
 > **A child effort's folder said nothing about its parent.** Hierarchy lived only in a `parent:` field
