@@ -9,6 +9,34 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.14.5] — 2026-11-10
+
+> **Three surfaces restated a fact another file owns, and each had drifted.** None is reachable by the
+> consistency checks: they read links, `§N` refs, and markers — not a prose list of filenames or a
+> procedure cited by name.
+
+### Fixed
+
+- **The pointer check no longer misses runtimes `AGENT-INIT.md` wires.** `aikit-project-profile-sync`'s
+  root-pointer health check and `aikit-project-profile-bootstrap` step 10 each carried their own entry-file
+  shortlist (`CLAUDE.md` / `AGENTS.md` / `.cursorrules` / `.github/copilot-instructions.md`) — without
+  `GEMINI.md` or `.cursor/rules`, both of which `AGENT-INIT.md` step 1 tells the agent to wire. A kit
+  wired only through one of those could be reported, *loudly*, as unwired. Both now defer to the
+  `AGENT-INIT.md` runtime table instead of keeping a second list (the single-owner rule
+  `maintenance/verify-runtime-wiring` step 3 already states), and the sync check notes that a rules
+  *directory* is searched, not grepped as one file.
+- **Bootstrap step 10 stops quoting a truncated pointer line.** It told the user to add *"…follow
+  `ai-kit/AGENT-INSTRUCTIONS.md`."* — without the load-confirmation clause the README's line carries, so the
+  two surfaces disagreed on the line to add. It now points at README Setup step 2, which owns the exact
+  line.
+- **Bootstrap step 2 harvests `GEMINI.md` and `.cursor/rules`** alongside the other agent docs (the
+  legacy `.cursorrules` stays a valid source to *read*).
+- **`aikit-implement-from-design` step 4 named a procedure that doesn't exist** — *"follow its Update
+  steps"*. `aikit-plan` has no such section; it now names *Start a phase* and *Finish a phase*.
+- **Naming drift:** bootstrap's two *"README adoption step N"* references become *"Setup step N"* (the
+  README's actual heading, and what every other surface says); the README's session-prompt tip says
+  `.cursor/rules`, matching Setup step 2 (the same correction 2.5.0 made there).
+
 ## [2.14.4] — 2026-08-21
 
 ### Fixed

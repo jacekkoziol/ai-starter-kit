@@ -38,8 +38,9 @@ description: Translate a visual design source (mockup, screenshot, exported spec
 3. **Build in anti-rework order (§4.5):** foundations/tokens (close step 2's recorded gaps here, in
    the shared layer) → structure/markup → presentation/styling → behavior/interactivity. **Don't
    style before the structure stabilizes.**
-4. **Work section by section.** Advance each `aikit-plan` phase as you go (follow its Update steps —
-   each phase gates at its start, §2.4); keep changes scoped to the section in flight.
+4. **Work section by section.** Advance each `aikit-plan` phase as you go (follow its *Start a phase*
+   and *Finish a phase* procedures — each phase gates at its start, §2.4); keep changes scoped to the
+   section in flight.
 5. **Verify parity, then run §7.** Compare the rendered result to the design source (use the project's
    preview/build), reconcile spacing/type/color against the captured decisions, then run
    build/test/lint and re-read the diff. Report any intentional deviations.

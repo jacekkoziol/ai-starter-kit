@@ -78,8 +78,9 @@ against `«source»`). This list drives both dimensions below.
 Run all checks; **collect every failure with its specifics — don't stop at the first.**
 
 - **Root pointer wired / kit active** (mirrors bootstrap step 10, README Setup step 2): find the
-  auto-loaded entry file at the repo root (`CLAUDE.md` / `AGENTS.md` / `.cursorrules` /
-  `.github/copilot-instructions.md`, plus any subdirectory entry file the tool actually loads), grep it
+  auto-loaded entry file — any root file the runtime table in
+  [`AGENT-INIT.md`](../../AGENT-INIT.md) (step 1) lists, not a fixed shortlist (a rules *directory*
+  counts: search the files in it), plus any subdirectory entry file the tool actually loads — grep it
   for a pointer to `ai-kit/AGENT-INSTRUCTIONS.md`, and resolve that relative path **from the entry file's own
   directory** to confirm the target exists. A pointer that doesn't resolve fails silently → the whole
   methodology is inert.

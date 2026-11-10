@@ -367,7 +367,7 @@ TASK:
 [YOUR TASK HERE] — describe what you want.
 
 > **Tip:** keep this prompt handy as a snippet. If your agent auto-loads a root instruction file
-> (`CLAUDE.md` / `AGENTS.md` / `.cursorrules`), put the "read `ai-kit/AGENT-INSTRUCTIONS.md`" line there
+> (`CLAUDE.md` / `AGENTS.md` / `.cursor/rules`), put the "read `ai-kit/AGENT-INSTRUCTIONS.md`" line there
 > so you only need to paste the phase-workflow reminder + task.
 
 ## How to extend it

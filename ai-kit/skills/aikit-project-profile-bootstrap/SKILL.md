@@ -76,8 +76,8 @@ user is indifferent.
 
 Cheapest, highest-signal evidence — humans often already wrote this down. Look for and read:
 
-- Agent/contributor docs: `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`,
-  `CONTRIBUTING.md`, top-level `README*`.
+- Agent/contributor docs: `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.cursor/rules` (or a legacy
+  `.cursorrules`), `.github/copilot-instructions.md`, `CONTRIBUTING.md`, top-level `README*`.
 - Architecture decisions: `docs/`, `docs/adr/`, `doc/decisions/`, `*.adr.md`.
 
 Prefer what these state directly over anything you infer.
@@ -211,10 +211,10 @@ proposed Locked decisions** (step 7.7). Apply the user's corrections to the docs
 
 ### 10. Confirm the kit is wired
 
-Check the repo's root agent-entry file (`CLAUDE.md` / `AGENTS.md` / `.cursorrules` /
-`.github/copilot-instructions.md`) for a pointer to `ai-kit/AGENT-INSTRUCTIONS.md`. If none exists or the
-pointer is missing, tell the user to add the line — *"For how to approach any coding task, follow
-`ai-kit/AGENT-INSTRUCTIONS.md`."* (README adoption step 2). Without it, no agent auto-loads the kit and the
+Check the repo's root agent-entry file — whichever root file the runtime table in
+[`AGENT-INIT.md`](../../AGENT-INIT.md) (step 1) lists for the runtime(s) in use — for a pointer to
+`ai-kit/AGENT-INSTRUCTIONS.md`. If none exists or the pointer is missing, tell the user to add the exact
+line from [`README.md` → Setup step 2](../../README.md). Without it, no agent auto-loads the kit and the
 methodology is never used.
 
 ### 11. Wire skill discovery (so the kit's skills are invocable)
@@ -222,7 +222,7 @@ methodology is never used.
 Make `ai-kit/skills/` discoverable by the agent runtime. Most runtimes auto-discover skills only from
 **their own** directory (e.g. Claude Code from `.claude/skills/`), not from `ai-kit/skills/`, so the
 `/aikit-*` commands don't exist until it's wired in. Run (or offer to run) the symlink command in
-**README adoption step 3** — for Claude Code, one whole-folder link (`.claude/skills` → `ai-kit/skills`)
+**README Setup step 3** — for Claude Code, one whole-folder link (`.claude/skills` → `ai-kit/skills`)
 makes every current and future skill resolve — then have the user commit it. Mind the guard: if a real
 `.claude/skills/` already exists, use the per-skill fallback instead of clobbering it. For a runtime
 with **no** skill mechanism there's nothing to wire: a skill is invoked by pointing the agent at its
