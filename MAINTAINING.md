@@ -80,6 +80,7 @@ ai-kit/                       # THE KIT — this is what gets copied into other 
     aikit-plan/references/merge-collisions.md   #   same-named effort folders at merge: the repair
     aikit-plan/assets/*.template.md             #   the copy-me progress files (INDEX/ROADMAP/LOG/phase/
                                                 #     SUMMARY/FINDINGS/finding)
+    aikit-project-profile-bootstrap/references/mcp-suggestions.md  # opt-in MCP research (bootstrap 4.5)
   templates/              #   literal copy-me scaffolds + index
 AGENTS.md                 # root pointer for agent sessions in this repo — imports MAINTAINING.md every session
 CLAUDE.md                 # symlink → AGENTS.md (the filename Claude Code auto-loads)

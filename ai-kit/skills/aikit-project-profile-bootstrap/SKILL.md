@@ -1,6 +1,6 @@
 ---
 name: aikit-project-profile-bootstrap
-description: Fill the kit's project profile — replace the TODO slots in ai-kit/PROJECT.md and ai-kit/reference/*.md with evidence-backed values from the codebase, asking the user for the judgment calls (role, response mode, version-control policy). On first adoption it also wires skill discovery and sets config visibility (shared or local-only). Use once when adopting the kit, or to refresh it after a major stack change.
+description: Fill the kit's project profile — replace the TODO slots in ai-kit/PROJECT.md and ai-kit/reference/*.md with evidence-backed values from the codebase, asking the user for the judgment calls (role, response mode, version-control policy). On first adoption it also wires skill discovery and sets config visibility (shared or local-only). Use once when adopting the kit, to refresh it after a major stack change, or when asked to suggest MCP servers.
 ---
 
 # Bootstrap Project Profile
@@ -54,16 +54,12 @@ reflects *this* codebase, backed by evidence from the repo (not memory).
 
 ### 1. Scope — find every placeholder
 
-Grep the fill-in surfaces so you fill exactly what's blank. The managed files are wherever `fill:`
-markers live — by the kit's layering, exactly `PROJECT.md` + `reference/*.md` (a future kit version
-adding a marker-bearing surface joins this sweep); the manual/templates/skills hold only scaffold or
-prose `TODO`s, not slots:
+Grep the fill-in surfaces — the files carrying `fill:` markers, `PROJECT.md` + `reference/*.md` — so you
+fill exactly what's blank:
 
 ```bash
 grep -rn "TODO" ai-kit/PROJECT.md ai-kit/reference/
 ```
-
-(Optional, per AGENT-INSTRUCTIONS §4: track this as an effort, e.g. `ai-progress/20260818-bootstrap-profile/`.)
 
 **Ask the response-economy mode** — a user preference, not inferable from code: which of `standard` |
 `concise` | `terse` (AGENT-INSTRUCTIONS §9) the user wants the agent to use in conversation. Record it
@@ -134,6 +130,10 @@ isn't** — touch it only after flagging that mismatch and getting an explicit y
 documented-but-unconfigured entry carries the tag —
 [`aikit-project-profile-sync`](../aikit-project-profile-sync/SKILL.md) re-asks tagged entries instead
 of validating them against config. The confirmed list also feeds the mandated-channels ask above.
+
+**Suggesting new servers is opt-in.** On first adoption or a post-stack-change refresh, ask whether to
+research MCP servers for this project; only on a yes, follow
+[`references/mcp-suggestions.md`](references/mcp-suggestions.md).
 
 ### 5. Detect conventions → `reference/coding-conventions.md`
 
@@ -272,7 +272,8 @@ canonical home, or set a fork/mirror/local path if this project vendors the kit 
 - [ ] Integrations listed in `PROJECT.md`; any **mandated** tool channel was asked, not assumed.
 - [ ] The runtime's live tool surface was inventoried (or noted as non-enumerable); every
       runtime-visible server absent from project config was asked about — one decision per server;
-      accepted-but-unconfigured entries carry the `(runtime-only)` tag.
+      accepted-but-unconfigured entries carry the `(runtime-only)` tag. MCP suggestions were offered,
+      not imposed — nothing installed without a yes.
 - [ ] `PROJECT.md` "Project-specific rules": harvested/asked rules added as bullets (placeholder kept), or none if there are none (never invented).
 - [ ] For a UI-producing stack, an accessibility rule (WCAG 2.2 AA + ARIA APG) was **proposed** at the gate; skipped for non-UI stacks.
 - [ ] Config visibility was **asked** and recorded in `PROJECT.md`; if local-only, `ai-kit/` (+ `ai-progress/`, kit-only pointer) are in `.git/info/exclude` while still untracked.

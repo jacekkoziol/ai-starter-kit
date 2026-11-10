@@ -52,6 +52,8 @@ ai-kit/
       SKILL.md            #   upgrade the vendored kit, preserving filled PROJECT.md + reference/*.md
     aikit-project-profile-bootstrap/
       SKILL.md            #   first-adoption skill: fill PROJECT.md + reference/*.md from the repo
+      references/
+        mcp-suggestions.md #   opt-in: research + suggest MCP servers for the project
     aikit-project-profile-sync/
       SKILL.md            #   health + drift check: keep PROJECT.md + reference/*.md healthy & in sync
     aikit-switch-visibility/

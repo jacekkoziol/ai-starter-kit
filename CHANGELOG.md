@@ -9,6 +9,31 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.18.0] — 2026-11-10
+
+### Added
+
+- **Bootstrap can suggest MCP servers, if you opt in.** Step 4.5 already recorded the servers a project
+  has; at first adoption, and on a refresh after a major stack change, it now asks whether to research
+  servers the project doesn't have yet. On a yes it follows the new
+  `aikit-project-profile-bootstrap/references/mcp-suggestions.md`, which loads only then:
+  - each suggestion comes from evidence in the repo (manifest, framework, targeted standards, services
+    called, harvested links);
+  - official or vendor-maintained servers come first, and research means reading docs, never installing a
+    candidate to test it;
+  - at most 7, ranked, because every server's tools load into every session; more only with a stated
+    reason for each extra;
+  - each one is presented with its need and evidence, source, access and credentials, and rough
+    per-session cost, and decided separately;
+  - accepted servers follow step 4.5's existing path, credentials never go in committed config, and a
+    declined server leaves no trace;
+  - with no web access, the agent says so and marks any suggestions from its own knowledge as unverified.
+
+  The kit names no servers, so suggestions are always current and the kit stays vendor-neutral. The
+  bootstrap description now also covers "suggest MCP servers". New Verify clause.
+- To keep bootstrap within its 20 KB budget, step 1's aside on tracking bootstrap as an effort (already
+  covered by the manual) was removed, and its scope sentence was tightened.
+
 ## [2.17.2] — 2026-11-10
 
 ### Changed
