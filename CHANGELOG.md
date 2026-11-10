@@ -9,6 +9,18 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.15.1] — 2026-11-10
+
+### Changed
+
+- **"Start an AI session" is now a fallback, not a paste-every-time prompt.** The old 30-line prompt
+  restated the manual: the loop, `PROJECT.md` loading, the unfilled-profile check and cold resume. It had
+  already drifted once (2.14.4), had no trivial-task exemption, and added two stops the manual doesn't
+  require: after scoping and after each build. With the pointer wired, you now just describe the task, and
+  the load-confirmation line shows the manual loaded. Without it, a two-line prompt points the agent at
+  the manual. If you want the old extra stops, record them in `PROJECT.md` → Project-specific rules,
+  where every session gets them.
+
 ## [2.15.0] — 2026-11-10
 
 > **The blank profile shipped one filled-in opinion.** `PROJECT.md` → "Project-specific rules" came with

@@ -321,7 +321,7 @@ to `.git/info/exclude`, so the kit stays on your machine only. Everything else i
 **Setup is done when:** the pointer line exists in the auto-loaded entry file · the kit's skills resolve
 in your runtime (e.g. `/aikit-plan`) · `PROJECT.md` has no un-annotated `TODO`s and a chosen
 response-economy mode · the command table is confirmed to actually run · a fresh agent session restates
-the Role and a real build command · all of it is committed. From here, start work with the prompt in
+the Role and a real build command · all of it is committed. From here, start work as described in
 **Start an AI session**.
 
 ### Quick reference — what's portable vs per-project
@@ -337,44 +337,21 @@ the Role and a real build command · all of it is committed. From here, start wo
 ## Start an AI session
 
 **Launch the agent from the project root** (so it can see `ai-kit/`, the project profile, and
-`ai-progress/`). Then paste this at the start of every new session (new project or new conversation),
-before asking for any work:
+`ai-progress/`). With the root pointer wired (Setup step 2), **just describe the task** — the manual
+loads itself, and its one-line load-confirmation tells you it did. The manual owns everything a session
+needs: reading `PROJECT.md`, resuming in-flight work from `ai-progress/`, the plan-review gate, and when a
+task is trivial enough to skip the ceremony.
 
-> Read `ai-kit/AGENT-INSTRUCTIONS.md` first and confirm you loaded it with the one-line handshake it
-> specifies — it owns how you approach every
-> task: analyze → clarify → plan → gate → build → verify, plus the progress-file procedure and the
-> per-phase plan-review gate. Follow it. Also read the project profile (`ai-kit/PROJECT.md`)
-> if one exists, for the **Role** (your persona/mandate), **response-economy mode** (§9), stack,
-> conventions, and build/test/lint commands. If `PROJECT.md` is still full of `TODO`s, the kit isn't
-> set up — say so and offer to run `aikit-project-profile-bootstrap` before real work.
->
-> First check `ai-progress/INDEX.md` — if an effort is already in progress, open **only** its
-> `ROADMAP.md` and its in-flight phase file when one exists, and **resume that work** instead of scoping
-> from scratch. Start the next phase only when nothing is in flight and the effort isn't blocked. Leave
-> finished phases, the log, and any generated output unopened unless you actually need them.
->
-> Otherwise, work the task in phases, one at a time, **never chaining**:
->
-> 1. **Scope** — restate the task, list what you'll touch and what's out of scope, ask any clarifying
->    questions. **Pause.**
-> 2. **Plan** — a phased plan in the progress files, each phase small enough to review/commit on its
->    own. **Pause for approval.**
-> 3. **Execute** — one phase at a time, each as three steps with a hard stop between:
->    a. **Expand the phase plan** in its progress file (what you'll do, files/modules/tokens touched,
->       decisions). **Then STOP — write no code.** Wait for my review; I may change the plan.
->    b. On my explicit go-ahead, **build that phase only**, then summarize (what changed, what to
->       verify, what was run). **STOP.**
->    c. Wait for "next" before touching the following phase.
-> 4. **Wrap-up** — final summary + follow-ups after the last phase.
->
-> If anything is ambiguous, ask before starting — don't guess.
+**No load-confirmation line?** The pointer isn't wired, or your tool doesn't auto-load a root file. Fix
+the pointer (Setup step 2), or start the session with:
 
-TASK:
-[YOUR TASK HERE] — describe what you want.
+> Read `ai-kit/AGENT-INSTRUCTIONS.md`, follow it, and open with the load-confirmation it specifies.
+>
+> TASK: [describe what you want]
 
-> **Tip:** keep this prompt handy as a snippet. If your agent auto-loads a root instruction file
-> (`CLAUDE.md` / `AGENTS.md` / `.cursor/rules`), put the "read `ai-kit/AGENT-INSTRUCTIONS.md`" line there
-> so you only need to paste the phase-workflow reminder + task.
+Want stricter stops than the manual's per-phase gate — say, a pause after scoping or after each build?
+Record that as a rule in `PROJECT.md` → Project-specific rules, so every session gets it, rather than in
+a prompt you paste.
 
 ## How to extend it
 

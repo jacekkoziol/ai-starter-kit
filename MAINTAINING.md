@@ -345,6 +345,14 @@ AWK
 for f in ai-kit/skills/*/SKILL.md; do \
   awk -v F="$f" -v B="$(basename "$(dirname "$f")")" "$CHK" "$f"; done                 # expect: all ok
 awk -v F=_SKILL-TEMPLATE.md -v B= "$CHK" ai-kit/skills/_SKILL-TEMPLATE.md              # expect: ok
+
+# 15. Size budget — directive #1 ("stay lean"), measured. Two numbers: the whole vendored kit, and the
+#     always-loaded pair (manual + PROJECT.md) every session pays for. A WARN goes in your report to the
+#     user before anything ships — never silently. Raising a budget is the user's call, never a way to
+#     make this check pass. (Set 2026-11-10 at kit 2.15.1: ~188 KB total, ~37 KB always-loaded.)
+kit=$(find ai-kit -type f -exec cat {} + | wc -c | tr -d ' '); hot=$(cat ai-kit/AGENT-INSTRUCTIONS.md ai-kit/PROJECT.md | wc -c | tr -d ' ')
+[ "$kit" -le 200000 ] && echo "kit ok: $kit / 200000 B" || echo "WARN kit over budget: $kit / 200000 B"
+[ "$hot" -le 40000 ] && echo "always-loaded ok: $hot / 40000 B" || echo "WARN always-loaded over budget: $hot / 40000 B"  # expect: both ok
 ```
 
 ## Anti-patterns (kit maintenance)
