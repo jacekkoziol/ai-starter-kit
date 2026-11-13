@@ -66,4 +66,4 @@ invoke skills by path (`follow ai-kit/skills/<name>/SKILL.md`).
 Tell the user exactly what changed (which file got the pointer, which symlink you made), then:
 
 > **Reload the session** so the pointer and skills take effect — they're read only at session start.
-> Then run `/aikit-project-profile-bootstrap` (Setup step 4) to fill the project profile.
+> Then run `/aikit-project-profile-bootstrap` to fill the project profile.

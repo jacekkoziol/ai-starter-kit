@@ -23,5 +23,7 @@
 5. **Apply only on an explicit yes.** An accepted server follows step 4.5's path — config visibility
    decides between the project's tool config (your runtime's documented file; a repo change, so the
    normal gate applies) and a `(runtime-only)` entry — and lands under `PROJECT.md` → Available.
+   Record a local server at an **exact version** — never `latest` or an open range, since that config
+   runs third-party code every session — and a hosted one by its official URL.
    Credentials go in environment variables or the runtime's secret store, **never** in committed config
    (the secrets HARD RULE, AGENT-INSTRUCTIONS §1). A declined server leaves no trace.

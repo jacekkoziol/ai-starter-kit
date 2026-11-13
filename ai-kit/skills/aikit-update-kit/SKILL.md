@@ -63,8 +63,9 @@ This is the **downstream** counterpart to the kit's own release flow: a project 
    the user consciously confirms the source each time.) If it's `default` (or absent), use the
    canonical home automatically.
    If neither resolves (e.g. a fork that blanked its home, and no override), **ask the user** — don't
-   guess a URL. Obtain the target version's `ai-kit/` from the chosen source and note its Kit version so you
-   can confirm the jump.
+   guess a URL. Obtain the target version's `ai-kit/` from the chosen source at its **release tag** — the
+   latest unless the user names one, never an untagged branch tip (a source without tags: say so and ask)
+   — and note its Kit version so you can confirm the jump.
 
    **Also obtain the base** — your *installed* version's kit, from the same source (every release is
    tagged `v{MAJOR.MINOR.PATCH}`; compare the kit folder's contents whatever that version named it).

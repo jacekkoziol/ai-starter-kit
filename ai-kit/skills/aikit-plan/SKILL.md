@@ -63,6 +63,7 @@ that is depends on the effort's state:
 | `active`, one `[~]` | That phase file. |
 | `blocked`, one `[!]` | That phase file — and its unblock condition. **Don't start another phase.** |
 | `blocked`, no `[!]` | The roadmap's effort-level blocker. **Don't start another phase.** |
+| Epic, nothing in flight, a child open | That child's `ROADMAP.md` (its `Child efforts` row) — resume it there. |
 | Nothing in flight, not blocked | Nothing yet — run **Start a phase** for the next `[ ]` row. |
 | `done` / `cancelled` | `SUMMARY.md` first. |
 
@@ -148,10 +149,11 @@ decisions, dependencies, or follow-ups; log the change; amend affected phase pla
 outcome or lifecycle, create a **new effort** (or a child effort with `parent:` set) instead.
 
 **Promote to epic** — when a task's remaining work splits into parts that each need their own lifecycle
-(contract §1). Gate it like a re-scope. Set `kind: epic`, add the `Child efforts` section from the
-template, and log the promotion. Finish or re-scope any in-flight phase first. Done phases stay as
-they are; work that moves into a child (**Create an effort**, with the `{parent-id}--` prefix) leaves
-the phase table — an unstarted row has no phase file yet, so removing it breaks no link — and the log
+(contract §1). Only a top-level effort (`parent: null`) can be promoted — a child's split becomes
+sibling children of its epic, never a third level. Gate it like a re-scope. Set `kind: epic`, add the
+`Child efforts` section from the template, and log the promotion. Finish or re-scope any in-flight
+phase first. Done phases stay as they are; work that moves into a child (**Create an effort**, with the
+`{parent-id}--` prefix) leaves the phase table — an unstarted row has no phase file yet, so removing it breaks no link — and the log
 names the child that took it. The promoted folder is **never renamed**.
 
 ### End a session
@@ -162,9 +164,10 @@ row, and leave an explicit next action and blocker state.
 
 ### Close as done
 
-Confirm every required phase is `[x]` and the done-when criteria are met (or record accepted
-limitations). **Triage the findings this effort produced** — nothing meaningful may stay stranded in a
-completed phase file, a log line, or a closed roadmap (findings workflow §9). Run the applicable final
+Confirm every required phase is `[x]` — for an epic, every child (each effort whose `parent:` names
+it) closed too — and the done-when criteria are met (or record accepted limitations). **Triage the
+findings this effort produced** — nothing meaningful may stay stranded in a completed phase file, a
+log line, or a closed roadmap (findings workflow §9). Run the applicable final
 verification. Set `status: done`, write `SUMMARY.md` from
 `assets/SUMMARY.template.md`, append the final log line, and move the `INDEX.md` row to `Recently
 closed` — archiving the oldest row when that list passes 10.

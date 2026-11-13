@@ -117,9 +117,9 @@ consistency expectations:
 | Effort status | Expected phase table |
 | --- | --- |
 | `queued` | No `[~]` or `[!]`; incomplete phases remain. |
-| `active` | Normally exactly one `[~]`. |
+| `active` | Normally exactly one `[~]`; an epic may have none while an open child carries the work. |
 | `blocked` | One `[!]`, or an effort-level blocker in the roadmap's `Dependencies` and no `[!]` row. |
-| `done` | Every required phase `[x]`. |
+| `done` | Every required phase `[x]`; every effort whose `parent:` names an epic is `done` or `cancelled`. |
 | `cancelled` | Any accurate distribution; the reason is explained in `SUMMARY.md`. |
 
 A completed phase row **replaces its planned target with a concise actual outcome** — that one line is

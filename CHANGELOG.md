@@ -9,6 +9,33 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.18.1] — 2026-11-13
+
+### Fixed
+
+- **Epics now account for their children.** Promotion (2.17.0) made it easy to reach an epic whose
+  remaining work all lives in child efforts:
+  - *Close as done* also requires every child (each effort whose `parent:` names the epic) to be `done`
+    or `cancelled`; contract §5's `done` row says the same, so validation catches it at the gate.
+  - Cold resume (§4.4 and the plan skill's resume table) routes an epic with nothing in flight to its
+    open child before starting a new row; contract §5's `active` row allows an epic no `[~]` while a
+    child carries the work.
+  - *Promote to epic* accepts only a top-level effort (`parent: null`); a child's split becomes sibling
+    children of its epic, instead of a third level the checklist would reject afterwards.
+- **No more dangling "Setup step N" references.** Since 2.17.1 agents don't load the README, but
+  `AGENT-INIT.md`, `aikit-project-profile-bootstrap` step 12, and `aikit-switch-visibility` still cited its
+  steps (AGENT-INIT's "Setup step 4" even read as its own step 4). Each now drops the reference or links
+  `AGENT-INIT.md` step 3.
+- **Update target pinned.** `aikit-update-kit` fetches the new snapshot at a release tag (the latest,
+  unless the user names one), never an untagged branch tip, and asks when the source has no tags.
+- **Accepted MCP servers are pinned.** `mcp-suggestions.md` records a local server at an exact version,
+  never `latest` or an open range, and a hosted one by its official URL.
+
+### Changed
+
+- **Bootstrap steps 10–11 are pointers to `AGENT-INIT.md` steps 1–3** instead of restating them. The
+  skill was 9 bytes under its 20 KB budget.
+
 ## [2.18.0] — 2026-11-10
 
 ### Added

@@ -30,7 +30,7 @@ Trust git over the field (§1): check what's actually tracked (`git ls-files ai-
 excluded (`git check-ignore -v ai-kit/ ai-progress/ .claude/skills`, …), and whether the kit was ever
 **pushed**. If `PROJECT.md`'s Mode disagrees with reality, say so — the switch starts from reality,
 and the field is corrected below. Inventory the four artifacts: `ai-kit/` · `ai-progress/` · the root
-pointer file (**kit-only**, or shared with team content?) · every skills symlink Setup step 3 created.
+pointer file (**kit-only**, or shared with team content?) · every skills symlink [`AGENT-INIT.md`](../../AGENT-INIT.md) step 3 created.
 
 ### To `local-only` (from `shared`)
 

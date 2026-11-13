@@ -1,6 +1,6 @@
 # AI Agent — Coding Instructions
 
-> **Kit version:** 2.18.0
+> **Kit version:** 2.18.1
 >
 > A portable operating manual for any AI coding agent, on **any** project (web, backend, mobile,
 > CLI, infra — stack-agnostic). It defines *how* to approach work, not *what* the project is.
@@ -302,7 +302,8 @@ not extra phases here. (Step-by-step, including closing and reopening: the skill
 Read **only** `INDEX.md` → the chosen `ROADMAP.md` → the **one phase in flight**: the `[~]` row, or the
 `[!]` one when the effort is `blocked` — read its unblock condition and **never start another phase past a
 blocker**. A `blocked` effort may instead carry an effort-level blocker in the roadmap and no `[!]` row at
-all. Only when nothing is in flight **and** the effort isn't blocked, pick the next `[ ]` row and run the
+all. An epic with nothing in flight routes to its open child effort (`Child efforts`) before any new
+row. Only when nothing is in flight **and** the effort isn't blocked, pick the next `[ ]` row and run the
 skill's *Start a phase* — that gate authors the file, so there is nothing to open yet. Done rows' one-line
 outcomes mean you **don't reopen completed phase files**, and `LOG.md`, `SUMMARY.md`, `artifacts/`, and
 `scripts/` stay **cold** — open `LOG.md` only when the current state doesn't explain *why* something

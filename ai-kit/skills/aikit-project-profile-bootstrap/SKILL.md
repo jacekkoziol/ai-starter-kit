@@ -218,22 +218,14 @@ proposed Locked decisions** (step 7.7). Apply the user's corrections to the docs
 
 ### 10. Confirm the kit is wired
 
-Check the repo's root agent-entry file — whichever root file the runtime table in
-[`AGENT-INIT.md`](../../AGENT-INIT.md) (step 1) lists for the runtime(s) in use — for a pointer to
-`ai-kit/AGENT-INSTRUCTIONS.md`. If none exists or the pointer is missing, tell the user to add the exact
-line from [`AGENT-INIT.md`](../../AGENT-INIT.md) step 2. Without it, no agent auto-loads the kit and the
-methodology is never used.
+The root file each runtime in use auto-loads ([`AGENT-INIT.md`](../../AGENT-INIT.md) step 1) must carry
+the pointer line from its step 2 — without it no agent loads the kit. Missing? Tell the user to add it.
 
 ### 11. Wire skill discovery (so the kit's skills are invocable)
 
-Make `ai-kit/skills/` discoverable by the agent runtime. Most runtimes auto-discover skills only from
-**their own** directory (e.g. Claude Code from `.claude/skills/`), not from `ai-kit/skills/`, so the
-`/aikit-*` commands don't exist until it's wired in. Run (or offer to run) the symlink command in
-[`AGENT-INIT.md`](../../AGENT-INIT.md) step 3 — for Claude Code, one whole-folder link (`.claude/skills` → `ai-kit/skills`)
-makes every current and future skill resolve — then have the user commit it. Mind the guard: if a real
-`.claude/skills/` already exists, use the per-skill fallback instead of clobbering it. For a runtime
-with **no** skill mechanism there's nothing to wire: a skill is invoked by pointing the agent at its
-`ai-kit/skills/<name>/SKILL.md`.
+Unless the kit's skills already resolve, run (or offer to run) [`AGENT-INIT.md`](../../AGENT-INIT.md)
+step 3 — its no-clobber fallback included — then have the user commit the link. No skill mechanism?
+Nothing to wire: invoke a skill by its `ai-kit/skills/<name>/SKILL.md` path.
 
 ### 12. Set kit integration — config visibility + update source
 
@@ -243,8 +235,8 @@ default) or **local-only** (kept on this machine, not pushed). Record the answer
 that's never committed) — `ai-kit/`, `ai-progress/`, the **skills symlinks from step 11**, and the root
 pointer file **only if it was created solely for the kit** (leave it tracked if it also holds team
 content). This works only while those paths are **untracked**, so do it before the kit is committed
-(else `git rm --cached -r` them first). For a shared kit, do nothing here — it's committed normally in
-Setup step 6. **Switching modes later** is its own procedure:
+(else `git rm --cached -r` them first). For a shared kit, do nothing here — it's committed normally
+with the rest of setup. **Switching modes later** is its own procedure:
 [`aikit-switch-visibility`](../aikit-switch-visibility/SKILL.md).
 
 **Update source:** confirm `PROJECT.md` → "Kit source" — leave `default` to update from the kit's
