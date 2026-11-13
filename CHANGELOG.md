@@ -9,6 +9,22 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.18.2] — 2026-11-13
+
+### Fixed
+
+- **An open child can't sit under a closed epic.** 2.18.1 guarded only closing an epic as done; three
+  reverse paths still reached the same state. Contract §1 now states one rule: a child is open only under
+  an open epic — creating or reopening one under a closed epic means reopening the epic first or
+  detaching the child (`parent: null`, its `Child efforts` row removed), and an epic closes, done or
+  cancelled, only once its children are closed or detached. *Create an effort*, *Reopen*, and *Close as
+  cancelled* each point to it, and the validation checklist's `parent:` item checks it.
+- **Contract §5's `done` row no longer reads as applying to every effort.** It now says "for an epic,
+  every effort whose `parent:` names it", matching *Close as done*.
+- **Resume handles several open children.** §4.4 and the plan skill's resume table pick an open child
+  from the epic's `Child efforts` rows that `INDEX.md` lists as Active, Blocked, or Queued, and ask when
+  more than one is open.
+
 ## [2.18.1] — 2026-11-13
 
 ### Fixed

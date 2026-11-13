@@ -28,6 +28,11 @@ temporary phase blocker don't qualify — every phase has both.
 Effort folders stay **physically flat** under `ai-progress/`. Hierarchy is expressed only through
 `parent:`, at most two semantic levels (`epic → child effort`). Never nest effort folders.
 
+**A child is open (`queued` · `active` · `blocked`) only under an open epic.** Creating or reopening one
+under a closed epic means reopening the epic first, or detaching the child (`parent: null`, its
+`Child efforts` row removed). An epic closes — `done` or `cancelled` — only once its children are closed
+or detached.
+
 ## 2. Layout
 
 The folder tree is in §4.1 of the manual; what it doesn't say is **when** each path comes into being:
@@ -119,7 +124,7 @@ consistency expectations:
 | `queued` | No `[~]` or `[!]`; incomplete phases remain. |
 | `active` | Normally exactly one `[~]`; an epic may have none while an open child carries the work. |
 | `blocked` | One `[!]`, or an effort-level blocker in the roadmap's `Dependencies` and no `[!]` row. |
-| `done` | Every required phase `[x]`; every effort whose `parent:` names an epic is `done` or `cancelled`. |
+| `done` | Every required phase `[x]`; for an epic, every effort whose `parent:` names it is `done` or `cancelled`. |
 | `cancelled` | Any accurate distribution; the reason is explained in `SUMMARY.md`. |
 
 A completed phase row **replaces its planned target with a concise actual outcome** — that one line is
@@ -258,8 +263,8 @@ files. Findings are **candidates, not committed efforts**: they never appear as 
       beyond a closed row's `done` / `cancelled` (contract §8).
 - [ ] The effort folder has a stable ID and slug, no other effort's `id:` duplicates it, and no merged
       path was renamed (contract §3).
-- [ ] Any non-null `parent:` names exactly one existing epic, and no hierarchy runs deeper than two
-      levels (contract §1).
+- [ ] Any non-null `parent:` names exactly one existing epic, open whenever the child is, and no
+      hierarchy runs deeper than two levels (contract §1).
 - [ ] `ROADMAP.md` frontmatter is valid `ai-progress/v2`, with no `updated:` field.
 - [ ] All seven roadmap sections exist, empty ones reading `None.`; `Outcome` states Goal and Done when.
 - [ ] Effort status and the phase table agree (contract §5); **at most one phase is in flight — `[~]` or

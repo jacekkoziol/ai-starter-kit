@@ -44,7 +44,7 @@ build/test/lint commands a verification phase runs, and **Version control → Pr
    ticket ID, the folder is `{ticket-id}-{slug}` and `id:` is the ticket ID alone; without one, the folder
    is `{YYYYMMDD}-{slug}` and `id:` is that **same full folder name**. A **child** effort's folder is
    `{parent-id}--` plus its own name — `{ticket-id}-{slug}`, or just `{slug}` with no date — and sets
-   `parent:`. Confirm no existing effort already carries that `id:`.
+   `parent:` to an **open** epic (contract §1). Confirm no existing effort already carries that `id:`.
 6. Create the chosen `{effort-folder}/` by copying `assets/ROADMAP.template.md` and
    `assets/LOG.template.md` into it, plus an empty `phases/`; add a row to `INDEX.md` (copying
    `assets/INDEX.template.md` on a project's first effort).
@@ -63,7 +63,7 @@ that is depends on the effort's state:
 | `active`, one `[~]` | That phase file. |
 | `blocked`, one `[!]` | That phase file — and its unblock condition. **Don't start another phase.** |
 | `blocked`, no `[!]` | The roadmap's effort-level blocker. **Don't start another phase.** |
-| Epic, nothing in flight, a child open | That child's `ROADMAP.md` (its `Child efforts` row) — resume it there. |
+| Epic, nothing in flight, a child open | The open child's `ROADMAP.md` — a `Child efforts` row `INDEX.md` lists as Active, Blocked, or Queued; several open → ask which. |
 | Nothing in flight, not blocked | Nothing yet — run **Start a phase** for the next `[ ]` row. |
 | `done` / `cancelled` | `SUMMARY.md` first. |
 
@@ -174,7 +174,8 @@ closed` — archiving the oldest row when that list passes 10.
 
 ### Close as cancelled
 
-Set `status: cancelled` and leave incomplete phase statuses **accurate** — never fake completion. Then run
+An epic's open children are closed or detached first (contract §1). Set `status: cancelled` and leave
+incomplete phase statuses **accurate** — never fake completion. Then run
 **Close as done**'s close-out steps: triage the findings this effort produced, write `SUMMARY.md`, append
 the final log line, and move the `INDEX.md` row to `Recently closed` — archiving the oldest when that list
 passes 10. The summary explains why it stopped and what was retained, reverted, or left incomplete.
@@ -182,7 +183,8 @@ passes 10. The summary explains why it stopped and what was retained, reverted, 
 ### Reopen
 
 Prefer a **new related effort** when the goal is new. Reopen the original only when closure was premature
-or its done-when criteria were never met:
+or its done-when criteria were never met. A child whose epic is closed needs the epic reopened first, or
+detaching (contract §1):
 
 1. **Delete `SUMMARY.md`** — it exists only for closed work (contract §7); git history keeps the old
    close-out.
