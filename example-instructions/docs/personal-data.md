@@ -1,0 +1,8 @@
+# Personal data
+
+Keep this list current: a task that stores a new kind of personal data or adds a processor updates it.
+
+- **Held:** users (name, email, sign-in history: the number of sign-ins and the time of the latest two, without IP addresses, the encrypted two-step verification secret, hashed recovery codes), organizations (billing details), projects (brief, website URL, close reason; the close reason is also kept in the read-only status history, `state_transitions.details`, so erasure must clear both; the brief is also the first message of the project's General thread), leads (submitted details, keyed IP hash, user agent), messages and files (a deleted message keeps its text and files, which admins can still read, so erasure must clear deleted messages too), notifications, audit records (actor, IP), photos of people on the marketing pages (content images on Bunny Storage; erasure deletes the file and purges it from the CDN, `docs/content-images.md`), rate limit counters (IPv4 address, IPv6 /64 or user id, used for 3 minutes or 1 hour; Solid Cache deletes the rows after 1 day, at the next cache writes).
+- **Processors:** Stripe, SendGrid, Sentry (filtered), Cloudflare (DNS, Turnstile), Hetzner (hosting), the storage provider (Hetzner or Amazon), Bunny (content images, until the content editor exists). EU data residency is not required.
+- Lead payloads and declined leads are deleted after retention periods still to be decided. Export and erasure requests go through a runbook until the app supports them; the legal deadline is one month.
+- Erasure anonymizes a user and keeps non-personal records such as invoices (`CODING_STANDARDS.md`).

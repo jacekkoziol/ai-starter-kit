@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Claude Code WorktreeCreate hook: creates the worktree in sample-volume/worktrees next to the checkout, where the
+# desktop app creates its worktrees too. In the dev container that is the volume with the pnpm store, so pnpm
+# hardlinks packages instead of copying them. Prints the worktree path.
+set -euo pipefail
+
+input=$(cat)
+name=$(jq -r .name <<< "$input")
+cwd=$(jq -r .cwd <<< "$input")
+root=$(dirname "$(git -C "$cwd" rev-parse --path-format=absolute --git-common-dir)")
+path="$(dirname "$root")/sample-volume/worktrees/$name"
+
+# Branches from the session's commit, as worktree.baseRef "head" in .claude/settings.json does for Claude's own.
+git -C "$cwd" worktree add --quiet -b "worktree-$name" "$path" HEAD >&2
+"$(dirname "$0")/scripts/setup-worktree" "$path" || echo "Could not set up $path." >&2
+echo "$path"

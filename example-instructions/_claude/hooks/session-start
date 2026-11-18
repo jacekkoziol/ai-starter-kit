@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Claude Code SessionStart hook: sets up a new worktree. Covers the desktop app's worktree sessions, which skip the
+# WorktreeCreate hook.
+set -euo pipefail
+
+"$(dirname "$0")/scripts/setup-worktree" "$(jq -r .cwd)"

@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# Runs git-spice, pinned in mise.toml, with GITLAB_TOKEN from .env.local.
+require_relative "../config/boot"
+require "dotenv"
+
+Dotenv.load(File.expand_path("../.env.local", __dir__))
+ENV["GITLAB_URL"] ||= "https://gitlab.example.com"
+exec "mise", "exec", "--", "git-spice", *ARGV

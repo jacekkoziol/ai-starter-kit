@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Sets up a worktree so it is ready to use: the main checkout's .env.local, Node packages, any missing gems, the
+# generated design token docs and the test databases. Does nothing outside a linked worktree or when everything is already in place.
+set -euo pipefail
+
+dir=$1
+[ -f "$dir/.git" ] || exit 0
+
+# A link, not a copy, so a variable changed in the main checkout reaches every worktree.
+main=$(dirname "$(git -C "$dir" rev-parse --path-format=absolute --git-common-dir)")
+if [ -f "$main/.env.local" ] && [ ! -e "$dir/.env.local" ]; then
+  ln -s "$main/.env.local" "$dir/.env.local"
+fi
+
+command -v mise > /dev/null || exit 0
+
+# Written only after every step succeeds, so a failed setup is retried in full by the next session. It is in the
+# worktree's own git directory, so it is never committed and goes away with the worktree.
+done_marker="$(git -C "$dir" rev-parse --absolute-git-dir)/sample-setup-done"
+
+if [ ! -f "$done_marker" ] && [ -f "$dir/package.json" ]; then
+  mise exec -C "$dir" -- pnpm install --frozen-lockfile >&2
+fi
+# Checked on every run, because a pull or rebase can change Gemfile.lock after setup. Gems are shared by every
+# checkout; this installs only versions that the worktree's Gemfile.lock adds.
+if [ -f "$dir/Gemfile" ] && ! mise exec -C "$dir" -- bundle check > /dev/null 2>&1; then
+  mise exec -C "$dir" -- bundle install >&2
+fi
+# Run on every session too, so the generated docs (not committed) match the tokens after a pull or rebase.
+mise exec -C "$dir" -- bin/design-tokens >&2
+# Test databases hold only what specs create, so they are created here; development databases are not.
+if [ ! -f "$done_marker" ]; then
+  RAILS_ENV=test mise exec -C "$dir" -- bin/rails db:prepare >&2
+fi
+
+touch "$done_marker"

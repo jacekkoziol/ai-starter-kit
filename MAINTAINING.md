@@ -83,8 +83,10 @@ ai-kit/                       # THE KIT — this is what gets copied into other 
     aikit-project-profile-bootstrap/references/mcp-suggestions.md  # opt-in MCP research (bootstrap 4.5)
   templates/              #   literal copy-me scaffolds + index
 AGENTS.md                 # root pointer for agent sessions in this repo — imports MAINTAINING.md every session
+BACKLOG.md                # home-only improvement backlog — proposed kit changes with status & priority; never vendored
 CLAUDE.md                 # symlink → AGENTS.md (the filename Claude Code auto-loads)
 CHANGELOG.md              # home-only release history — one dated entry per Kit version; never vendored
+example-instructions/     # home-only anonymized snapshot of a sample project's AI setup, cited by BACKLOG.md; inert, never vendored
 LICENSE                   # repo license
 README.md                 # human front-door for the repo (quickstart + doc routing) — home-only, never vendored
 MAINTAINING.md            # this file — stays OUTSIDE ai-kit/, never vendored downstream

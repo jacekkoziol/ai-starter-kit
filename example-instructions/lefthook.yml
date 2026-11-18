@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  commands:
+    brakeman:
+      run: bin/brakeman --quiet --no-pager
+    rubocop:
+      glob: "*.{rb,rake}"
+      run: bundle exec rubocop --autocorrect --force-exclusion --format=emacs --display-cop-names {staged_files}
+      stage_fixed: true
+    prettier:
+      glob: "*.{js,mjs,cjs,ts,md}"
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+    stylelint:
+      glob: "*.scss"
+      run: pnpm exec stylelint --fix {staged_files}
+      stage_fixed: true

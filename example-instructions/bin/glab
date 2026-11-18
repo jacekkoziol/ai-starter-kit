@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# Runs glab, pinned in mise.toml, with GITLAB_TOKEN from .env.local.
+require_relative "../config/boot"
+require "dotenv"
+
+Dotenv.load(File.expand_path("../.env.local", __dir__))
+ENV["GITLAB_HOST"] ||= "gitlab.example.com"
+exec "mise", "exec", "--", "glab", *ARGV
