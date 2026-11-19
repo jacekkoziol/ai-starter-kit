@@ -9,6 +9,21 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.19.0] — 2026-11-19
+
+### Added
+
+- **Yearly findings archive.** Rows past the 10-row limit of `FINDINGS.md`'s `Recently triaged` section
+  used to be dropped, on the assumption that git history keeps them. History can be rewritten, though,
+  and `ai-progress/` may not be committed at all. They now move to `ai-progress/archive/findings-YYYY.md`,
+  the same shape as `archive/closed-YYYY.md` for efforts: a heading per month, newest first, and links
+  rewritten for the extra folder level. Findings workflow §7 owns the rule. The progress format's layout
+  table, its template notes, the plan skill's triage step and the `FINDINGS.md` template point to it.
+- **Triaged findings are dated, and keep their detail link.** Each `Recently triaged` row now ends with
+  its triage date (`· YYYY-MM-DD`), which picks its archive year and month. A row written before this
+  rule takes the date it's archived. A finding with a `findings/{id}.md` detail file keeps the link, so
+  the archive still reaches the file after the inbox has moved on. Detail files never move.
+
 ## [2.18.2] — 2026-11-13
 
 ### Fixed

@@ -23,11 +23,14 @@ Entry format:  finding-id · kind/confidence · location or source — observati
 
 ## Recently triaged
 
-<!-- At most 10. Drop the oldest past the cap — git history keeps older ephemeral dispositions.
+<!-- At most 10, newest first, each dated; a rung-2 row keeps its link. Past the cap, MOVE the oldest
+     row to archive/findings-YYYY.md (month heading from its date; rewrite links as ../) — never drop it.
+     Once the first row is archived, add a line below this comment linking the year's archive —
+     e.g. "Older triaged findings: [2026 archive](archive/findings-2026.md)." — then delete this comment.
      A durable dismissal is recorded as a Locked decision (project-wide → PROJECT.md;
      effort-specific → that effort's ROADMAP.md) and noted here. -->
 
-- `FND-{effort-id}-{slug}` — promoted to `{TRACKER-ID} — {title}`.
-- `FND-{effort-id}-{slug}` — promoted to [{effort-folder}]({effort-folder}/ROADMAP.md).
-- `FND-{effort-id}-{slug}` — dismissed; {reason}. Durable rationale recorded in
-  `PROJECT.md → Locked decisions`.
+- `FND-{effort-id}-{slug}` — promoted to `{TRACKER-ID} — {title}` · {YYYY-MM-DD}
+- `FND-{effort-id}-{slug}` — promoted to [{effort-folder}]({effort-folder}/ROADMAP.md) · {YYYY-MM-DD}
+- [`FND-{effort-id}-{phase-id}-{slug}`](findings/FND-{effort-id}-{phase-id}-{slug}.md) — dismissed;
+  {reason}. Durable rationale recorded in `PROJECT.md → Locked decisions` · {YYYY-MM-DD}

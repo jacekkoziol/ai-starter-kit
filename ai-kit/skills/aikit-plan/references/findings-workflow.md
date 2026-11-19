@@ -96,18 +96,18 @@ Destination is the project's issue tracker or backlog (whatever `PROJECT.md` spe
 leaves `## Open` — remaining briefly under `Recently triaged` as a pointer to where it went.
 
 A promoted effort **backlinks** in its roadmap `Source` section: the finding, and the originating effort.
-Provenance survives after the disposition scrolls away.
+Provenance survives after the disposition is archived.
 
 ## 6. Dismissals — promote only durable ones
 
 Ask: **is this dismissal an intentional decision a future agent is likely to challenge or rediscover?**
-If no, let it expire from `Recently triaged`. If yes, record the *decision* where it will be seen:
+If no, leave it in `Recently triaged`, which archives it in turn (§7). If yes, record the *decision* where it will be seen:
 
 | Dismissal | Home |
 | --- | --- |
 | Durable and **project-wide** | `PROJECT.md` → Locked decisions |
 | Durable but **specific to one effort** | That effort's `ROADMAP.md` → Locked decisions |
-| **Ephemeral** | Stays under `Recently triaged` and scrolls away |
+| **Ephemeral** | Stays under `Recently triaged`, then moves to the yearly archive (§7) |
 
 Don't promote every dismissal — a locked decision must be intentional, durable, likely to recur, and
 important enough to shape future implementation. That's what keeps `PROJECT.md` from becoming a dump of
@@ -116,10 +116,16 @@ every rejected finding.
 ## 7. `FINDINGS.md`
 
 A bounded, cold-path triage inbox — **not** an accepted backlog. Every unresolved candidate stays under
-`## Open`; dispositions go under `## Recently triaged`, capped at **10** and ordered **newest first**, so
-"the oldest" is the last row (drop it past the cap; git history keeps older ephemeral ones). No findings
-archive by default, no accepted work under `Open`, no finding counts, and **no link from `INDEX.md`** —
-the router stays efforts-only, and §4 already names this path. Scaffold: [`FINDINGS.template.md`](../assets/FINDINGS.template.md).
+`## Open`; dispositions go under `## Recently triaged`, **newest first**, each ending with its triage date
+(`· YYYY-MM-DD`) and keeping its link when a detail file exists. Cap that list at **10** and **move, never
+drop,** the oldest (last) row past the cap to `archive/findings-YYYY.md` — the same shape as
+`archive/closed-YYYY.md` (contract §7): year file and month heading from the row's triage date (an undated
+older row takes the date you archive it), newest first, every relative link rewritten for the extra
+directory level (`findings/x.md` → `../findings/x.md`). Detail files stay in `findings/`. Keep one line
+under `Recently triaged` linking the archive years. The archive is the durable record, because history
+can be rewritten and `ai-progress/` may not be committed at all; it is read only when looking back, never
+on resume. No accepted work under `Open`, no finding counts, and **no link from `INDEX.md`** — the router
+stays efforts-only, and §4 already names this path. Scaffold: [`FINDINGS.template.md`](../assets/FINDINGS.template.md).
 
 A growing inbox is a triage problem, not a reason to build a deeper hierarchy.
 
@@ -173,6 +179,7 @@ triaged, accepted follow-ups are linked from `SUMMARY.md`, and unresolved candid
 - [ ] Expanded detail is not duplicated in `FINDINGS.md`; the detail file says why it was deferred.
 - [ ] Large evidence is linked from `artifacts/`, not pasted.
 - [ ] No uncommitted candidate appears as a `queued` effort; promoted work links to its authority.
-- [ ] `Recently triaged` holds at most 10 entries; durable dismissals were promoted to a Locked decision.
+- [ ] `Recently triaged` holds at most 10 dated entries; older ones moved to `archive/findings-YYYY.md`
+      with links rewritten, none dropped; durable dismissals were promoted to a Locked decision.
 - [ ] No finding is stranded only inside closed work; `FINDINGS.md` is not in the cold-resume path.
 - [ ] No secrets, personal, production, or unapproved client data were retained in finding evidence.

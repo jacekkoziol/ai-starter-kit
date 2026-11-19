@@ -16,7 +16,7 @@ description: Track multi-step work in ai-progress/ — one effort folder per goa
 >
 > **Every templated tracking file starts as a copy** of its asset in [`assets/`](assets/) — effort files
 > `INDEX`, `ROADMAP`, `LOG`, `phase`, `SUMMARY`, plus findings files `FINDINGS` and `finding` (contract §11
-> maps each to its destination). `archive/closed-YYYY.md` is the deliberate exception — it has no template.
+> maps each to its destination). The `archive/` year files are the deliberate exception — they have no template.
 > Copy and fill in; never retype one from memory.
 
 ## When to use
@@ -139,7 +139,8 @@ Full ladder, ID rules, taxonomy, and validation:
 4. Keep working within approved scope — never silently fix unrelated code.
 5. **Triage** a finding by dismissing it, resolving it via an approved re-scope, or promoting it to a
    tracker issue or a `queued` effort. Durable dismissals become a Locked decision (project-wide →
-   `PROJECT.md`; effort-specific → that effort's `ROADMAP.md`).
+   `PROJECT.md`; effort-specific → that effort's `ROADMAP.md`). Date each `Recently triaged` row; past 10,
+   move the oldest to `archive/findings-YYYY.md` — never drop it (workflow §7).
 
 ### Re-scope
 

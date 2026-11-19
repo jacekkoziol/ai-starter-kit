@@ -45,6 +45,7 @@ The folder tree is in §4.1 of the manual; what it doesn't say is **when** each 
 | `SUMMARY.md` | Only when the effort becomes `done` or `cancelled`. |
 | `artifacts/` · `scripts/` | On demand. |
 | `archive/closed-YYYY.md` | When `Recently closed` exceeds 10 entries. |
+| `archive/findings-YYYY.md` | When `FINDINGS.md`'s `Recently triaged` exceeds 10 entries (findings workflow §7). |
 
 **Never create** `PLAN.md`, `reports/`, or `utils/` inside an effort: `ROADMAP.md` is the plan spine,
 reports are one kind of artifact, and executable helpers belong in `scripts/`.
@@ -306,4 +307,5 @@ The templates are **normative for section names and order**. When you copy one:
 - Keep the guidance comments while the file is young; strip them once the file is established and the
   content speaks for itself.
 - `archive/closed-YYYY.md` has no template: it's a heading per month plus the router rows moved out of
-  `INDEX.md` (contract §8).
+  `INDEX.md` (contract §8). `archive/findings-YYYY.md` is the same shape for rows moved out of
+  `FINDINGS.md` (findings workflow §7).
