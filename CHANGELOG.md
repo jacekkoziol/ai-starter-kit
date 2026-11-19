@@ -9,6 +9,26 @@ wording/clarification/fixes. The canonical version is the **Kit version** line a
 `ai-kit/AGENT-INSTRUCTIONS.md`; the §0 session-start handshake echoes it. See
 [`MAINTAINING.md` → "Versioning & releases"](MAINTAINING.md) for the bump discipline.
 
+## [2.20.0] — 2026-11-19
+
+### Added
+
+- **Search before capturing a finding.** Before adding a row to `FINDINGS.md`, the agent searches it and
+  `archive/findings-*.md` for the same location or slug. An open match gets the new information instead
+  of a second row. For a triaged match, the agent respects its disposition; only new evidence justifies a
+  new finding, which cites the old ID. Findings workflow §3; the plan skill's capture step points to it.
+- **Open findings are dated, and stale ones are listed at close-out.** Each `Open` row ends with its
+  capture date. When an effort closes (done or cancelled), the agent lists `Open` findings whose last date
+  is more than 90 days old, or that have no date, and asks the user to dismiss, promote or keep each one. A
+  kept finding gets `· kept YYYY-MM-DD`, and its age counts from there. Nothing is dismissed or promoted
+  on age alone. Findings workflow §9; *Close as done* and *Close as cancelled* point to it.
+
+### Fixed
+
+- **"Resolved by re-scope" now has a row format.** It was listed as a triage outcome without one. The row
+  is `— resolved by re-scope of` plus a link to the effort's roadmap (findings workflow §5), and the `FINDINGS.md` template shows
+  it next to the promoted and dismissed examples.
+
 ## [2.19.0] — 2026-11-19
 
 ### Added

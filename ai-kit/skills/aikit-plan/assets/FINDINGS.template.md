@@ -7,19 +7,20 @@ NOT an accepted backlog, and NOT part of the normal cold-resume path. A finding 
 expanded into its own file under findings/, dismissed, resolved by an approved re-scope, or promoted to
 an issue or a queued effort. The agent's manual and its plan skill own that ladder.
 
-Entry format:  finding-id · kind/confidence · location or source — observation
+Entry format:  finding-id · kind/confidence · location or source — observation · capture date
   kind:        defect | debt | risk | test-gap | docs
   confidence:  confirmed | likely | suspected
 -->
 
 ## Open
 
-<!-- Every unresolved candidate lives here. A rung-2 finding is reduced to a pointer. -->
+<!-- Every unresolved candidate lives here. A rung-2 finding is reduced to a pointer. Search here and in
+     archive/ before adding one — never file a duplicate. -->
 
 - `FND-{effort-id}-{slug}` · {kind}/{confidence} · `{path/to/file.ext:line}` — {what you observed, and
-  why it matters in one clause}
+  why it matters in one clause} · {YYYY-MM-DD}
 - [`FND-{effort-id}-{phase-id}-{slug}`](findings/FND-{effort-id}-{phase-id}-{slug}.md)
-  · {kind}/{confidence} — {short label; detail lives in the linked file}
+  · {kind}/{confidence} — {short label; detail lives in the linked file} · {YYYY-MM-DD}
 
 ## Recently triaged
 
@@ -32,5 +33,6 @@ Entry format:  finding-id · kind/confidence · location or source — observati
 
 - `FND-{effort-id}-{slug}` — promoted to `{TRACKER-ID} — {title}` · {YYYY-MM-DD}
 - `FND-{effort-id}-{slug}` — promoted to [{effort-folder}]({effort-folder}/ROADMAP.md) · {YYYY-MM-DD}
+- `FND-{effort-id}-{slug}` — resolved by re-scope of [{effort-folder}]({effort-folder}/ROADMAP.md) · {YYYY-MM-DD}
 - [`FND-{effort-id}-{phase-id}-{slug}`](findings/FND-{effort-id}-{phase-id}-{slug}.md) — dismissed;
   {reason}. Durable rationale recorded in `PROJECT.md → Locked decisions` · {YYYY-MM-DD}

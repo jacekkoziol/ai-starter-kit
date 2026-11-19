@@ -132,7 +132,8 @@ Full ladder, ID rules, taxonomy, and validation:
    inconsistent with its done criteria? **Yes or uncertain** → surface it now and use the blocker or
    re-scope procedure above. Never park it in the inbox.
 2. Otherwise capture one line in `FINDINGS.md` (from `assets/FINDINGS.template.md` on first use) —
-   `id · kind/confidence · location — observation`. Don't design a fix at capture time.
+   `id · kind/confidence · location — observation · date`, after searching it and `archive/` for the same
+   finding — never file a duplicate (workflow §3). Don't design a fix at capture time.
 3. Expand to `findings/{id}.md` (from `assets/finding.template.md`) **only** when evidence or prior
    investigation must be preserved; then reduce the inbox line to a pointer. Substantial evidence goes to
    the originating effort's `artifacts/`.
@@ -168,7 +169,8 @@ row, and leave an explicit next action and blocker state.
 Confirm every required phase is `[x]` — for an epic, every child (each effort whose `parent:` names
 it) closed too — and the done-when criteria are met (or record accepted limitations). **Triage the
 findings this effort produced** — nothing meaningful may stay stranded in a completed phase file, a
-log line, or a closed roadmap (findings workflow §9). Run the applicable final
+log line, or a closed roadmap — and list stale `Open` findings for the user (findings workflow §9). Run
+the applicable final
 verification. Set `status: done`, write `SUMMARY.md` from
 `assets/SUMMARY.template.md`, append the final log line, and move the `INDEX.md` row to `Recently
 closed` — archiving the oldest row when that list passes 10.
@@ -176,10 +178,10 @@ closed` — archiving the oldest row when that list passes 10.
 ### Close as cancelled
 
 An epic's open children are closed or detached first (contract §1). Set `status: cancelled` and leave
-incomplete phase statuses **accurate** — never fake completion. Then run
-**Close as done**'s close-out steps: triage the findings this effort produced, write `SUMMARY.md`, append
-the final log line, and move the `INDEX.md` row to `Recently closed` — archiving the oldest when that list
-passes 10. The summary explains why it stopped and what was retained, reverted, or left incomplete.
+incomplete phase statuses **accurate** — never fake completion. Then run **Close as done**'s close-out
+steps: triage the findings this effort produced and list stale ones, write `SUMMARY.md`, append the final
+log line, and move the `INDEX.md` row to `Recently closed` — archiving the oldest when that list passes
+10. The summary explains why it stopped and what was retained, reverted, or left incomplete.
 
 ### Reopen
 

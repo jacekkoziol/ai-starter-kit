@@ -42,10 +42,15 @@ surfacing it and using the existing blocker or re-scope path — not quietly fix
 One line, in `FINDINGS.md` under `## Open`:
 
 ```text
-finding-id · kind/confidence · location or source — observation
+finding-id · kind/confidence · location or source — observation · YYYY-MM-DD
 ```
 
-A suggested action may be appended when it's obvious; **don't design a solution at capture time.**
+The date is the capture date; §9 uses it to surface stale findings. A suggested action may be appended
+when it's obvious; **don't design a solution at capture time.**
+
+**Search first.** Before capturing, search `FINDINGS.md` and `archive/findings-*.md` for the same location
+or slug. Still open → add to that entry (or its detail file) instead of filing a second one. Already triaged → respect its
+disposition; only new evidence justifies a new finding, and it cites the old ID.
 
 **Kinds** — five, deliberately. Don't expand the taxonomy until real use demands it.
 
@@ -93,7 +98,9 @@ that restates `kind/confidence` as a bounded summary. Same projection pattern as
 
 Destination is the project's issue tracker or backlog (whatever `PROJECT.md` specifies), or a new
 `queued` effort. Either way the destination becomes authoritative for planned work, and the finding
-leaves `## Open` — remaining briefly under `Recently triaged` as a pointer to where it went.
+leaves `## Open` — remaining briefly under `Recently triaged` as a pointer to where it went. A finding
+absorbed into an effort by an approved re-scope leaves the same way: `— resolved by re-scope of`, then a
+link to that effort's roadmap.
 
 A promoted effort **backlinks** in its roadmap `Source` section: the finding, and the originating effort.
 Provenance survives after the disposition is archived.
@@ -166,6 +173,9 @@ A minor observation may live only in `FINDINGS.md`. A significant one may be *li
 **Before closing an effort:** no meaningful finding may stay stranded inside a completed phase file, a log
 line, or a closed roadmap. Confirm critical ones were escalated, evidence is linked, significant ones are
 triaged, accepted follow-ups are linked from `SUMMARY.md`, and unresolved candidates sit in `FINDINGS.md`.
+Then list for the user every `Open` finding whose last date is more than **90 days** old, or that has no
+date: dismiss, promote, or keep it. Keeping one appends `· kept YYYY-MM-DD`, and its age counts from that.
+The user decides; never dismiss or promote a finding on age alone.
 
 ## 10. Validation checklist
 
@@ -176,6 +186,8 @@ triaged, accepted follow-ups are linked from `SUMMARY.md`, and unresolved candid
       [merge-collisions.md](merge-collisions.md)).
 - [ ] Kind and confidence are factual — no preference or hypothesis presented as `confirmed`.
 - [ ] Rung-1 findings fit one concise entry; rung-2 findings have exactly one pointer and one detail file.
+- [ ] Each new `Open` row is dated and duplicates no open or archived finding; stale ones were listed for
+      the user at close-out.
 - [ ] Expanded detail is not duplicated in `FINDINGS.md`; the detail file says why it was deferred.
 - [ ] Large evidence is linked from `artifacts/`, not pasted.
 - [ ] No uncommitted candidate appears as a `queued` effort; promoted work links to its authority.
