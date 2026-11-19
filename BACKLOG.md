@@ -7,7 +7,7 @@
 > add only what fixes a real, demonstrated failure*) and #2 (*the portable kit stays stack-, tool- and
 > runtime-agnostic*).
 
-- **Created:** 2026-11-18, against kit **v2.18.2**.
+- **Created:** 2026-11-18, against kit **v2.18.2**. **Shipped since:** B-28 in **v2.19.0** (2026-11-19).
 - **Reviewed three times on 2026-11-18** by independent agent reviews (two models). Each time, the
   maintainer re-checked the key claims against the kit or official docs before applying them. Claims
   that are still unverified are marked **[unverified]**. The third review checked the backlog against the
@@ -82,7 +82,7 @@ across adopters. The **Evidence** column says what each item rests on.
 
 ## Constraints for every item
 
-Measured on 2026-11-18 at v2.18.2 with check #15. Files are measured in **bytes**, skill descriptions
+Measured on 2026-11-18 at v2.18.2 with check #15; items 4–5 re-measured on 2026-11-19 at v2.19.0. Files are measured in **bytes**, skill descriptions
 in **characters**. Keep the two units apart; both are proxies for tokens. Plan to a **10–15% reserve**
 below each ceiling, never to the ceiling itself.
 
@@ -96,9 +96,9 @@ below each ceiling, never to the ceiling itself.
    the ceiling, plus a 300–450-char reserve: about 1,100–1,200 in total**, or the maintainer raises the
    budget. Only universal procedures become kit skills; everything
    per-project becomes a template (B-05, B-06, B-15).
-4. **`aikit-plan/SKILL.md`:** 13,894 / 15,000 B (1,106 B free). Consumers: B-02, B-09, B-10 (about
+4. **`aikit-plan/SKILL.md`:** 14,025 / 15,000 B (975 B free). Consumers: B-02, B-09, B-10 (about
    1,100–1,250 B). B-13 makes room.
-5. **`progress-contract.md`:** 18,853 / 20,000 B (1,147 B free). Consumers: B-02 (ROADMAP fields) and
+5. **`progress-contract.md`:** 19,078 / 20,000 B (922 B free). Consumers: B-02 (ROADMAP fields) and
    B-22 (format economy).
 6. **`PROJECT.md` is always loaded** (7,782 B blank). Every new slot adds to every session. Consumers:
    B-03 (one pointer line) and B-10 (three rows), about 450 B in total. Prefer a Project-specific rule or
@@ -143,6 +143,7 @@ below each ceiling, never to the ceiling itself.
 | [B-10](#b-10) | Commands: all-checks, focused-test and runtime-check rows | P2 | 🟦 proposed | obs | profile + bootstrap + sync + skill | MINOR | S–M | B-13 |
 | [B-26](#b-26) | Sync warns when a filled `PROJECT.md` grows too large | P2 | 🟦 proposed | rev | skill (sync) | MINOR | S | — |
 | [B-27](#b-27) | Home-check hardening (checks #1 and #8) | P2 | 🟦 proposed | rev | home | none | S | — |
+| [B-28](#b-28) | Yearly findings archive: triaged findings move, never drop | P2 | ✅ done in 2.19.0 | req | skill (plan) + contract + asset | MINOR | S | — |
 | [B-05](#b-05) | Stacked changes: opt-in section of the forge adapter template | P2 | 🟦 proposed | obs, doc | template | MINOR | S–M | B-02, B-03 |
 | [B-06](#b-06) | Worktree setup/teardown: a template for a project-authored skill | P2 | 🟦 proposed | obs, doc | template | MINOR | M | B-24 (core); B-16 (optional runtime wiring only) |
 | [B-11](#b-11) | *(merged into B-10)* | — | ↪ merged | — | — | — | — | — |
@@ -154,7 +155,7 @@ below each ceiling, never to the ceiling itself.
 | [B-18](#b-18) | Optional writing-style knob | — | ❌ rejected | — | — | — | — | — |
 
 **Suggested order:** **B-20 + B-25 (§5.2 sentence) + B-04**, one safety-baseline release (planned
-2.19.0) → **B-22a** (measure) → **B-13** (make room) → **B-24** (discovery, before any project-authored
+2.20.0) → **B-22a** (measure) → **B-13** (make room) → **B-24** (discovery, before any project-authored
 skill) → **B-03** (adapter) → **B-23 + B-01**, plus B-25's per-skill class lines → **B-02** → **B-07 +
 B-08 + B-22b** → **B-19** → **B-21** → B-09 / B-10 → B-26 / B-27 → B-05 / B-06 → P3s.
 
@@ -166,8 +167,8 @@ B-08 + B-22b** → **B-19** → **B-21** → B-09 / B-10 → B-26 / B-27 → B-0
 | Skill descriptions (always) | 376 chars | B-01 + B-19 + B-21 ≈ **1,150 chars** | B-13 description tiers: free ≈ 1,100–1,200 chars (774 + reserve), else the maintainer raises the budget |
 | `PROJECT.md` (always) | 2,218 B (10,000 ceiling) | B-03 ≈ 150 + B-10 ≈ 300 = **≈ 450 B** | Fits with reserve. Downstream growth is watched by B-26 |
 | Bootstrap (once per project) | 700 B | B-03 ≈ 300 + B-10 ≈ 250 + B-08 ≈ 250 + B-07 ≈ 80 = **≈ 880 B** | B-13 conditional-branch split: move ≥ 180 B + reserve, so aim for ≥ 1,000 B |
-| `aikit-plan` (most tracked work) | 1,106 B | B-02 ≈ 800–1,000 + B-09 ≈ 50 + B-10 ≈ 200 = **≈ 1,050–1,250 B** | B-13 moves rarely used procedures to `references/`: at least 144 B + reserve, so aim for ≥ 1,000 B |
-| `progress-contract.md` (on trigger) | 1,147 B | B-02 ≈ 300 + B-22 ≈ 150 = **≈ 450 B** | Fits |
+| `aikit-plan` (most tracked work) | 975 B | B-02 ≈ 800–1,000 + B-09 ≈ 50 + B-10 ≈ 200 = **≈ 1,050–1,250 B** | B-13 moves rarely used procedures to `references/`: at least 275 B + reserve, so aim for ≥ 1,000 B |
+| `progress-contract.md` (on trigger) | 922 B | B-02 ≈ 300 + B-22 ≈ 150 = **≈ 450 B** | Fits |
 
 ---
 
@@ -929,6 +930,28 @@ moving detail into `reference/` with a one-line pointer.
 - Check #8: also forbid references to the home-only **paths** `BACKLOG.md`, `example-instructions/` and
   `maintenance/` from inside `ai-kit/`, matching those exact path forms, so the plain word
   "maintenance" in prose doesn't trip the check.
+
+### B-28
+
+**Yearly findings archive: triaged findings move, never drop**
+
+**Source.** Maintainer requirement (2026-11-19). `FINDINGS.md` kept at most 10 rows under `Recently
+triaged` and dropped the oldest, on the assumption that git history keeps them. History can be rewritten
+(squash, rebase, shallow clones), and in some projects `ai-progress/` isn't committed at all. A dropped
+row also left its `findings/{id}.md` detail file with no link pointing to it.
+
+**Shipped (2.19.0).** Rows past the limit move to `ai-progress/archive/findings-YYYY.md`, which has the
+same shape as `archive/closed-YYYY.md`: a heading per month, newest first, links rewritten for the extra
+folder level. Each triaged row ends with its triage date and keeps its link to a detail file. Detail
+files never move. Findings workflow §7 owns the rule; the contract's layout table, the plan skill's
+triage step and the `FINDINGS.md` template point to it. The archive is never read on resume.
+
+**Not covered.** "Resolved by an approved re-scope" is listed as a triage outcome, but its row format
+isn't written down yet, and the template shows only promoted and dismissed examples. Small PATCH, when
+it causes confusion.
+
+**Token cost.** `findings-workflow.md` +756 B and `progress-contract.md` +225 B (both on trigger);
+`aikit-plan/SKILL.md` +131 B; template +423 B (copied once). Nothing always-loaded.
 
 ---
 
