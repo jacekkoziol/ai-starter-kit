@@ -8,6 +8,10 @@
 > runtime-agnostic*).
 
 - **Created:** 2026-11-18, against kit **v2.18.2**. **Shipped since:** B-28 in **v2.19.0** and B-30 in **v2.20.0** (both 2026-11-19).
+- **Frozen since 2026-11-19** (final audit recommendation, accepted by the maintainer): **no new items**
+  until the safety baseline (B-20 + B-25 + B-04), B-03, B-23 and B-01 ship. Defects are the only
+  exception. The kit should make agents safer and more effective, not need administering before use, so
+  an item that adds process without a demonstrated failure doesn't qualify.
 - **Reviewed three times on 2026-11-18** by independent agent reviews (two models). Each time, the
   maintainer re-checked the key claims against the kit or official docs before applying them. Claims
   that are still unverified are marked **[unverified]**. The third review checked the backlog against the
@@ -157,9 +161,9 @@ below each ceiling, never to the ceiling itself.
 | [B-18](#b-18) | Optional writing-style knob | — | ❌ rejected | — | — | — | — | — |
 
 **Suggested order:** **B-20 + B-25 (§5.2 sentence) + B-04**, one safety-baseline release (planned
-2.21.0) → **B-22a** (measure) → **B-13** (make room) → **B-24** (discovery, before any project-authored
-skill) → **B-03** (adapter) → **B-23 + B-01**, plus B-25's per-skill class lines → **B-02** → **B-07 +
-B-08 + B-22b** → **B-19** → **B-21** (then B-29) → B-09 / B-10 → B-26 / B-27 → B-05 / B-06 → P3s.
+2.21.0) → **B-13** (make room) → **B-24** (discovery, before any project-authored skill) → **B-03**
+(adapter) → **B-23 + B-01**, plus B-25's per-skill class lines → **B-02** → **B-07 + B-08 + B-22a +
+B-22b** → **B-19** → **B-21** (then B-29) → B-09 / B-10 → B-26 / B-27 → B-05 / B-06 → P3s.
 
 ### Budget plan (estimates from the proposed wording, against constraint baselines)
 
@@ -799,7 +803,8 @@ and effective."*
 progressive disclosure, a lean cold-resume path (§4.4), chat economy (§9), and the read-only fan-out
 sentence in §2.1.
 
-**B-22a: measurement (home-only, no bump).**
+**B-22a: measurement (home-only, no bump).** Off the critical path since the freeze: nothing up to B-01
+depends on it, and it adds a recurring maintenance chore.
 - Extend check #15 to print the **kit-managed always-loaded footprint** as two figures in their own
   units: **files** (manual + blank profile = **37,721 B** today) and **skill descriptions** (**2,624
   chars**). Add UTF-8 byte counts only if one combined figure is needed. This is not the whole model
@@ -1040,5 +1045,5 @@ could grow unnoticed, and "resolved by re-scope" had no row format.
    check in `MAINTAINING.md` (and B-23's release checks once they exist).
 3. **Ship.** Set ✅ `done` with the Kit version (for example *"✅ done in 2.19.0"*). The `CHANGELOG.md`
    entry is the detailed record.
-4. **New ideas** get the next free `B-NN` ID. Never renumber. A merged item keeps its ID with a ↪
+4. **New ideas** get the next free `B-NN` ID, but not while the backlog is frozen (see the header). Never renumber. A merged item keeps its ID with a ↪
    pointer. Update the Budget plan when an item's cost changes.
